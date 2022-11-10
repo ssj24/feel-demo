@@ -1,0 +1,16 @@
+.mainCalendar {
+  // width: 210px;
+  height: 500px;
+}
+.day,
+.date {
+  width: 14%;
+  display: inline-block;
+}
+.day {
+  background: yellow;
+}
+.date {
+  height: 17%;
+  border: 1px solid red;
+}

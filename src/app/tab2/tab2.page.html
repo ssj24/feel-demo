@@ -12,4 +12,39 @@
       <ion-title size="large">Tab 2</ion-title>
     </ion-toolbar>
   </ion-header>
+  <ion-card>
+    <div>
+      <button (click)="onPreviousMonth()"> Previous </button>
+      <span> {{ calendarCreator.getMonthName(monthNumber+1) }} &nbsp; {{ year }} </span>
+      <button (click)="onNextMonth()"> Next </button>
+    </div>
+
+    <br>
+
+    <div class="calendar">
+      <ion-grid>
+        <ion-row>
+          <ion-col>
+            <span *ngFor='let weekDay of weekDaysName' class="day">
+              {{ weekDay }}
+            </span>
+          </ion-col>
+        </ion-row>
+        <ion-row class="mainCalendar">
+          <ion-col>
+
+            <span *ngFor='let day of monthDays' (click)="dayClicked($event)" class="date">
+              {{ day.number }}
+            </span>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+
+
+    </div>
+
+  </ion-card>
+  <ion-card>
+
+  </ion-card>
 </ion-content>

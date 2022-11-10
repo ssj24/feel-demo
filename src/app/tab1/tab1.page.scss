@@ -1,3 +1,27 @@
+:root {
+	--ion-color-custom: #ffb800;
+	--ion-color-custom-rgb: 255,184,0;
+	--ion-color-custom-contrast: #000000;
+	--ion-color-custom-contrast-rgb: 0,0,0;
+	--ion-color-custom-shade: #e0a200;
+	--ion-color-custom-tint: #ffbf1a;
+}
+
+.ion-color-custom {
+	--ion-color-base: var(--ion-color-custom);
+	--ion-color-base-rgb: var(--ion-color-custom-rgb);
+	--ion-color-contrast: var(--ion-color-custom-contrast);
+	--ion-color-contrast-rgb: var(--ion-color-custom-contrast-rgb);
+	--ion-color-shade: var(--ion-color-custom-shade);
+	--ion-color-tint: var(--ion-color-custom-tint);
+}
+
+ion-datetime {
+
+  --ion-color-step-650: #ffb800;
+  --ion-color-step-500: #ffffff;
+}
+
 .tripleContainer {
   background-position:center top, left bottom, right bottom !important;
   background-repeat:no-repeat, no-repeat, no-repeat !important;
@@ -12,4 +36,6 @@
   background-repeat:no-repeat, no-repeat;
   background-size: 60% 60%, 60% 60%;
 }
+
+
 
