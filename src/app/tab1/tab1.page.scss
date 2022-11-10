@@ -1,0 +1,15 @@
+.tripleContainer {
+  background-position:center top, left bottom, right bottom !important;
+  background-repeat:no-repeat, no-repeat, no-repeat !important;
+  background-size: 55% 55%, 55% 55%, 55% 55% !important;
+  color: transparent;
+}
+.doubleContainer {
+  width: 200px;
+  height: 200px;
+  background-image: url('/assets/feeling/soso.svg'), url('/assets/feeling/surprise.svg');
+  background-position: left top, right bottom;
+  background-repeat:no-repeat, no-repeat;
+  background-size: 60% 60%, 60% 60%;
+}
+
