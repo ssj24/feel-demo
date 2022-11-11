@@ -1,16 +1,57 @@
 .mainCalendar {
-  // width: 210px;
-  height: 500px;
+  width: 400px;
+  height: 400px;
+  justify-content: center;
+  ion-card-header {
+    display: flex;
+    .calTitle {
+      display: inline-block;
+      width: auto;
+    }
+  }
 }
 .day,
 .date {
-  width: 14%;
+  width: 50px;
   display: inline-block;
 }
 .day {
-  background: yellow;
+  font-size: large;
+}
+.text-transparent {
+  color: transparent;
 }
 .date {
-  height: 17%;
-  border: 1px solid red;
+  height: 60px;
+  p {
+    margin: 0;
+    text-align: center;
+  }
+  .imgContainer {
+    width: 40px;
+    height: 40px;
+    margin: auto;
+    background-color: #f7f7f7;
+    border-radius: 50%;
+  }
+  .selectedDate {
+    border: 1px solid red;
+  }
+  .tripleContainer {
+    border-radius: 0%;
+    background-color: transparent;
+    background-image: url('/assets/feeling/good.svg'), url('/assets/feeling/great.svg'), url('/assets/feeling/upset.svg');
+    background-position:center top, left bottom, right bottom !important;
+    background-repeat:no-repeat, no-repeat, no-repeat !important;
+    background-size: 55% 55%, 55% 55%, 55% 55% !important;
+    color: transparent;
+  }
+  .doubleContainer {
+    border-radius: 0%;
+    background-color: transparent;
+    background-image: url('/assets/feeling/soso.svg'), url('/assets/feeling/surprise.svg');
+    background-position: left top, right bottom;
+    background-repeat:no-repeat, no-repeat;
+    background-size: 60% 60%, 60% 60%;
+  }
 }

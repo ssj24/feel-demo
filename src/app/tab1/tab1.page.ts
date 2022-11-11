@@ -19,13 +19,12 @@ export class Tab1Page {
   }
   changeDateImg() {
     const activeDate = this.shadowDom.querySelector('.calendar-day-active') as HTMLElement;
-    // activeDate.style.backgroundImage = `url('/assets/feeling/soso.svg'), url('/assets/feeling/surprise.svg'), url('/assets/feeling/sad.svg')`;
-    // activeDate.style.backgroundPosition = `center top, left bottom, right bottom`;
-    // activeDate.style.backgroundRepeat = `no-repeat, no-repeat, no-repeat`;
-    // activeDate.style.backgroundSize = `55% 55%, 55% 55%, 55% 55%`;
-    // activeDate.style.backgroundColor='red';
-    // activeDate.style.color = `transparent`;
-    activeDate.classList.add('tripleContainer')
+    activeDate.style.backgroundImage = `url('/assets/feeling/soso.svg'), url('/assets/feeling/surprise.svg'), url('/assets/feeling/sad.svg')`;
+    activeDate.style.backgroundPosition = `center top, left bottom, right bottom`;
+    activeDate.style.backgroundRepeat = `no-repeat, no-repeat, no-repeat`;
+    activeDate.style.backgroundSize = `55% 55%, 55% 55%, 55% 55%`;
+    activeDate.style.backgroundColor='red';
+    activeDate.style.color = `transparent`;
   }
   dateChanged(e: Event) {
     const ev = e as CustomEvent<DatetimeCustomEvent>;

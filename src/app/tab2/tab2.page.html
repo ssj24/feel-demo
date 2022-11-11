@@ -1,7 +1,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Make
+      감정일기
     </ion-title>
   </ion-toolbar>
 </ion-header>
@@ -9,42 +9,69 @@
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">Tab 2</ion-title>
+      <ion-title size="large">감정일기</ion-title>
     </ion-toolbar>
   </ion-header>
-  <ion-card>
-    <div>
-      <button (click)="onPreviousMonth()"> Previous </button>
-      <span> {{ calendarCreator.getMonthName(monthNumber+1) }} &nbsp; {{ year }} </span>
-      <button (click)="onNextMonth()"> Next </button>
-    </div>
+  <ion-row class="ion-justify-content-center">
+    <ion-col size="lg-3">
+      <ion-card>
+        <ion-card-header>
+          <ion-row>
+            <ion-col size="9">
+              <ion-row>
+                <ion-col size="3" class="ion-text-center">
+                  <ion-button fill="clear" color="dark" (click)="onPreviousMonth()">
+                    <ion-icon name="chevron-back-outline"></ion-icon>
+                  </ion-button>
+                </ion-col>
+                <ion-col size="6" >
+                  <p class="ion-text-center calTitle"> {{ year }}년 {{ calendarCreator.getMonthName(monthNumber) }}월 </p>
+                </ion-col>
+                <ion-col size="3" class="ion-text-center">
+                  <ion-button fill="clear" color="dark" (click)="onNextMonth()">
+                    <ion-icon name="chevron-forward-outline"></ion-icon>
+                  </ion-button>
+                </ion-col>
+              </ion-row>
+            </ion-col>
+            <ion-col size="3">
+              <ion-list>
+                <ion-item>
+                  <ion-select interface="popover" placeholder="월">
+                    <ion-select-option value="monthly">월</ion-select-option>
+                    <ion-select-option value="weekly">주</ion-select-option>
+                  </ion-select>
+                </ion-item>
+              </ion-list>
+            </ion-col>
+          </ion-row>
+        </ion-card-header>
 
-    <br>
+        <div class="calendar">
+          <ion-grid>
+            <ion-row class="ion-justify-content-center">
+              <ion-col size="11">
+                <span *ngFor='let weekDay of weekDaysName' class="day ion-text-center" >
+                  {{ weekDay }}
+                </span>
+              </ion-col>
+            </ion-row>
+            <ion-row class="mainCalendar">
+              <ion-col size="11">
 
-    <div class="calendar">
-      <ion-grid>
-        <ion-row>
-          <ion-col>
-            <span *ngFor='let weekDay of weekDaysName' class="day">
-              {{ weekDay }}
-            </span>
-          </ion-col>
-        </ion-row>
-        <ion-row class="mainCalendar">
-          <ion-col>
-
-            <span *ngFor='let day of monthDays' (click)="dayClicked($event)" class="date">
-              {{ day.number }}
-            </span>
-          </ion-col>
-        </ion-row>
-      </ion-grid>
+                <div *ngFor='let day of monthDays' (click)="dayClicked($event)" class="date" [class.text-transparent]="!day.number">
+                  <div class="imgContainer" [class.ion-hide]="!day.number" [id]="'date'+day.number"></div>
+                  <p>{{ day.number ? day.number : '' }}</p>
+                </div>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
 
 
-    </div>
+        </div>
 
-  </ion-card>
-  <ion-card>
+      </ion-card>
+    </ion-col>
+  </ion-row>
 
-  </ion-card>
 </ion-content>
