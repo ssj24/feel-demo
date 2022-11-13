@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnChanges, OnInit, SimpleChanges, Input, DoCheck, AfterContentChecked, AfterViewChecked } from '@angular/core';
 import { CalendarCreatorService } from '../calendarCreator.service';
 import { Day } from '../day.model';
 
@@ -7,10 +7,12 @@ import { Day } from '../day.model';
   templateUrl: 'tab2.page.html',
   styleUrls: ['tab2.page.scss']
 })
-export class Tab2Page implements OnInit {
+export class Tab2Page implements OnInit, OnChanges, AfterViewChecked {
+  @Input() monthNumber: number;
+  public isAdded = false;
+  public datadates: Day[] = [];
   public monthDays: Day[];
-
-  public monthNumber: number;
+  public month: string;
   public year: number;
 
   public weekDaysName = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
@@ -23,9 +25,19 @@ export class Tab2Page implements OnInit {
   }
 
   ionViewDidEnter(){
-    if (this.year === this.today.getFullYear() && this.monthNumber === this.today.getMonth()) {
-      document.getElementById(`date${this.date}`).classList.add('selectedDate');
-    }
+    this.isAdded = true;
+    this.setToday();
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    console.log('ngOnChanges');
+  }
+  // ngDoCheck() {
+  //   console.log('doCheck');
+  // }
+
+  ngAfterViewChecked() {
+    console.log('afterviewchecked');
   }
 
   onNextMonth(): void {
@@ -49,7 +61,7 @@ export class Tab2Page implements OnInit {
     this.setMonthDays(this.calendarCreator.getMonth(this.monthNumber, this.year));
   }
 
-  dayClicked(e: Event) {
+  dayClicked(e: Event, clickedDay: Day) {
     const target = e.target as HTMLDivElement;
     const targetDate = target.closest('.date');
     const targetDiv = target.closest('.imgContainer');
@@ -60,13 +72,23 @@ export class Tab2Page implements OnInit {
       } else {
         targetDiv.classList.add('doubleContainer');
       }
+      this.datadates.push(clickedDay);
+      console.log(this.datadates);
     }
     else {return;}
   }
-
+  setToday(): void {
+    if (this.year === this.today.getFullYear() && this.monthNumber === this.today.getMonth()) {
+      document.getElementById(`date${this.date}`).classList.add('selectedDate');
+      console.log('this month!!', document.getElementById(`date${this.date}`));
+    }
+    console.log('setTOday');
+  }
   private setMonthDays(days: Day[]): void {
     this.monthDays = days;
+    this.month = this.calendarCreator.getMonthName(this.monthNumber);
     this.monthNumber = this.monthDays[0].monthIndex;
     this.year = this.monthDays[0].year;
+    if(this.isAdded) {this.setToday();}
   }
 }

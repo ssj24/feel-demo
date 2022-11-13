@@ -59,9 +59,9 @@
             <ion-row class="mainCalendar">
               <ion-col size="11">
 
-                <div *ngFor='let day of monthDays' (click)="dayClicked($event)" class="date" [class.text-transparent]="!day.number">
-                  <div class="imgContainer" [class.ion-hide]="!day.number" [id]="'date'+day.number"></div>
-                  <p>{{ day.number ? day.number : '' }}</p>
+                <div *ngFor='let day of monthDays' (click)="dayClicked($event, day)" class="date" [class.text-transparent]="!day.dayNumber">
+                  <div class="imgContainer" [class.ion-hide]="!day.dayNumber" [id]="'date'+day.dayNumber"></div>
+                  <p>{{ day.dayNumber ? day.dayNumber : '' }}</p>
                 </div>
               </ion-col>
             </ion-row>

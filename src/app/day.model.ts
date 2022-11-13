@@ -1,5 +1,5 @@
 export class Day {
-  public number: number;
+  public dayNumber: number;
   public year: number;
 
   public month: string;

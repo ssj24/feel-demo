@@ -101,7 +101,7 @@ export class CalendarCreatorService {
     day.monthIndex = monthIndex;
     day.month = this.getMonthName(monthIndex);
 
-    day.number = dayNumber;
+    day.dayNumber = dayNumber;
     day.year = year;
 
     day.weekDayNumber = (new Date(year, monthIndex, dayNumber).getDay() === 0 ? 7 : new Date(year, monthIndex, dayNumber).getDay());
