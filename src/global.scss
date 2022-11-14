@@ -24,6 +24,7 @@
 @import "~@ionic/angular/css/text-alignment.css";
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
+
 :root {
 	--ion-color-custom: #ffb800;
 	--ion-color-custom-rgb: 255,184,0;
@@ -31,6 +32,13 @@
 	--ion-color-custom-contrast-rgb: 0,0,0;
 	--ion-color-custom-shade: #e0a200;
 	--ion-color-custom-tint: #ffbf1a;
+
+  --base-color: #E8E8E8;
+  --middle-purple-color: #E2DEFF;
+  --middle-red-color: #FFD9DF;
+  --middle-yellow-color: #FFF1C4;
+  --high-color: #211A49;
+  --btn-hover-color: #7623FF;
 }
 
 .ion-color-custom {
@@ -41,4 +49,31 @@
 	--ion-color-shade: var(--ion-color-custom-shade);
 	--ion-color-tint: var(--ion-color-custom-tint);
 }
+
+
+@mixin btn-xs() {
+  font-size: 11px;
+  width: 70px;
+  height: 30px;
+};
+@mixin btn-sm() {
+  font-size: 13px;
+  width: 80px;
+  height: 30px;
+};
+@mixin btn-md() {
+  font-size: 15px;
+  width: 100px;
+  height: 36px;
+};
+@mixin btn-lg() {
+  font-size: 15px;
+  width: 120px;
+  height: 44px;
+};
+@mixin btn-xl() {
+  width: 55px;
+  height: 55px;
+};
+
 

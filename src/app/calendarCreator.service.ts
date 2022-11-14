@@ -21,13 +21,13 @@ export class CalendarCreatorService {
   public getMonth(monthIndex: number, year: number): Day[] {
     const days = [];
 
-    const firstday = this.createDay(1, monthIndex, year);
+    const firstday = this.createDay(year, monthIndex, 1);
     //create empty days
     for (let i = 1; i < firstday.weekDayNumber; i++) { // i start from 0 because week's first day is sunday
       days.push({
-        weekDayNumber: i,
-        monthIndex,
         year,
+        monthIndex,
+        weekDayNumber: i,
       } as Day);
     }
     days.push(firstday);
@@ -35,7 +35,7 @@ export class CalendarCreatorService {
 
     const countDaysInMonth = new Date(year, monthIndex + 1, 0).getDate(); // if it's monthIndex, we can get days of prvious month
     for (let i = 2; i <= countDaysInMonth; i++) { // since firstday is occupied, it starts from 2
-      days.push(this.createDay(i, monthIndex, year));
+      days.push(this.createDay(year, monthIndex, i));
     }
 
     return days;
@@ -95,19 +95,12 @@ export class CalendarCreatorService {
     }
   }
 
-  private createDay(dayNumber: number, monthIndex: number, year: number) {
+  private createDay(year: number, monthIndex: number, dayNumber: number) {
     const day = new Day();
-
-    day.monthIndex = monthIndex;
-    day.month = this.getMonthName(monthIndex);
-
-    day.dayNumber = dayNumber;
     day.year = year;
-
+    day.monthIndex = monthIndex;
     day.weekDayNumber = (new Date(year, monthIndex, dayNumber).getDay() === 0 ? 7 : new Date(year, monthIndex, dayNumber).getDay());
-
-    day.weekDayName = this.getWeekDayName(day.weekDayNumber);
-
+    day.dayNumber = dayNumber;
     return day;
   }
 }
