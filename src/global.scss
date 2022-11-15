@@ -38,7 +38,7 @@
   --middle-red-color: #FFD9DF;
   --middle-yellow-color: #FFF1C4;
   --high-color: #211A49;
-  --btn-hover-color: #7623FF;
+  --active-color: #7623FF;
 }
 
 .ion-color-custom {
@@ -76,4 +76,16 @@
   height: 55px;
 };
 
+.dFlex {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
+.marginAuto {
+  margin: auto;
+}
+
+.w100 {
+  width: 100%;
+}

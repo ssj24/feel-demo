@@ -1,4 +1,7 @@
-import { Component, OnChanges, OnInit, SimpleChanges, Input, DoCheck, AfterContentChecked, AfterViewChecked } from '@angular/core';
+/* eslint-disable max-len */
+import { Component, OnChanges, OnInit, SimpleChanges, Input, ViewChildren, QueryList, ElementRef, Renderer2, AfterViewInit } from '@angular/core';
+import { DomController, Gesture, GestureController } from '@ionic/angular';
+import { maxHeaderSize } from 'http';
 import { CalendarCreatorService } from '../calendarCreator.service';
 import { Day } from '../day.model';
 import { FeelingService } from '../feeling.service';
@@ -8,9 +11,9 @@ import { FeelingService } from '../feeling.service';
   templateUrl: 'tab2.page.html',
   styleUrls: ['tab2.page.scss']
 })
-export class Tab2Page implements OnInit, OnChanges, AfterViewChecked {
+export class Tab2Page implements OnInit, OnChanges, AfterViewInit {
+  @ViewChildren('eachDays') eachDays: QueryList<ElementRef>;
   @Input() monthNumber: number;
-  public isAdded = false;
   public datadates: Day[] = [];
   public monthDays: Day[];
   public month: string;
@@ -21,19 +24,47 @@ export class Tab2Page implements OnInit, OnChanges, AfterViewChecked {
   public date = this.today.getDate();
   public monthData: Day[] = [
     {
-        monthIndex: 10,
-        dayNumber: 8,
-        year: 2022,
-        weekDayNumber: 2,
-        feelings: ['happy'],
+      monthIndex: 11,
+      dayNumber: 8,
+      year: 2022,
+      weekDayNumber: 4,
+      feelings: ['unpleasant'],
     },
     {
-        monthIndex: 10,
-        dayNumber: 14,
-        year: 2022,
-        weekDayNumber: 1,
-        feelings: ['uneasy', 'sad', 'excite'],
+      monthIndex: 11,
+      dayNumber: 9,
+      year: 2022,
+      weekDayNumber: 5,
+      feelings: ['unpleasant'],
     },
+    {
+      monthIndex: 11,
+      dayNumber: 10,
+      year: 2022,
+      weekDayNumber: 6,
+      feelings: ['unpleasant'],
+    },
+    {
+      monthIndex: 11,
+      dayNumber: 11,
+      year: 2022,
+      weekDayNumber: 7,
+      feelings: ['unpleasant'],
+    },
+    {
+      monthIndex: 10,
+      dayNumber: 8,
+      year: 2022,
+      weekDayNumber: 2,
+      feelings: ['unpleasant'],
+    },
+    // {
+    //     monthIndex: 10,
+    //     dayNumber: 14,
+    //     year: 2022,
+    //     weekDayNumber: 1,
+    //     feelings: ['uneasy', 'sad', 'excite'],
+    // },
     {
         monthIndex: 10,
         dayNumber: 15,
@@ -41,61 +72,61 @@ export class Tab2Page implements OnInit, OnChanges, AfterViewChecked {
         weekDayNumber: 2,
         feelings: ['uneasy', 'sad', 'excite'],
     },
-    {
-        monthIndex: 10,
-        dayNumber: 16,
-        year: 2022,
-        weekDayNumber: 3,
-        feelings: ['uneasy', 'sad', 'excite'],
-    },
-    {
-        monthIndex: 10,
-        dayNumber: 1,
-        year: 2022,
-        weekDayNumber: 2,
-        feelings: ['uneasy', 'sad', 'excite'],
-    },
-    {
-        monthIndex: 10,
-        dayNumber: 10,
-        year: 2022,
-        weekDayNumber: 4,
-        feelings: ['uneasy', 'sad', 'excite'],
-    },
+    // {
+    //     monthIndex: 10,
+    //     dayNumber: 16,
+    //     year: 2022,
+    //     weekDayNumber: 3,
+    //     feelings: ['uneasy', 'sad', 'excite'],
+    // },
+    // {
+    //     monthIndex: 10,
+    //     dayNumber: 1,
+    //     year: 2022,
+    //     weekDayNumber: 2,
+    //     feelings: ['uneasy', 'sad', 'excite'],
+    // },
+    // {
+    //     monthIndex: 10,
+    //     dayNumber: 10,
+    //     year: 2022,
+    //     weekDayNumber: 4,
+    //     feelings: ['uneasy', 'sad', 'excite'],
+    // },
     {
         monthIndex: 10,
         dayNumber: 17,
         year: 2022,
         weekDayNumber: 4,
-        feelings: ['uneasy', 'sad', 'excite'],
+        feelings: ['happy', 'lonely', 'depressed'],
     },
     {
         monthIndex: 10,
         dayNumber: 2,
         year: 2022,
         weekDayNumber: 3,
-        feelings: ['uneasy', 'sad', 'excite'],
+        feelings: ['happy', 'lonely', 'depressed'],
     },
     {
         monthIndex: 10,
         dayNumber: 9,
         year: 2022,
         weekDayNumber: 3,
-        feelings: ['uneasy', 'sad', 'excite'],
+        feelings: ['happy', 'lonely', 'depressed'],
     },
     {
         monthIndex: 10,
         dayNumber: 11,
         year: 2022,
         weekDayNumber: 5,
-        feelings: ['uneasy', 'sad', 'excite'],
+        feelings: ['happy', 'lonely', 'depressed'],
     },
     {
         monthIndex: 10,
         dayNumber: 18,
         year: 2022,
         weekDayNumber: 5,
-        feelings: ['uneasy', 'sad', 'excite'],
+        feelings: ['happy', 'lonely', 'depressed'],
     },
     {
         monthIndex: 10,
@@ -109,56 +140,56 @@ export class Tab2Page implements OnInit, OnChanges, AfterViewChecked {
         dayNumber: 24,
         year: 2022,
         weekDayNumber: 4,
-        feelings: ['uneasy', 'sad', 'excite'],
+        feelings: ['happy', 'lonely', 'depressed'],
     },
     {
         monthIndex: 10,
         dayNumber: 23,
         year: 2022,
         weekDayNumber: 3,
-        feelings: ['uneasy', 'sad', 'excite'],
+        feelings: ['happy', 'lonely', 'depressed'],
     },
     {
         monthIndex: 10,
         dayNumber: 22,
         year: 2022,
         weekDayNumber: 2,
-        feelings: ['uneasy', 'sad', 'excite'],
+        feelings: ['happy', 'lonely', 'depressed'],
     },
     {
         monthIndex: 10,
         dayNumber: 21,
         year: 2022,
         weekDayNumber: 1,
-        feelings: ['uneasy', 'sad', 'excite'],
+        feelings: ['happy', 'lonely', 'depressed'],
     },
     {
         monthIndex: 10,
         dayNumber: 28,
         year: 2022,
         weekDayNumber: 1,
-        feelings: ['uneasy', 'sad', 'excite'],
+        feelings: ['happy', 'lonely', 'depressed'],
     },
     {
         monthIndex: 10,
         dayNumber: 29,
         year: 2022,
         weekDayNumber: 2,
-        feelings: ['uneasy', 'sad', 'excite'],
+        feelings: ['happy', 'lonely', 'depressed'],
     },
     {
         monthIndex: 10,
         dayNumber: 30,
         year: 2022,
         weekDayNumber: 3,
-        feelings: ['uneasy', 'sad', 'excite'],
+        feelings: ['happy', 'lonely', 'depressed'],
     },
     {
         monthIndex: 10,
         dayNumber: 3,
         year: 2022,
         weekDayNumber: 4,
-        feelings: ['uneasy', 'sad', 'excite'],
+        feelings: ['happy', 'lonely', 'depressed'],
     },
     {
         monthIndex: 10,
@@ -186,14 +217,14 @@ export class Tab2Page implements OnInit, OnChanges, AfterViewChecked {
         dayNumber: 13,
         year: 2022,
         weekDayNumber: 7,
-        feelings: ['uneasy', 'sad', 'excite'],
+        feelings: ['happy', 'lonely', 'depressed'],
     },
     {
         monthIndex: 10,
         dayNumber: 12,
         year: 2022,
         weekDayNumber: 6,
-        feelings: ['uneasy', 'sad', 'excite'],
+        feelings: ['happy', 'lonely', 'depressed'],
     },
     {
         monthIndex: 10,
@@ -221,38 +252,85 @@ export class Tab2Page implements OnInit, OnChanges, AfterViewChecked {
         dayNumber: 27,
         year: 2022,
         weekDayNumber: 7,
-        feelings: ['uneasy', 'sad', 'excite'],
+        feelings: ['happy', 'lonely', 'depressed'],
     },
     {
         monthIndex: 10,
         dayNumber: 20,
         year: 2022,
         weekDayNumber: 7,
-        feelings: ['uneasy', 'sad', 'excite'],
+        feelings: ['happy', 'lonely', 'depressed'],
     }
 ];
   constructor(public calendarCreator: CalendarCreatorService,
-              public feeling: FeelingService) {}
+              public feeling: FeelingService,
+              private renderer: Renderer2,
+              private gestureCtrl: GestureController,
+              private domCtrl: DomController) {}
 
   ngOnInit(): void {
     this.setMonthDays(this.calendarCreator.getCurrentMonth());
   }
 
   ionViewDidEnter(){
-    this.isAdded = true;
-    this.setToday();
+    // this.setToday();
+    this.eachDaysSet();
+
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     console.log('ngOnChanges');
   }
-  // ngDoCheck() {
-  //   console.log('doCheck');
-  // }
 
-  ngAfterViewChecked() {
-    // console.log('afterviewchecked');
+  ngAfterViewInit(): void { // viewchild data binding
+    const swipeGesture = this.gestureCtrl.create({
+      el: document.body,
+      threshold: 15,
+      direction: 'x',
+      gestureName: 'swipe-delete',
+      onMove: ev => {
+        const currentX = ev.deltaX;
+
+        this.domCtrl.write(() => {
+          // Make sure the item is above the other elements
+          document.body.style.zIndex = '2';
+          // Reposition the item
+          document.body.style.fontSize = `30px`;
+        });
+      },
+      onEnd: ev => {
+        document.body.style.transition = '0.2s ease-out';
+
+        // Fly out the element if we cross the threshold of 150px
+        // if (ev.deltaX < -150) {
+        //   this.domCtrl.write(() => {
+        //     itemElement.style.transform = `translate3d(-${windowWidth}px, 0, 0)`;
+        //   });
+        //   deleteAnimation.play();
+
+        //   deleteAnimation.onFinish(async () => {
+        //     this.myArray = this.myArray.filter(number => number != i + 1);
+
+        //     const toast = await this.toastCtrl.create({
+        //       message: `Item ${i + 1} removed.`,
+        //       duration: 2000
+        //     });
+        //     toast.present();
+        //   });
+        // } else {
+        //   // Fly the item back into the original position
+        //   this.domCtrl.write(() => {
+        //     itemElement.style.transform = '';
+        //   });
+        // }
+      }
+    }, true);
+
+    // Don't forget to enable!
+    swipeGesture.enable(true);
   }
+
+
 
   onNextMonth(): void {
     this.monthNumber++;
@@ -262,6 +340,7 @@ export class Tab2Page implements OnInit, OnChanges, AfterViewChecked {
     }
 
     this.setMonthDays(this.calendarCreator.getMonth(this.monthNumber, this.year));
+    this.eachDaysSet();
   }
 
   onPreviousMonth(): void{
@@ -273,37 +352,68 @@ export class Tab2Page implements OnInit, OnChanges, AfterViewChecked {
     }
 
     this.setMonthDays(this.calendarCreator.getMonth(this.monthNumber, this.year));
+    this.eachDaysSet();
   }
 
   dayClicked(e: Event, clickedDay: Day) {
     const target = e.target as HTMLDivElement;
-    const targetDate = target.closest('.date');
-    const targetDiv = target.closest('.imgContainer') as HTMLElement;
-    if (targetDate && targetDiv) {
-      const targetData = this.monthData.find(x => String(x.dayNumber) === targetDate.children[1].textContent);
-      console.log(targetDate.children[1].textContent, targetData);
-      if (targetData.feelings.length === 1) { targetDiv.classList.add('singleContainer')}
-      else if (targetData.feelings.length === 2) {targetDiv.classList.add('doubleContainer')}
-      else if (targetData.feelings.length === 3) {targetDiv.classList.add('tripleContainer')}
-      // eslint-disable-next-line max-len
-      targetDiv.style.backgroundImage = targetData.feelings.map(i => `url('/assets/feeling/${i}.svg')`).join();
-      console.log(targetDiv.style.backgroundImage);
+    const targetDate = target.closest('.date') as HTMLElement;
+    if (targetDate) {
       this.datadates.push(clickedDay);
-      console.log(this.datadates);
+      this.setData(targetDate);
     }
-    else {return;}
+    else { return; }
   }
+
+  eachDaysSet() {
+    console.log(this.year, this.monthNumber, this.today);
+    const daysArray = this.eachDays.toArray();
+    for (const i of daysArray) {
+      this.setData(i.nativeElement);
+    }
+    this.setToday();
+  }
+
   setToday(): void {
     if (this.year === this.today.getFullYear() && this.monthNumber === this.today.getMonth()) {
-      document.getElementById(`date${this.date}`).classList.add('selectedDate');
+      document.getElementById(`date${this.date}`).classList.add('today');
       console.log('this month!!', document.getElementById(`date${this.date}`));
     }
+    document.getElementById('date15').style.backgroundColor='red';
+
+  }
+
+  setStreak(dayDiv: HTMLElement): void {
+    // const lastFeeling = this.datadates.reduce((prev, cur) =>  max(prev, cur);)
+  }
+  setData(dayDiv: HTMLElement): void {
+    const targetDiv = dayDiv.children[0] as HTMLElement;
+    const targetData = this.monthData.find(x => x.year === this.year && x.monthIndex === this.monthNumber && String(x.dayNumber) === dayDiv.children[1].textContent );
+    if (targetData) {
+      if (targetData.feelings.length === 1) { targetDiv.classList.add('singleContainer');}
+      else if (targetData.feelings.length === 2) {targetDiv.classList.add('doubleContainer');}
+      else if (targetData.feelings.length === 3) {targetDiv.classList.add('tripleContainer');}
+      targetDiv.style.backgroundImage = targetData.feelings.map(i => `url('/assets/feeling/${i}.svg')`).join();
+      dayDiv.classList.add('selectedDate');
+      if (!dayDiv.previousElementSibling || !dayDiv.previousElementSibling.classList.contains('selectedDate')) {
+        dayDiv.classList.add('first');
+      } else if (dayDiv.previousElementSibling && dayDiv.previousElementSibling.classList.contains('selectedDate')) {
+        dayDiv.previousElementSibling.classList.remove('last');
+      }
+      if (!dayDiv.nextElementSibling || !dayDiv.nextElementSibling.classList.contains('selectedDate')) {
+        dayDiv.classList.add('last');
+      } else if (dayDiv.nextElementSibling && dayDiv.nextElementSibling.classList.contains('selectedDate')) {
+        dayDiv.nextElementSibling.classList.remove('first');
+      }
+    }
+    console.log('setData');
+
   }
   private setMonthDays(days: Day[]): void {
     this.monthDays = days;
     this.month = this.calendarCreator.getMonthName(this.monthNumber);
     this.monthNumber = this.monthDays[0].monthIndex;
     this.year = this.monthDays[0].year;
-    if(this.isAdded) {this.setToday();}
+    console.log('setMonthDays');
   }
 }

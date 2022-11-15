@@ -95,6 +95,12 @@ export class CalendarCreatorService {
     }
   }
 
+  public setData(target: Day, data: string[]) {
+    if (target) { // target이랑 data랑 맞는지 검증
+      target.feelings = data;
+    }
+  }
+
   private createDay(year: number, monthIndex: number, dayNumber: number) {
     const day = new Day();
     day.year = year;
