@@ -76,6 +76,20 @@
   height: 55px;
 };
 
+.diaryModal {
+  // --background: #efefef;
+}
+
+ion-popover {
+  --width: 335px;
+}
+
+ion-popover ion-content {
+}
+
+ion-popover::part(backdrop) {
+}
+
 .dFlex {
   display: flex;
   justify-content: center;

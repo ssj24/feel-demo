@@ -1,0 +1,64 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/tab2" (click)="onCancel()" ></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{year}}년 {{month}}월 {{dayNumber}}일</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-grid>
+    <ion-row class="ion-margin">
+      <ion-col class="w100" *ngFor="let item of feelings; let i = index">
+        <ion-card class="ion-padding ion-no-margin timeCard" >
+          <p class="ion-text-center">{{i===0 ?'아침': i===1 ? '점심' : '저녁'}}</p>
+          <div class="imgContainer dFlex" (click)="presentPopover($event, i)">
+            <ion-icon *ngIf="item === 'none'" name="add-circle" size="large" color="medium"></ion-icon>
+            <ion-img *ngIf="item !== 'none'" src="/assets/feeling/{{item}}.svg"></ion-img>
+          </div>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-card class="ion-padding ion-margin-vertical w100">
+        <p>한 줄 일기</p>
+        <ion-card-content class="ion-no-padding">
+          <ion-textarea disabled placeholder="오늘의 일기를 녹음 후 편집할 수 있어요"></ion-textarea>
+        </ion-card-content>
+      </ion-card>
+    </ion-row>
+    <ion-row>
+      <ion-card class="ion-padding ion-margin-vertical w100">
+        <p>오늘의 일기</p>
+        <ion-card-content class="ion-no-padding">
+          <ion-buttons *ngIf="true" class="ion-justify-content-center">
+            <ion-button>
+              <ion-img src="/assets/write.svg"></ion-img>
+              바로 작성하기
+            </ion-button>
+            <ion-button>
+              <ion-img src="/assets/recording.svg"></ion-img>
+              녹음하기
+            </ion-button>
+          </ion-buttons>
+          <ng-template>
+            <ion-textarea></ion-textarea>
+          </ng-template>
+        </ion-card-content>
+      </ion-card>
+    </ion-row>
+    <ion-row>
+      <ion-card class="ion-padding ion-margin-vertical w100">
+        <p>키워드</p>
+        <ion-card-content  class="ion-no-padding">
+          <ion-icon name="add-circle" size="large" color="medium"></ion-icon>
+        </ion-card-content>
+      </ion-card>
+    </ion-row>
+  </ion-grid>
+</ion-content>
+<ion-footer>
+  <ion-button (click)="onJournalConfirm()" >
+    저장하기
+  </ion-button>
+</ion-footer>

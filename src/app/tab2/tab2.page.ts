@@ -275,6 +275,7 @@ export class Tab2Page implements OnInit, OnChanges, AfterViewInit {
   ionViewDidEnter(){
     // this.setToday();
     this.eachDaysSet();
+    this.setStreak();
 
   }
 
@@ -379,12 +380,31 @@ export class Tab2Page implements OnInit, OnChanges, AfterViewInit {
       document.getElementById(`date${this.date}`).classList.add('today');
       console.log('this month!!', document.getElementById(`date${this.date}`));
     }
-    document.getElementById('date15').style.backgroundColor='red';
-
   }
 
-  setStreak(dayDiv: HTMLElement): void {
+  setStreak(): void {
+    const data = this.monthData.sort((a, b) => b.dayNumber - a.dayNumber); // 30~17
+    let minNumber = data[0].dayNumber;
+    for (let i=1; i<data.length; i++) {
+      minNumber--;
+      if (data[i].dayNumber !== minNumber) {break;}
+    }
+    const maxNumber = data[0].dayNumber;
+    for (let i = minNumber + 1; i<=maxNumber; i++) {
+      document.getElementById(`date${i}`).classList.add('selectedDate');
+    }
     // const lastFeeling = this.datadates.reduce((prev, cur) =>  max(prev, cur);)
+    // dayDiv.classList.add('selectedDate');
+    //   if (!dayDiv.previousElementSibling || !dayDiv.previousElementSibling.classList.contains('selectedDate')) {
+    //     dayDiv.classList.add('first');
+    //   } else if (dayDiv.previousElementSibling && dayDiv.previousElementSibling.classList.contains('selectedDate')) {
+    //     dayDiv.previousElementSibling.classList.remove('last');
+    //   }
+    //   if (!dayDiv.nextElementSibling || !dayDiv.nextElementSibling.classList.contains('selectedDate')) {
+    //     dayDiv.classList.add('last');
+    //   } else if (dayDiv.nextElementSibling && dayDiv.nextElementSibling.classList.contains('selectedDate')) {
+    //     dayDiv.nextElementSibling.classList.remove('first');
+    //   }
   }
   setData(dayDiv: HTMLElement): void {
     const targetDiv = dayDiv.children[0] as HTMLElement;
@@ -394,17 +414,6 @@ export class Tab2Page implements OnInit, OnChanges, AfterViewInit {
       else if (targetData.feelings.length === 2) {targetDiv.classList.add('doubleContainer');}
       else if (targetData.feelings.length === 3) {targetDiv.classList.add('tripleContainer');}
       targetDiv.style.backgroundImage = targetData.feelings.map(i => `url('/assets/feeling/${i}.svg')`).join();
-      dayDiv.classList.add('selectedDate');
-      if (!dayDiv.previousElementSibling || !dayDiv.previousElementSibling.classList.contains('selectedDate')) {
-        dayDiv.classList.add('first');
-      } else if (dayDiv.previousElementSibling && dayDiv.previousElementSibling.classList.contains('selectedDate')) {
-        dayDiv.previousElementSibling.classList.remove('last');
-      }
-      if (!dayDiv.nextElementSibling || !dayDiv.nextElementSibling.classList.contains('selectedDate')) {
-        dayDiv.classList.add('last');
-      } else if (dayDiv.nextElementSibling && dayDiv.nextElementSibling.classList.contains('selectedDate')) {
-        dayDiv.nextElementSibling.classList.remove('first');
-      }
     }
     console.log('setData');
 
