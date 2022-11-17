@@ -1,4 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Media, MediaObject } from '@awesome-cordova-plugins/media/ngx';
+import { fileURLToPath } from 'url';
+import { Directory, Filesystem } from '@capacitor/filesystem';
+import { RecordingData, VoiceRecorder } from 'capacitor-voice-recorder';
+import { RecordingService } from '../../recording.service';
 
 @Component({
   selector: 'app-recording',
@@ -6,23 +11,73 @@ import { Component, Input, OnInit } from '@angular/core';
   styleUrls: ['./recording.component.scss'],
 })
 export class RecordingComponent implements OnInit {
-  @Input() time: number;
-  public timeStr: string;
   public imgList = ['happy','soso','good','excite','great','uneasy','sad','not_good','lonely','depressed','surprise','upset','unpleasant'];
-  public feelings = ['즐거워', '그냥 그래', '좋아!', '설레', '행복해', '불안해', '슬퍼', '별로야', '외로워', '우울해', '놀랐어', '화났어', '불쾌해'];
-  constructor() { }
+  public feelings: string[] = [];
+  public numbers: number[] = [];
+  public isRecording = false;
+  public storedFileNames = [];
+  constructor(private media: Media, public recordService: RecordingService) { }
 
   ngOnInit() {
-    if (this.time === 0) { this.timeStr = '아침';}
-    else if (this.time === 1) { this.timeStr = '점심';}
-    else if (this.time === 2) { this.timeStr = '저녁';}
+    for (let i=0; i<3; i++) {
+      let num = this.getRandomInt(this.imgList.length);
+      while (this.numbers.includes(num)) {
+        num = this.getRandomInt(this.imgList.length);
+      }
+      this.feelings.push(this.imgList[num]);
+      this.numbers.push(num);
+    }
+    this.loadFiles();
+    VoiceRecorder.requestAudioRecordingPermission(); // 거절하면 어떡할 지는 로직을 따로 짜야함
+  }
+  getRandomInt(max) {
+    return Math.floor(Math.random() * max);
+  }
+  onPlayClicked() {
+    if (this.isRecording) { return; }
+    this.isRecording = true;
+    VoiceRecorder.startRecording();
 
   }
-  selectFeeling(e: Event) {
-    const target = e.target as Element;
-    if (target.closest('div')) {
-      const targetImg = target.closest('div').children[0] as HTMLImageElement;
-      console.log(targetImg.src);
-    }
+  onStopClicked() {
+    if (!this.isRecording) { return; }
+    this.isRecording = false;
+    VoiceRecorder.stopRecording()
+      .then(async (record: RecordingData) => {
+        if (record.value && record.value.recordDataBase64) {
+          const recordData = record.value.recordDataBase64;
+          console.log(recordData);
+          const fileName = new Date().getTime() + '.wav';
+          await Filesystem.writeFile({
+            path: fileName,
+            directory: Directory.Data,
+            data: recordData,
+          });
+          this.loadFiles();
+        }
+      });
+  }
+  async playFile(fileNames) {
+    const audioFile = await Filesystem.readFile({
+      path: fileNames.name,
+      directory: Directory.Data
+    });
+    console.log(audioFile);
+    const base64Sound = audioFile.data;
+    const audioRef = new Audio(`data:audio/aac;base64, ${base64Sound}`);
+    audioRef.oncanplaythrough = () => audioRef.play();
+    audioRef.load();
+  }
+  async loadFiles() {
+    Filesystem.readdir({
+      path: '',
+      directory: Directory.Data
+    }).then(result => {
+      console.log(result);
+      this.storedFileNames = result.files;
+    });
+  }
+  sendRecord() {
+    this.recordService.addRecording(this.storedFileNames[0]);
   }
 }

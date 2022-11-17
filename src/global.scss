@@ -80,10 +80,36 @@
   // --background: #efefef;
 }
 
+.recordingModal {
+  --border-radius: 30px;
+  --width: 90%;
+  &::part(backdrop) {
+      background: #000;
+  }
+
+  &::part(handle) {
+    display: none;
+      // width: 150px;
+      // height: 6px;
+  }
+
+  &::part(content) {
+    --overflow: hidden;
+  }
+}
+
 ion-popover {
   --width: 335px;
 }
-
+ion-content {
+  // overwrite inline styles
+  --offset-bottom: auto!important;
+  --overflow: hidden;
+  overflow: auto;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
 ion-popover ion-content {
 }
 

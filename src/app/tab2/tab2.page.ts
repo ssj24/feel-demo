@@ -1,5 +1,5 @@
 /* eslint-disable max-len */
-import { Component, OnChanges, OnInit, SimpleChanges, Input, ViewChildren, QueryList, ElementRef, Renderer2, AfterViewInit } from '@angular/core';
+import { Component, OnChanges, OnInit, SimpleChanges, Input, ViewChildren, QueryList, ElementRef, Renderer2, AfterViewInit, ViewChild } from '@angular/core';
 import { DomController, Gesture, GestureController } from '@ionic/angular';
 import { maxHeaderSize } from 'http';
 import { CalendarCreatorService } from '../calendarCreator.service';
@@ -12,6 +12,7 @@ import { FeelingService } from '../feeling.service';
   styleUrls: ['tab2.page.scss']
 })
 export class Tab2Page implements OnInit, OnChanges, AfterViewInit {
+  @ViewChild('mainCalendar') mainCalendar: ElementRef;
   @ViewChildren('eachDays') eachDays: QueryList<ElementRef>;
   @Input() monthNumber: number;
   public datadates: Day[] = [];
@@ -285,22 +286,25 @@ export class Tab2Page implements OnInit, OnChanges, AfterViewInit {
 
   ngAfterViewInit(): void { // viewchild data binding
     const swipeGesture = this.gestureCtrl.create({
-      el: document.body,
+      el: document.querySelector('.mainCalendar'),
       threshold: 15,
       direction: 'x',
       gestureName: 'swipe-delete',
       onMove: ev => {
-        const currentX = ev.deltaX;
-
-        this.domCtrl.write(() => {
-          // Make sure the item is above the other elements
-          document.body.style.zIndex = '2';
-          // Reposition the item
-          document.body.style.fontSize = `30px`;
-        });
+        // this.domCtrl.write(() => {
+        //   // Make sure the item is above the other elements
+        //   document.body.style.zIndex = '2';
+        //   Reposition the item
+        //   document.body.style.fontSize = `30px`;
+        // });
       },
       onEnd: ev => {
-        document.body.style.transition = '0.2s ease-out';
+        // document.body.style.transition = '0.2s ease-out';
+        if (ev.deltaX < 0) {
+          return this.onNextMonth();
+        } else {
+          return this.onPreviousMonth();
+        }
 
         // Fly out the element if we cross the threshold of 150px
         // if (ev.deltaX < -150) {

@@ -5,7 +5,7 @@
       <div>
         <ion-card-header>
           <ion-row class="w100">
-            <ion-col class="dFlex marginAuto" size="11" size-lg="8" size-xl="7">
+            <ion-col class="dFlex marginAuto" size="11" size-lg="8" size-xl="6">
               <ion-button fill="clear" color="dark" (click)="onPreviousMonth()">
                 <ion-icon name="chevron-back-outline"></ion-icon>
               </ion-button>
@@ -29,14 +29,14 @@
         <div class="calendar">
           <ion-grid>
             <ion-row class="ion-justify-content-center">
-              <ion-col size="11" size-lg="8" size-xl="7">
+              <ion-col size="11" size-lg="8" size-xl="6">
                 <span *ngFor='let weekDay of weekDaysName' class="day ion-text-center" >
                   {{ weekDay }}
                 </span>
               </ion-col>
             </ion-row>
-            <ion-row class="mainCalendar">
-              <ion-col size="11" size-lg="8" size-xl="7">
+            <ion-row class="mainCalendar" #mainCalendar>
+              <ion-col size="11" size-lg="8" size-xl="6">
 
                 <div #eachDays *ngFor='let day of monthDays' (click)="dayClicked($event, day)" class="date" [class.text-transparent]="!day.dayNumber">
                   <div class="imgContainer" [class.ion-hide]="!day.dayNumber" [id]="'date'+day.dayNumber"></div>
