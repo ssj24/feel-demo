@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
 import { CreateJournalComponent } from '../tab2/create-journal/create-journal.component';
+import { JournalCreatorService } from '../journal-creator.service';
 
 @Component({
   selector: 'app-tabs',
@@ -10,21 +11,13 @@ import { CreateJournalComponent } from '../tab2/create-journal/create-journal.co
 })
 export class TabsPage {
 
-  constructor( private modalCtrl: ModalController,
+  constructor( private journalService: JournalCreatorService,
                private router: Router) {}
 
   onCreateJournal() {
     if(this.router.url !== '/tabs/tab2') {
       return this.router.navigateByUrl('/tabs/tab2');
     }
-    this.modalCtrl.create({
-      component: CreateJournalComponent,
-      componentProps: {},
-      cssClass: 'diaryModal',
-    }).then (modalEl => {
-      modalEl.present();
-    }).then(result => {
-      console.log(result);
-    });
+    this.journalService.createJournal();
   }
 }

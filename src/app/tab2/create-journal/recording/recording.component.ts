@@ -15,7 +15,12 @@ export class RecordingComponent implements OnInit {
   public feelings: string[] = [];
   public numbers: number[] = [];
   public isRecording = false;
+  public isPaused = false;
   public storedFileNames = [];
+  public startTime = 0;
+  public endTime = 0;
+  public curTime = 0;
+  public interval = null;
   constructor(private media: Media, public recordService: RecordingService) { }
 
   ngOnInit() {
@@ -33,20 +38,44 @@ export class RecordingComponent implements OnInit {
   getRandomInt(max) {
     return Math.floor(Math.random() * max);
   }
+  timeCalc(time = 0) {
+    if (this.isRecording) {
+      this.curTime = Math.ceil((performance.now() - this.startTime)/1000) / 10 + time;
+    }
+  }
   onPlayClicked() {
-    if (this.isRecording) { return; }
-    this.isRecording = true;
+    if (this.isRecording) { return;}
+    if (this.isPaused) {
+      VoiceRecorder.resumeRecording();
+      this.startTime = this.curTime ? this.curTime : performance.now();
+      this.isRecording = true;
+      this.interval = setInterval(() => {
+        this.timeCalc(this.endTime);
+      }, 100);
+    }
     VoiceRecorder.startRecording();
-
+    this.startTime = this.curTime ? this.curTime : performance.now();
+    this.isRecording = true;
+      this.interval = setInterval(() => {
+        this.timeCalc();
+      }, 100);
+  }
+  onPauseClicked() {
+    if (this.isPaused) { return; }
+    clearInterval(this.interval);
+    this.isRecording = false;
+    this.isPaused = true;
+    VoiceRecorder.pauseRecording();
+    this.endTime = this.curTime;
   }
   onStopClicked() {
     if (!this.isRecording) { return; }
+    clearInterval(this.interval);
     this.isRecording = false;
     VoiceRecorder.stopRecording()
       .then(async (record: RecordingData) => {
         if (record.value && record.value.recordDataBase64) {
           const recordData = record.value.recordDataBase64;
-          console.log(recordData);
           const fileName = new Date().getTime() + '.wav';
           await Filesystem.writeFile({
             path: fileName,

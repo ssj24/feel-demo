@@ -35,7 +35,7 @@
                 </span>
               </ion-col>
             </ion-row>
-            <ion-row class="mainCalendar" #mainCalendar>
+            <ion-row class="mainCalendar">
               <ion-col size="11" size-lg="8" size-xl="6">
 
                 <div #eachDays *ngFor='let day of monthDays' (click)="dayClicked($event, day)" class="date" [class.text-transparent]="!day.dayNumber">

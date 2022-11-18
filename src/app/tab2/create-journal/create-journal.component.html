@@ -12,7 +12,7 @@
       <ion-col class="w100" *ngFor="let item of feelings; let i = index">
         <ion-card class="ion-padding ion-no-margin timeCard" >
           <p class="ion-text-center">{{i===0 ?'아침': i===1 ? '점심' : '저녁'}}</p>
-          <div class="imgContainer dFlex" (click)="presentPopover($event, i)">
+          <div class="imgContainer dFlex feelingDiv" (click)="onSetFeeling($event, i)">
             <ion-icon *ngIf="item === 'none'" name="add-circle" size="large" color="medium"></ion-icon>
             <ion-img *ngIf="item !== 'none'" src="/assets/feeling/{{item}}.svg"></ion-img>
           </div>
@@ -23,7 +23,8 @@
       <ion-card class="ion-padding ion-margin-vertical w100">
         <p>한 줄 일기</p>
         <ion-card-content class="ion-no-padding">
-          <ion-textarea disabled placeholder="오늘의 일기를 녹음 후 편집할 수 있어요"></ion-textarea>
+          <ion-input [disabled]="!aLine" placeholder="오늘의 일기를 녹음 후 편집할 수 있어요" [(ngModel)]="aLine" value="aLine">
+          </ion-input>
         </ion-card-content>
       </ion-card>
     </ion-row>
@@ -31,16 +32,23 @@
       <ion-card class="ion-padding ion-margin-vertical w100">
         <p>오늘의 일기</p>
         <ion-card-content class="ion-no-padding">
-          <ion-buttons *ngIf="true" class="ion-justify-content-center">
-            <ion-button>
+          <ion-list *ngIf="diary.length">
+            <ion-item *ngFor="let sent of diary; let i=index;">
+              {{sent.time}}:
+              <ion-input [(ngModel)]="diary[i].diary" value="sent.diary"></ion-input>
+            </ion-item>
+          </ion-list>
+          <ion-buttons class="ion-justify-content-center">
+            <ion-button fill="solid" color="light">
               <ion-img src="/assets/write.svg"></ion-img>
               바로 작성하기
             </ion-button>
-            <ion-button (click)="onRecording()" >
+            <ion-button (click)="onRecording()" fill="solid" color="light">
               <ion-img src="/assets/recording.svg"></ion-img>
               녹음하기
             </ion-button>
           </ion-buttons>
+
           <ng-template>
             <ion-textarea></ion-textarea>
           </ng-template>
@@ -50,15 +58,22 @@
     <ion-row>
       <ion-card class="ion-padding ion-margin-vertical w100">
         <p>키워드</p>
-        <ion-card-content  class="ion-no-padding">
-          <ion-icon name="add-circle" size="large" color="medium"></ion-icon>
-        </ion-card-content>
+        <span class="dFlex ion-wrap keywordBadges">
+          <ion-badge
+            *ngFor="let word of keywords"
+            (click)="onBadgeClicked(word)"
+            size="large" class="keywordBadge" color="danger"
+            >
+            {{word}}
+          </ion-badge>
+          <ion-icon (click)="onKeywordCreate($event)" class="keywordIcon" name="add-circle" size="large" color="medium"></ion-icon>
+        </span>
       </ion-card>
     </ion-row>
   </ion-grid>
 </ion-content>
-<ion-footer>
-  <ion-button (click)="onJournalConfirm()" >
+<ion-footer class="dFlex">
+  <ion-button (click)="onJournalConfirm()" shape="round" color="custom">
     저장하기
   </ion-button>
 </ion-footer>

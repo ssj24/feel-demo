@@ -5,6 +5,7 @@ import { maxHeaderSize } from 'http';
 import { CalendarCreatorService } from '../calendarCreator.service';
 import { Day } from '../day.model';
 import { FeelingService } from '../feeling.service';
+import { JournalCreatorService } from '../journal-creator.service';
 
 @Component({
   selector: 'app-tab2',
@@ -15,49 +16,50 @@ export class Tab2Page implements OnInit, OnChanges, AfterViewInit {
   @ViewChild('mainCalendar') mainCalendar: ElementRef;
   @ViewChildren('eachDays') eachDays: QueryList<ElementRef>;
   @Input() monthNumber: number;
+  public receivedData: {data: any; day: Day};
   public datadates: Day[] = [];
   public monthDays: Day[];
   public month: string;
   public year: number;
-
   public weekDaysName = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
   public today = new Date();
   public date = this.today.getDate();
+  public daysArray: ElementRef[];
   public monthData: Day[] = [
     {
       monthIndex: 11,
       dayNumber: 8,
       year: 2022,
       weekDayNumber: 4,
-      feelings: ['unpleasant'],
+      feelings: ['unpleasant', 'none', 'none'],
     },
     {
       monthIndex: 11,
       dayNumber: 9,
       year: 2022,
       weekDayNumber: 5,
-      feelings: ['unpleasant'],
+      feelings: ['unpleasant', 'none', 'none'],
     },
     {
       monthIndex: 11,
       dayNumber: 10,
       year: 2022,
       weekDayNumber: 6,
-      feelings: ['unpleasant'],
+      feelings: ['unpleasant', 'none', 'none'],
     },
     {
       monthIndex: 11,
       dayNumber: 11,
       year: 2022,
       weekDayNumber: 7,
-      feelings: ['unpleasant'],
+      feelings: ['none', 'unpleasant', 'none'],
     },
     {
       monthIndex: 10,
       dayNumber: 8,
       year: 2022,
       weekDayNumber: 2,
-      feelings: ['unpleasant'],
+      feelings: ['none', 'none', 'unpleasant'],
     },
     // {
     //     monthIndex: 10,
@@ -134,7 +136,7 @@ export class Tab2Page implements OnInit, OnChanges, AfterViewInit {
         dayNumber: 25,
         year: 2022,
         weekDayNumber: 5,
-        feelings: ['surprise', 'upset'],
+        feelings: ['surprise', 'upset', 'none'],
     },
     {
         monthIndex: 10,
@@ -197,7 +199,7 @@ export class Tab2Page implements OnInit, OnChanges, AfterViewInit {
         dayNumber: 4,
         year: 2022,
         weekDayNumber: 5,
-        feelings: ['good'],
+        feelings: ['none', 'good', 'none'],
     },
     {
         monthIndex: 10,
@@ -211,7 +213,7 @@ export class Tab2Page implements OnInit, OnChanges, AfterViewInit {
         dayNumber: 6,
         year: 2022,
         weekDayNumber: 7,
-        feelings: ['lonely', 'sad'],
+        feelings: ['lonely', 'sad', 'none'],
     },
     {
         monthIndex: 10,
@@ -232,7 +234,7 @@ export class Tab2Page implements OnInit, OnChanges, AfterViewInit {
         dayNumber: 7,
         year: 2022,
         weekDayNumber: 1,
-        feelings: ['not_good'],
+        feelings: ['not_good', 'none', 'none'],
     },
     {
         monthIndex: 10,
@@ -246,7 +248,7 @@ export class Tab2Page implements OnInit, OnChanges, AfterViewInit {
         dayNumber: 26,
         year: 2022,
         weekDayNumber: 6,
-        feelings: ['depressed'],
+        feelings: ['depressed', 'none', 'none'],
     },
     {
         monthIndex: 10,
@@ -267,8 +269,31 @@ export class Tab2Page implements OnInit, OnChanges, AfterViewInit {
               public feeling: FeelingService,
               private renderer: Renderer2,
               private gestureCtrl: GestureController,
-              private domCtrl: DomController) {}
+              private domCtrl: DomController,
+              private journalService: JournalCreatorService) {
+                journalService.getJournalData$.subscribe(data => {
+                  console.log('tab2.constructor',data);
+                  this.receivedData = data as {data: any; day: Day};
+                  const newDay: Day = {
+                    year: this.receivedData.day.year,
+                    monthIndex: this.receivedData.day.monthIndex,
+                    dayNumber: this.receivedData.day.dayNumber,
+                    weekDayNumber: this.receivedData.day.weekDayNumber,
+                    feelings: this.receivedData.data.feelings,
 
+                  };
+                  const targetData = this.monthDays.find(x => x.year === newDay.year && x.monthIndex === newDay.monthIndex && x.dayNumber === newDay.dayNumber);
+                  if (targetData) {
+                    // 나중에는 일기까지 통으로 덮어씌울 것
+                    targetData.feelings = newDay.feelings;
+                  } else {
+                    console.log('journalService got error');
+                  }
+                  // const targetDay = this.daysArray[this.receivedData.day.dayNumber].nativeElement;
+                  // this.setData(targetDay);
+                  this.eachDaysSet();
+                });
+              }
   ngOnInit(): void {
     this.setMonthDays(this.calendarCreator.getCurrentMonth());
   }
@@ -285,6 +310,9 @@ export class Tab2Page implements OnInit, OnChanges, AfterViewInit {
   }
 
   ngAfterViewInit(): void { // viewchild data binding
+
+    this.daysArray = this.eachDays.toArray();
+
     const swipeGesture = this.gestureCtrl.create({
       el: document.querySelector('.mainCalendar'),
       threshold: 15,
@@ -361,19 +389,12 @@ export class Tab2Page implements OnInit, OnChanges, AfterViewInit {
   }
 
   dayClicked(e: Event, clickedDay: Day) {
-    const target = e.target as HTMLDivElement;
-    const targetDate = target.closest('.date') as HTMLElement;
-    if (targetDate) {
-      this.datadates.push(clickedDay);
-      this.setData(targetDate);
-    }
-    else { return; }
+    this.journalService.createJournal(clickedDay);
   }
 
   eachDaysSet() {
-    console.log(this.year, this.monthNumber, this.today);
-    const daysArray = this.eachDays.toArray();
-    for (const i of daysArray) {
+    console.log('eachdaysset', this.year, this.monthNumber, this.today);
+    for (const i of this.daysArray) {
       this.setData(i.nativeElement);
     }
     this.setToday();
@@ -412,12 +433,17 @@ export class Tab2Page implements OnInit, OnChanges, AfterViewInit {
   }
   setData(dayDiv: HTMLElement): void {
     const targetDiv = dayDiv.children[0] as HTMLElement;
-    const targetData = this.monthData.find(x => x.year === this.year && x.monthIndex === this.monthNumber && String(x.dayNumber) === dayDiv.children[1].textContent );
+    const targetData = this.monthDays.find(x => x.year === this.year && x.monthIndex === this.monthNumber && String(x.dayNumber) === dayDiv.children[1].textContent );
     if (targetData) {
-      if (targetData.feelings.length === 1) { targetDiv.classList.add('singleContainer');}
-      else if (targetData.feelings.length === 2) {targetDiv.classList.add('doubleContainer');}
-      else if (targetData.feelings.length === 3) {targetDiv.classList.add('tripleContainer');}
-      targetDiv.style.backgroundImage = targetData.feelings.map(i => `url('/assets/feeling/${i}.svg')`).join();
+      let noneCount = 0;
+      for (const feeling of targetData.feelings) {
+        if (feeling === 'none') { noneCount++; }
+      }
+      if (noneCount === 2) { targetDiv.classList.add('singleContainer'); targetDiv.classList.remove('doubleContainer'); targetDiv.classList.remove('tripleContainer');}
+      else if (noneCount === 1) {targetDiv.classList.add('doubleContainer'); targetDiv.classList.remove('singleContainer'); targetDiv.classList.remove('tripleContainer');}
+      else if (noneCount === 0) {targetDiv.classList.add('tripleContainer'); targetDiv.classList.remove('doubleContainer'); targetDiv.classList.remove('singleContainer');}
+      else if (noneCount === 3) { targetDiv.classList.remove('singleContainer'); targetDiv.classList.remove('doubleContainer'); targetDiv.classList.remove('tripleContainer');}
+      targetDiv.style.backgroundImage = targetData.feelings.filter(i => i !== 'none').map(i => `url('/assets/feeling/${i}.svg')`).join();
     }
     console.log('setData');
 

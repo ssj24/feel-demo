@@ -52,11 +52,10 @@ export class RecordingService {
     // return true;
 
 
-    const headers = new HttpHeaders({
-      // eslint-disable-next-line @typescript-eslint/naming-convention
-      'Content-Type': 'multipart/form-data',
-    });
-    return this.http.post('https://192.168.31.35/SttAnalysis/', {recording}, {headers, responseType: 'blob'})
+    return this.http.post('http://192.168.31.35:8000/test/', {recording}, {
+      headers: new HttpHeaders()
+        .set('Content-Type', 'multipart/form-data')
+      , responseType: 'blob'})
       .toPromise()
       .then((res: any) => {
 

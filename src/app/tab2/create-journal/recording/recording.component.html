@@ -18,13 +18,13 @@
         <ion-button *ngIf="!isRecording" (click)="onPlayClicked()" >
           <ion-icon name="play" size="large"></ion-icon>
         </ion-button>
-        <ion-button *ngIf="isRecording" disabled >
+        <ion-button *ngIf="isRecording" (click)="onPauseClicked()" >
           <ion-icon name="pause" size="large"></ion-icon>
         </ion-button>
       </ion-col>
       <ion-col class="dFlex">
         <div class="redDot"></div>
-        <p>0.00</p>
+        <p>{{curTime}}</p>
       </ion-col>
     </ion-row>
   </ion-grid>

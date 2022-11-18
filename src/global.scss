@@ -26,19 +26,19 @@
 @import "~@ionic/angular/css/flex-utils.css";
 
 :root {
-	--ion-color-custom: #ffb800;
-	--ion-color-custom-rgb: 255,184,0;
-	--ion-color-custom-contrast: #000000;
-	--ion-color-custom-contrast-rgb: 0,0,0;
-	--ion-color-custom-shade: #e0a200;
-	--ion-color-custom-tint: #ffbf1a;
+	--ion-color-custom: #7623ff;
+	--ion-color-custom-rgb: 118,35,255;
+	--ion-color-custom-contrast: #ffffff;
+	--ion-color-custom-contrast-rgb: 255,255,255;
+	--ion-color-custom-shade: #681fe0;
+	--ion-color-custom-tint: #8439ff;
 
   --base-color: #E8E8E8;
   --middle-purple-color: #E2DEFF;
   --middle-red-color: #FFD9DF;
   --middle-yellow-color: #FFF1C4;
   --high-color: #211A49;
-  --active-color: #7623FF;
+  --active-color: #7623ff;
 }
 
 .ion-color-custom {
@@ -101,11 +101,14 @@
 ion-popover {
   --width: 335px;
 }
+.keywordBadges ion-badge {
+  --padding-top: 10px;
+  --padding-bottom: 10px;
+  --padding-start: 16px;
+  --padding-end: 16px;
+}
 ion-content {
   // overwrite inline styles
-  --offset-bottom: auto!important;
-  --overflow: hidden;
-  overflow: auto;
   &::-webkit-scrollbar {
     display: none;
   }

@@ -24,7 +24,6 @@ export class SetFeelingComponent implements OnInit {
     if (target.closest('div')) {
       const targetImg = target.closest('div').children[0] as HTMLImageElement;
       const targetFeeling = targetImg.src.slice(16, -4);
-      console.log(targetFeeling);
       this.popoverCtrl.dismiss({feeling: targetFeeling, time: this.time}, 'confirm');
     }
   }

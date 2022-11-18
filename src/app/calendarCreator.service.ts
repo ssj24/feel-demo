@@ -107,6 +107,7 @@ export class CalendarCreatorService {
     day.monthIndex = monthIndex;
     day.weekDayNumber = (new Date(year, monthIndex, dayNumber).getDay() === 0 ? 7 : new Date(year, monthIndex, dayNumber).getDay());
     day.dayNumber = dayNumber;
+    day.feelings = ['none', 'none', 'none'];
     return day;
   }
 }
