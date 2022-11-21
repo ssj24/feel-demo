@@ -51,7 +51,7 @@ export class RecordingService {
 
     // return true;
 
-
+    console.log('click');
     return this.http.post('http://192.168.31.35:8000/test/', {recording}, {
       headers: new HttpHeaders()
         .set('Content-Type', 'multipart/form-data')

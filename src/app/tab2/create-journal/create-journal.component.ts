@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, AfterViewInit } from '@angular/core';
 import { mdTransitionAnimation, ModalController, PopoverController } from '@ionic/angular';
 import { CalendarCreatorService } from '../../calendarCreator.service';
 import { element } from 'protractor';
@@ -13,7 +13,7 @@ import { Day } from 'src/app/day.model';
   templateUrl: './create-journal.component.html',
   styleUrls: ['./create-journal.component.scss'],
 })
-export class CreateJournalComponent implements OnInit {
+export class CreateJournalComponent implements OnInit, AfterViewInit {
   @Input() day: Day;
   public year = 0;
   public month = '';
@@ -30,38 +30,29 @@ export class CreateJournalComponent implements OnInit {
   ngOnInit() {
     console.log(this.day);
     this.feelings = this.day.feelings.slice(); // copy not reference
-    this.year = this.day.year;
     this.month = this.calendarService.getMonthName(this.day.monthIndex);
-    this.dayNumber = this.day.dayNumber;
-    this.aLine = 'summary of today diary.';
-    this.diary = [
-    {
-      id: 1,
-      time: new Date().getTime(),
-      diary: 'this is what will gonna look like',
-    },
-    {
-      id: 2,
-      time: new Date().getTime(),
-      diary: 'second line',
-    },
-    {
-      id: 3,
-      time: new Date().getTime(),
-      diary: 'third line',
-    },
-    ];
-    this.keywords = ['날씨', '걱정', '우울', '행복', '고독', '텀블러'];
+    this.aLine = this.day.aLine;
+    this.diary = this.day.diary;
+    this.keywords = this.day.keywords;
+  }
+  ngAfterViewInit() {
+
   }
   onCancel() {
     this.modalCtrl.dismiss(null, 'cancel');
   }
   onJournalConfirm() {
     this.modalCtrl.dismiss({
+      date: this.day.date,
+      dayNumber: this.day.dayNumber,
+      year: this.day.year,
+      monthIndex: this.day.monthIndex,
+      weekDayNumber: this.day.weekDayNumber,
       feelings: this.feelings,
       aLine: this.aLine,
       diary: this.diary,
-      keywords: this.keywords
+      keywords: this.keywords,
+      recording: this.day.recording
     }, 'confirm');
   }
   onRecording() {
@@ -113,7 +104,9 @@ export class CreateJournalComponent implements OnInit {
       return popoverEl.onDidDismiss();
     }).then(result => {
       if (result.role === 'confirm') {
+        console.log(this.keywords);
         this.keywords.push(result.data);
+        console.log(this.keywords);
       }
       console.log(result);
     });

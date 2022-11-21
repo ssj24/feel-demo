@@ -23,7 +23,7 @@ export class CalendarCreatorService {
 
     const firstday = this.createDay(year, monthIndex, 1);
     //create empty days
-    for (let i = 1; i < firstday.weekDayNumber; i++) { // i start from 0 because week's first day is sunday
+    for (let i = 1; i < firstday.weekDayNumber; i++) { // i start from 1 because week's first day is monday(0 => start from sunday)
       days.push({
         year,
         monthIndex,
@@ -31,7 +31,6 @@ export class CalendarCreatorService {
       } as Day);
     }
     days.push(firstday);
-    //
 
     const countDaysInMonth = new Date(year, monthIndex + 1, 0).getDate(); // if it's monthIndex, we can get days of prvious month
     for (let i = 2; i <= countDaysInMonth; i++) { // since firstday is occupied, it starts from 2
@@ -103,11 +102,21 @@ export class CalendarCreatorService {
 
   private createDay(year: number, monthIndex: number, dayNumber: number) {
     const day = new Day();
+    day.date = new Date(year, monthIndex, dayNumber);
     day.year = year;
     day.monthIndex = monthIndex;
-    day.weekDayNumber = (new Date(year, monthIndex, dayNumber).getDay() === 0 ? 7 : new Date(year, monthIndex, dayNumber).getDay());
+    day.weekDayNumber = (day.date.getDay() === 0 ? 7 : day.date.getDay());
     day.dayNumber = dayNumber;
     day.feelings = ['none', 'none', 'none'];
+    day.aLine = '';
+    day.diary = [
+        {
+            time: 0,
+            sentence: ''
+        }
+    ];
+    day.keywords = [];
+    day.recording = {};
     return day;
   }
 }

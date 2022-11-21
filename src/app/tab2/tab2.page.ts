@@ -12,7 +12,7 @@ import { JournalCreatorService } from '../journal-creator.service';
   templateUrl: 'tab2.page.html',
   styleUrls: ['tab2.page.scss']
 })
-export class Tab2Page implements OnInit, OnChanges, AfterViewInit {
+export class Tab2Page implements OnInit, AfterViewInit {
   @ViewChild('mainCalendar') mainCalendar: ElementRef;
   @ViewChildren('eachDays') eachDays: QueryList<ElementRef>;
   @Input() monthNumber: number;
@@ -27,244 +27,30 @@ export class Tab2Page implements OnInit, OnChanges, AfterViewInit {
   public daysArray: ElementRef[];
   public monthData: Day[] = [
     {
-      monthIndex: 11,
-      dayNumber: 8,
+      date: null,
+      dayNumber: 1,
       year: 2022,
-      weekDayNumber: 4,
-      feelings: ['unpleasant', 'none', 'none'],
-    },
-    {
-      monthIndex: 11,
-      dayNumber: 9,
-      year: 2022,
-      weekDayNumber: 5,
-      feelings: ['unpleasant', 'none', 'none'],
-    },
-    {
-      monthIndex: 11,
-      dayNumber: 10,
-      year: 2022,
-      weekDayNumber: 6,
-      feelings: ['unpleasant', 'none', 'none'],
-    },
-    {
-      monthIndex: 11,
-      dayNumber: 11,
-      year: 2022,
-      weekDayNumber: 7,
-      feelings: ['none', 'unpleasant', 'none'],
-    },
-    {
       monthIndex: 10,
-      dayNumber: 8,
-      year: 2022,
       weekDayNumber: 2,
-      feelings: ['none', 'none', 'unpleasant'],
-    },
-    // {
-    //     monthIndex: 10,
-    //     dayNumber: 14,
-    //     year: 2022,
-    //     weekDayNumber: 1,
-    //     feelings: ['uneasy', 'sad', 'excite'],
-    // },
-    {
-        monthIndex: 10,
-        dayNumber: 15,
-        year: 2022,
-        weekDayNumber: 2,
-        feelings: ['uneasy', 'sad', 'excite'],
-    },
-    // {
-    //     monthIndex: 10,
-    //     dayNumber: 16,
-    //     year: 2022,
-    //     weekDayNumber: 3,
-    //     feelings: ['uneasy', 'sad', 'excite'],
-    // },
-    // {
-    //     monthIndex: 10,
-    //     dayNumber: 1,
-    //     year: 2022,
-    //     weekDayNumber: 2,
-    //     feelings: ['uneasy', 'sad', 'excite'],
-    // },
-    // {
-    //     monthIndex: 10,
-    //     dayNumber: 10,
-    //     year: 2022,
-    //     weekDayNumber: 4,
-    //     feelings: ['uneasy', 'sad', 'excite'],
-    // },
-    {
-        monthIndex: 10,
-        dayNumber: 17,
-        year: 2022,
-        weekDayNumber: 4,
-        feelings: ['happy', 'lonely', 'depressed'],
-    },
-    {
-        monthIndex: 10,
-        dayNumber: 2,
-        year: 2022,
-        weekDayNumber: 3,
-        feelings: ['happy', 'lonely', 'depressed'],
-    },
-    {
-        monthIndex: 10,
-        dayNumber: 9,
-        year: 2022,
-        weekDayNumber: 3,
-        feelings: ['happy', 'lonely', 'depressed'],
-    },
-    {
-        monthIndex: 10,
-        dayNumber: 11,
-        year: 2022,
-        weekDayNumber: 5,
-        feelings: ['happy', 'lonely', 'depressed'],
-    },
-    {
-        monthIndex: 10,
-        dayNumber: 18,
-        year: 2022,
-        weekDayNumber: 5,
-        feelings: ['happy', 'lonely', 'depressed'],
-    },
-    {
-        monthIndex: 10,
-        dayNumber: 25,
-        year: 2022,
-        weekDayNumber: 5,
-        feelings: ['surprise', 'upset', 'none'],
-    },
-    {
-        monthIndex: 10,
-        dayNumber: 24,
-        year: 2022,
-        weekDayNumber: 4,
-        feelings: ['happy', 'lonely', 'depressed'],
-    },
-    {
-        monthIndex: 10,
-        dayNumber: 23,
-        year: 2022,
-        weekDayNumber: 3,
-        feelings: ['happy', 'lonely', 'depressed'],
-    },
-    {
-        monthIndex: 10,
-        dayNumber: 22,
-        year: 2022,
-        weekDayNumber: 2,
-        feelings: ['happy', 'lonely', 'depressed'],
-    },
-    {
-        monthIndex: 10,
-        dayNumber: 21,
-        year: 2022,
-        weekDayNumber: 1,
-        feelings: ['happy', 'lonely', 'depressed'],
-    },
-    {
-        monthIndex: 10,
-        dayNumber: 28,
-        year: 2022,
-        weekDayNumber: 1,
-        feelings: ['happy', 'lonely', 'depressed'],
-    },
-    {
-        monthIndex: 10,
-        dayNumber: 29,
-        year: 2022,
-        weekDayNumber: 2,
-        feelings: ['happy', 'lonely', 'depressed'],
-    },
-    {
-        monthIndex: 10,
-        dayNumber: 30,
-        year: 2022,
-        weekDayNumber: 3,
-        feelings: ['happy', 'lonely', 'depressed'],
-    },
-    {
-        monthIndex: 10,
-        dayNumber: 3,
-        year: 2022,
-        weekDayNumber: 4,
-        feelings: ['happy', 'lonely', 'depressed'],
-    },
-    {
-        monthIndex: 10,
-        dayNumber: 4,
-        year: 2022,
-        weekDayNumber: 5,
-        feelings: ['none', 'good', 'none'],
-    },
-    {
-        monthIndex: 10,
-        dayNumber: 5,
-        year: 2022,
-        weekDayNumber: 6,
-        feelings: ['good', 'great', 'excite'],
-    },
-    {
-        monthIndex: 10,
-        dayNumber: 6,
-        year: 2022,
-        weekDayNumber: 7,
-        feelings: ['lonely', 'sad', 'none'],
-    },
-    {
-        monthIndex: 10,
-        dayNumber: 13,
-        year: 2022,
-        weekDayNumber: 7,
-        feelings: ['happy', 'lonely', 'depressed'],
-    },
-    {
-        monthIndex: 10,
-        dayNumber: 12,
-        year: 2022,
-        weekDayNumber: 6,
-        feelings: ['happy', 'lonely', 'depressed'],
-    },
-    {
-        monthIndex: 10,
-        dayNumber: 7,
-        year: 2022,
-        weekDayNumber: 1,
-        feelings: ['not_good', 'none', 'none'],
-    },
-    {
-        monthIndex: 10,
-        dayNumber: 19,
-        year: 2022,
-        weekDayNumber: 6,
-        feelings: ['soso', 'surprise', 'unpleasant'],
-    },
-    {
-        monthIndex: 10,
-        dayNumber: 26,
-        year: 2022,
-        weekDayNumber: 6,
-        feelings: ['depressed', 'none', 'none'],
-    },
-    {
-        monthIndex: 10,
-        dayNumber: 27,
-        year: 2022,
-        weekDayNumber: 7,
-        feelings: ['happy', 'lonely', 'depressed'],
-    },
-    {
-        monthIndex: 10,
-        dayNumber: 20,
-        year: 2022,
-        weekDayNumber: 7,
-        feelings: ['happy', 'lonely', 'depressed'],
-    }
-];
+      feelings: [
+          'happy',
+          'soso',
+          'good'
+      ],
+      aLine: 'hihihihi',
+      diary: [
+          {
+              time: 0,
+              sentence: ''
+          }
+      ],
+      keywords: [
+          'a'
+      ],
+      recording: {}
+  }
+  ];
+  public isSetting = false;
   constructor(public calendarCreator: CalendarCreatorService,
               public feeling: FeelingService,
               private renderer: Renderer2,
@@ -273,25 +59,15 @@ export class Tab2Page implements OnInit, OnChanges, AfterViewInit {
               private journalService: JournalCreatorService) {
                 journalService.getJournalData$.subscribe(data => {
                   console.log('tab2.constructor',data);
-                  this.receivedData = data as {data: any; day: Day};
-                  const newDay: Day = {
-                    year: this.receivedData.day.year,
-                    monthIndex: this.receivedData.day.monthIndex,
-                    dayNumber: this.receivedData.day.dayNumber,
-                    weekDayNumber: this.receivedData.day.weekDayNumber,
-                    feelings: this.receivedData.data.feelings,
-
-                  };
-                  const targetData = this.monthDays.find(x => x.year === newDay.year && x.monthIndex === newDay.monthIndex && x.dayNumber === newDay.dayNumber);
-                  if (targetData) {
-                    // 나중에는 일기까지 통으로 덮어씌울 것
-                    targetData.feelings = newDay.feelings;
+                  const newDay: Day = data as Day;
+                  const target = this.monthDays.findIndex(x => x.year === newDay.year && x.monthIndex === newDay.monthIndex && x.dayNumber === newDay.dayNumber);
+                  if (target) {
+                    this.monthDays[target] = newDay;
                   } else {
                     console.log('journalService got error');
                   }
-                  // const targetDay = this.daysArray[this.receivedData.day.dayNumber].nativeElement;
+                  // const targetDay = this.daysArray[newDay.dayNumber].nativeElement;
                   // this.setData(targetDay);
-                  this.eachDaysSet();
                 });
               }
   ngOnInit(): void {
@@ -299,20 +75,22 @@ export class Tab2Page implements OnInit, OnChanges, AfterViewInit {
   }
 
   ionViewDidEnter(){
-    // this.setToday();
+    // month data 받아온 걸  monthdays에 엎어씌워야 함
+
     this.eachDaysSet();
-    this.setStreak();
+    // this.setStreak();
 
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    console.log('ngOnChanges');
   }
 
   ngAfterViewInit(): void { // viewchild data binding
-
+    this.dataToDays();
     this.daysArray = this.eachDays.toArray();
-
+    this.eachDays.changes.subscribe((r) => {
+      setTimeout(() => {
+        this.daysArray = this.eachDays.toArray();
+        this.eachDaysSet();
+      }, 10);
+    });
     const swipeGesture = this.gestureCtrl.create({
       el: document.querySelector('.mainCalendar'),
       threshold: 15,
@@ -363,7 +141,14 @@ export class Tab2Page implements OnInit, OnChanges, AfterViewInit {
     swipeGesture.enable(true);
   }
 
-
+  dataToDays(): void {
+    for (const day of this.monthDays) {
+      const targetData = this.monthData.find(x => x.year === day.year && x.monthIndex === day.monthIndex && x.dayNumber === day.dayNumber);
+      if (targetData) {
+        day.feelings = targetData.feelings;
+      }
+    }
+  }
 
   onNextMonth(): void {
     this.monthNumber++;
@@ -373,7 +158,6 @@ export class Tab2Page implements OnInit, OnChanges, AfterViewInit {
     }
 
     this.setMonthDays(this.calendarCreator.getMonth(this.monthNumber, this.year));
-    this.eachDaysSet();
   }
 
   onPreviousMonth(): void{
@@ -385,7 +169,6 @@ export class Tab2Page implements OnInit, OnChanges, AfterViewInit {
     }
 
     this.setMonthDays(this.calendarCreator.getMonth(this.monthNumber, this.year));
-    this.eachDaysSet();
   }
 
   dayClicked(e: Event, clickedDay: Day) {
@@ -393,7 +176,6 @@ export class Tab2Page implements OnInit, OnChanges, AfterViewInit {
   }
 
   eachDaysSet() {
-    console.log('eachdaysset', this.year, this.monthNumber, this.today);
     for (const i of this.daysArray) {
       this.setData(i.nativeElement);
     }
@@ -403,7 +185,6 @@ export class Tab2Page implements OnInit, OnChanges, AfterViewInit {
   setToday(): void {
     if (this.year === this.today.getFullYear() && this.monthNumber === this.today.getMonth()) {
       document.getElementById(`date${this.date}`).classList.add('today');
-      console.log('this month!!', document.getElementById(`date${this.date}`));
     }
   }
 
@@ -431,9 +212,9 @@ export class Tab2Page implements OnInit, OnChanges, AfterViewInit {
     //     dayDiv.nextElementSibling.classList.remove('first');
     //   }
   }
-  setData(dayDiv: HTMLElement): void {
+  setData(dayDiv: HTMLElement, monthData = this.monthDays): void {
     const targetDiv = dayDiv.children[0] as HTMLElement;
-    const targetData = this.monthDays.find(x => x.year === this.year && x.monthIndex === this.monthNumber && String(x.dayNumber) === dayDiv.children[1].textContent );
+    const targetData = monthData.find(x => x.year === this.year && x.monthIndex === this.monthNumber && String(x.dayNumber) === dayDiv.children[1].textContent );
     if (targetData) {
       let noneCount = 0;
       for (const feeling of targetData.feelings) {
@@ -445,14 +226,12 @@ export class Tab2Page implements OnInit, OnChanges, AfterViewInit {
       else if (noneCount === 3) { targetDiv.classList.remove('singleContainer'); targetDiv.classList.remove('doubleContainer'); targetDiv.classList.remove('tripleContainer');}
       targetDiv.style.backgroundImage = targetData.feelings.filter(i => i !== 'none').map(i => `url('/assets/feeling/${i}.svg')`).join();
     }
-    console.log('setData');
 
   }
   private setMonthDays(days: Day[]): void {
     this.monthDays = days;
-    this.month = this.calendarCreator.getMonthName(this.monthNumber);
     this.monthNumber = this.monthDays[0].monthIndex;
+    this.month = this.calendarCreator.getMonthName(this.monthNumber);
     this.year = this.monthDays[0].year;
-    console.log('setMonthDays');
   }
 }

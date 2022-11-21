@@ -3,7 +3,7 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/tabs/tab2" (click)="onCancel()" ></ion-back-button>
     </ion-buttons>
-    <ion-title>{{year}}년 {{month}}월 {{dayNumber}}일</ion-title>
+    <ion-title>{{day.year}}년 {{month}}월 {{day.dayNumber}}일</ion-title>
   </ion-toolbar>
 </ion-header>
 <ion-content>
@@ -23,7 +23,8 @@
       <ion-card class="ion-padding ion-margin-vertical w100">
         <p>한 줄 일기</p>
         <ion-card-content class="ion-no-padding">
-          <ion-input [disabled]="!aLine" placeholder="오늘의 일기를 녹음 후 편집할 수 있어요" [(ngModel)]="aLine" value="aLine">
+          <!-- <ion-input [disabled]="!aLine" placeholder="오늘의 일기를 녹음 후 편집할 수 있어요" [(ngModel)]="aLine" value="aLine"> -->
+          <ion-input placeholder="오늘의 일기를 녹음 후 편집할 수 있어요" [(ngModel)]="aLine" value="aLine">
           </ion-input>
         </ion-card-content>
       </ion-card>
@@ -32,7 +33,7 @@
       <ion-card class="ion-padding ion-margin-vertical w100">
         <p>오늘의 일기</p>
         <ion-card-content class="ion-no-padding">
-          <ion-list *ngIf="diary.length">
+          <ion-list *ngIf="diary[0].diary">
             <ion-item *ngFor="let sent of diary; let i=index;">
               {{sent.time}}:
               <ion-input [(ngModel)]="diary[i].diary" value="sent.diary"></ion-input>
