@@ -39,6 +39,23 @@ export class JournalCreatorService {
     };
   }
   public createJournal(day: Day = this.getToday) {
+    const data = {
+      message: 'DayDiary',
+      id_mail:'test@test.com',
+      date: `${day.year}-${day.monthIndex+1}-${day.dayNumber}`
+    };
+    this.http.post('http://192.168.31.35:8000/DayDiary/', data, {
+      headers: new HttpHeaders()
+        .set('Content-Type', 'application/json')
+      })
+      .toPromise()
+      .then((res: any) => {
+
+          console.log(res);
+      })
+      .catch(err => {
+        console.log(err);
+      });
     this.modalCtrl.create({
       component: CreateJournalComponent,
       componentProps: {day},

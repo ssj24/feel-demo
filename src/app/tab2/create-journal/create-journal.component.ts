@@ -42,6 +42,7 @@ export class CreateJournalComponent implements OnInit, AfterViewInit {
     this.modalCtrl.dismiss(null, 'cancel');
   }
   onJournalConfirm() {
+    console.log(this.feelings);
     this.modalCtrl.dismiss({
       date: this.day.date,
       dayNumber: this.day.dayNumber,

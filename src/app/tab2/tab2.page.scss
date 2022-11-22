@@ -26,15 +26,15 @@ ion-card-header {
 .text-transparent {
   color: transparent;
 }
-.selectedDate p {
+.selectedDate + p {
   background-color: var(--active-color);
   color: white;
 }
-.selectedDate.first p {
+.selectedDate.first + p {
   border-top-left-radius: 10px;
   border-bottom-left-radius: 10px;
 }
-.selectedDate.last p {
+.selectedDate.last + p {
   border-top-right-radius: 10px;
   border-bottom-right-radius: 10px;
 }

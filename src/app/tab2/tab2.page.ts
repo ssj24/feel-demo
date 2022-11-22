@@ -16,8 +16,6 @@ export class Tab2Page implements OnInit, AfterViewInit {
   @ViewChild('mainCalendar') mainCalendar: ElementRef;
   @ViewChildren('eachDays') eachDays: QueryList<ElementRef>;
   @Input() monthNumber: number;
-  public receivedData: {data: any; day: Day};
-  public datadates: Day[] = [];
   public monthDays: Day[];
   public month: string;
   public year: number;
@@ -48,9 +46,101 @@ export class Tab2Page implements OnInit, AfterViewInit {
           'a'
       ],
       recording: {}
-  }
+    },
+    {
+      date: null,
+      dayNumber: 2,
+      year: 2022,
+      monthIndex: 10,
+      weekDayNumber: 3,
+      feelings: [
+          'upset',
+          'depressed',
+          'none'
+      ],
+      aLine: 'hihihihi',
+      diary: [
+          {
+              time: 0,
+              sentence: ''
+          }
+      ],
+      keywords: [
+          'a'
+      ],
+      recording: {}
+    },
+    {
+      date: null,
+      dayNumber: 9,
+      year: 2022,
+      monthIndex: 10,
+      weekDayNumber: 3,
+      feelings: [
+          'happy',
+          'none',
+          'none'
+      ],
+      aLine: 'hihihihi',
+      diary: [
+          {
+              time: 0,
+              sentence: ''
+          }
+      ],
+      keywords: [
+          'a'
+      ],
+      recording: {}
+    },
+    {
+      date: null,
+      dayNumber: 10,
+      year: 2022,
+      monthIndex: 10,
+      weekDayNumber: 4,
+      feelings: [
+          'lonely',
+          'soso',
+          'sad'
+      ],
+      aLine: 'hihihihi',
+      diary: [
+          {
+              time: 0,
+              sentence: ''
+          }
+      ],
+      keywords: [
+          'a'
+      ],
+      recording: {}
+    },
+    {
+      date: null,
+      dayNumber: 13,
+      year: 2022,
+      monthIndex: 10,
+      weekDayNumber: 7,
+      feelings: [
+          'surprise',
+          'not_good',
+          'uneasy'
+      ],
+      aLine: 'hihihihi',
+      diary: [
+          {
+              time: 0,
+              sentence: ''
+          }
+      ],
+      keywords: [
+          'a'
+      ],
+      recording: {}
+    },
   ];
-  public isSetting = false;
+  public isPickerOpen = false;
   constructor(public calendarCreator: CalendarCreatorService,
               public feeling: FeelingService,
               private renderer: Renderer2,
@@ -58,38 +148,47 @@ export class Tab2Page implements OnInit, AfterViewInit {
               private domCtrl: DomController,
               private journalService: JournalCreatorService) {
                 journalService.getJournalData$.subscribe(data => {
-                  console.log('tab2.constructor',data);
                   const newDay: Day = data as Day;
+                  console.log('tab2.constructor',newDay.feelings);
                   const target = this.monthDays.findIndex(x => x.year === newDay.year && x.monthIndex === newDay.monthIndex && x.dayNumber === newDay.dayNumber);
                   if (target) {
                     this.monthDays[target] = newDay;
                   } else {
                     console.log('journalService got error');
+                  };
+                  // console.log(this.monthData[target]);
+                  const targetData = this.monthData.findIndex(x => x.year === newDay.year && x.monthIndex === newDay.monthIndex && x.dayNumber === newDay.dayNumber);
+                  if (targetData) {
+                    this.monthData[targetData] = newDay;
+                  } else {
+                    this.monthData.push(newDay);
                   }
-                  // const targetDay = this.daysArray[newDay.dayNumber].nativeElement;
-                  // this.setData(targetDay);
+                  const targetDay = this.daysArray[newDay.dayNumber].nativeElement;
+                  this.setData(targetDay);
                 });
               }
   ngOnInit(): void {
     this.setMonthDays(this.calendarCreator.getCurrentMonth());
+    this.dataToDays();
+
   }
 
   ionViewDidEnter(){
     // month data 받아온 걸  monthdays에 엎어씌워야 함
 
-    this.eachDaysSet();
     // this.setStreak();
 
   }
 
   ngAfterViewInit(): void { // viewchild data binding
-    this.dataToDays();
     this.daysArray = this.eachDays.toArray();
+    this.eachDaysSet();
     this.eachDays.changes.subscribe((r) => {
+      console.log('afterviewinit, subscribe');
       setTimeout(() => {
         this.daysArray = this.eachDays.toArray();
         this.eachDaysSet();
-      }, 10);
+      }, 0);
     });
     const swipeGesture = this.gestureCtrl.create({
       el: document.querySelector('.mainCalendar'),
@@ -158,6 +257,8 @@ export class Tab2Page implements OnInit, AfterViewInit {
     }
 
     this.setMonthDays(this.calendarCreator.getMonth(this.monthNumber, this.year));
+    this.dataToDays();
+
   }
 
   onPreviousMonth(): void{
@@ -169,6 +270,8 @@ export class Tab2Page implements OnInit, AfterViewInit {
     }
 
     this.setMonthDays(this.calendarCreator.getMonth(this.monthNumber, this.year));
+    this.dataToDays();
+
   }
 
   dayClicked(e: Event, clickedDay: Day) {
@@ -180,6 +283,7 @@ export class Tab2Page implements OnInit, AfterViewInit {
       this.setData(i.nativeElement);
     }
     this.setToday();
+    this.setStreak();
   }
 
   setToday(): void {
@@ -189,28 +293,24 @@ export class Tab2Page implements OnInit, AfterViewInit {
   }
 
   setStreak(): void {
-    const data = this.monthData.sort((a, b) => b.dayNumber - a.dayNumber); // 30~17
-    let minNumber = data[0].dayNumber;
-    for (let i=1; i<data.length; i++) {
-      minNumber--;
-      if (data[i].dayNumber !== minNumber) {break;}
+    const data = [...this.monthData].sort((a, b) => b.dayNumber - a.dayNumber); // 30~17
+    if(this.year === data[0].year && this.monthNumber === data[0].monthIndex) {
+      let minNumber = data[0].dayNumber;
+      for (let i=1; i<data.length; i++) {
+        minNumber--;
+        if (data[i].dayNumber !== minNumber) {break;}
+      }
+      const maxNumber = data[0].dayNumber;
+      for (let i = minNumber + 1; i<=maxNumber; i++) {
+        if (i === minNumber + 1) {
+          document.getElementById(`date${i}`).classList.add('first');
+        }
+        if (i === maxNumber) {
+          document.getElementById(`date${i}`).classList.add('last');
+        }
+        document.getElementById(`date${i}`).classList.add('selectedDate');
     }
-    const maxNumber = data[0].dayNumber;
-    for (let i = minNumber + 1; i<=maxNumber; i++) {
-      document.getElementById(`date${i}`).classList.add('selectedDate');
     }
-    // const lastFeeling = this.datadates.reduce((prev, cur) =>  max(prev, cur);)
-    // dayDiv.classList.add('selectedDate');
-    //   if (!dayDiv.previousElementSibling || !dayDiv.previousElementSibling.classList.contains('selectedDate')) {
-    //     dayDiv.classList.add('first');
-    //   } else if (dayDiv.previousElementSibling && dayDiv.previousElementSibling.classList.contains('selectedDate')) {
-    //     dayDiv.previousElementSibling.classList.remove('last');
-    //   }
-    //   if (!dayDiv.nextElementSibling || !dayDiv.nextElementSibling.classList.contains('selectedDate')) {
-    //     dayDiv.classList.add('last');
-    //   } else if (dayDiv.nextElementSibling && dayDiv.nextElementSibling.classList.contains('selectedDate')) {
-    //     dayDiv.nextElementSibling.classList.remove('first');
-    //   }
   }
   setData(dayDiv: HTMLElement, monthData = this.monthDays): void {
     const targetDiv = dayDiv.children[0] as HTMLElement;
@@ -228,10 +328,13 @@ export class Tab2Page implements OnInit, AfterViewInit {
     }
 
   }
+  onYearClicked() {
+    this.isPickerOpen = true;
+  }
   private setMonthDays(days: Day[]): void {
     this.monthDays = days;
-    this.monthNumber = this.monthDays[0].monthIndex;
-    this.month = this.calendarCreator.getMonthName(this.monthNumber);
-    this.year = this.monthDays[0].year;
+    this.monthNumber = days[10].monthIndex;
+    this.month = this.calendarCreator.getMonthName(days[10].monthIndex);
+    this.year = days[10].year;
   }
 }
