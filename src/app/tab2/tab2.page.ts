@@ -35,7 +35,7 @@ export class Tab2Page implements OnInit, AfterViewInit {
           'soso',
           'good'
       ],
-      aLine: 'hihihihi',
+      summary: 'hihihihi',
       diary: [
           {
               time: 0,
@@ -58,7 +58,7 @@ export class Tab2Page implements OnInit, AfterViewInit {
           'depressed',
           'none'
       ],
-      aLine: 'hihihihi',
+      summary: 'hihihihi',
       diary: [
           {
               time: 0,
@@ -81,7 +81,7 @@ export class Tab2Page implements OnInit, AfterViewInit {
           'none',
           'none'
       ],
-      aLine: 'hihihihi',
+      summary: 'hihihihi',
       diary: [
           {
               time: 0,
@@ -104,7 +104,7 @@ export class Tab2Page implements OnInit, AfterViewInit {
           'soso',
           'sad'
       ],
-      aLine: 'hihihihi',
+      summary: 'hihihihi',
       diary: [
           {
               time: 0,
@@ -127,7 +127,7 @@ export class Tab2Page implements OnInit, AfterViewInit {
           'not_good',
           'uneasy'
       ],
-      aLine: 'hihihihi',
+      summary: 'hihihihi',
       diary: [
           {
               time: 0,
@@ -157,26 +157,26 @@ export class Tab2Page implements OnInit, AfterViewInit {
                     console.log('journalService got error');
                   };
                   // console.log(this.monthData[target]);
-                  const targetData = this.monthData.findIndex(x => x.year === newDay.year && x.monthIndex === newDay.monthIndex && x.dayNumber === newDay.dayNumber);
+                  const targetData = this.monthDays.findIndex(x => x.year === newDay.year && x.monthIndex === newDay.monthIndex && x.dayNumber === newDay.dayNumber);
                   if (targetData) {
-                    this.monthData[targetData] = newDay;
+                    this.monthDays[targetData] = newDay;
                   } else {
-                    this.monthData.push(newDay);
+                    this.monthDays.push(newDay);
                   }
                   const targetDay = this.daysArray[newDay.dayNumber].nativeElement;
                   this.setData(targetDay);
+                  this.setStreak();
                 });
               }
   ngOnInit(): void {
     this.setMonthDays(this.calendarCreator.getCurrentMonth());
-    this.dataToDays();
+    // this.dataToDays();
 
   }
 
   ionViewDidEnter(){
     // month data 받아온 걸  monthdays에 엎어씌워야 함
 
-    // this.setStreak();
 
   }
 
@@ -237,7 +237,7 @@ export class Tab2Page implements OnInit, AfterViewInit {
     }, true);
 
     // Don't forget to enable!
-    swipeGesture.enable(true);
+    // swipeGesture.enable(true);
   }
 
   dataToDays(): void {
@@ -256,8 +256,8 @@ export class Tab2Page implements OnInit, AfterViewInit {
       this.year++;
     }
 
-    this.setMonthDays(this.calendarCreator.getMonth(this.monthNumber, this.year));
-    this.dataToDays();
+    this.setMonthDays(this.calendarCreator.getCurrentMonth(this.monthNumber, this.year));
+    // this.dataToDays();
 
   }
 
@@ -269,11 +269,14 @@ export class Tab2Page implements OnInit, AfterViewInit {
       this.year--;
     }
 
-    this.setMonthDays(this.calendarCreator.getMonth(this.monthNumber, this.year));
-    this.dataToDays();
+    this.setMonthDays(this.calendarCreator.getCurrentMonth(this.monthNumber, this.year));
+    // this.dataToDays();
 
   }
-
+  monthChanged(e: CustomEvent) {
+    const newDate = new Date(e.detail.value);
+    this.setMonthDays(this.calendarCreator.getCurrentMonth(newDate.getMonth(), newDate.getFullYear()));
+  }
   dayClicked(e: Event, clickedDay: Day) {
     this.journalService.createJournal(clickedDay);
   }
@@ -283,7 +286,7 @@ export class Tab2Page implements OnInit, AfterViewInit {
       this.setData(i.nativeElement);
     }
     this.setToday();
-    this.setStreak();
+    // this.setStreak();
   }
 
   setToday(): void {
@@ -293,7 +296,18 @@ export class Tab2Page implements OnInit, AfterViewInit {
   }
 
   setStreak(): void {
-    const data = [...this.monthData].sort((a, b) => b.dayNumber - a.dayNumber); // 30~17
+    const filteredDays = [...this.monthDays].filter(x => {
+      let noneCount = 0;
+      for (const i of x.feelings) {
+        if (i === 'none') {
+          noneCount++;
+        }
+      }
+      if (noneCount === 3) {return false;}
+      if (x.monthIndex !== this.monthNumber) {return false;}
+      return true;});
+    const data = filteredDays.sort((a, b) => b.dayNumber - a.dayNumber);
+    console.log(data);
     if(this.year === data[0].year && this.monthNumber === data[0].monthIndex) {
       let minNumber = data[0].dayNumber;
       for (let i=1; i<data.length; i++) {
@@ -301,8 +315,8 @@ export class Tab2Page implements OnInit, AfterViewInit {
         if (data[i].dayNumber !== minNumber) {break;}
       }
       const maxNumber = data[0].dayNumber;
-      for (let i = minNumber + 1; i<=maxNumber; i++) {
-        if (i === minNumber + 1) {
+      for (let i = minNumber+1; i<=maxNumber; i++) {
+        if (i === minNumber+1) {
           document.getElementById(`date${i}`).classList.add('first');
         }
         if (i === maxNumber) {
@@ -332,6 +346,7 @@ export class Tab2Page implements OnInit, AfterViewInit {
     this.isPickerOpen = true;
   }
   private setMonthDays(days: Day[]): void {
+    console.log(days);
     this.monthDays = days;
     this.monthNumber = days[10].monthIndex;
     this.month = this.calendarCreator.getMonthName(days[10].monthIndex);

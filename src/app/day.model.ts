@@ -7,7 +7,7 @@ export class Day {
   public weekDayNumber: number;
   public dayNumber: number;
   public feelings: string[];
-  public aLine?: string;
+  public summary?: string;
   public diary?: Diary[];
   public keywords?: string[];
   public recording?: any;

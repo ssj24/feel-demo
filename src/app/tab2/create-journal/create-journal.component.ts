@@ -19,7 +19,7 @@ export class CreateJournalComponent implements OnInit, AfterViewInit {
   public month = '';
   public dayNumber =  1;
   public feelings = ['none', 'none', 'none'];
-  public aLine = '';
+  public summary = '';
   public diary: Diary[] = [];
   public keywords: string[] = [];
 
@@ -31,9 +31,9 @@ export class CreateJournalComponent implements OnInit, AfterViewInit {
     console.log(this.day);
     this.feelings = this.day.feelings.slice(); // copy not reference
     this.month = this.calendarService.getMonthName(this.day.monthIndex);
-    this.aLine = this.day.aLine;
-    this.diary = this.day.diary;
-    this.keywords = this.day.keywords;
+    this.summary = this.day.summary || '';
+    this.diary = this.day.diary || null;
+    this.keywords = this.day.keywords || [];
   }
   ngAfterViewInit() {
 
@@ -50,8 +50,16 @@ export class CreateJournalComponent implements OnInit, AfterViewInit {
       monthIndex: this.day.monthIndex,
       weekDayNumber: this.day.weekDayNumber,
       feelings: this.feelings,
-      aLine: this.aLine,
-      diary: this.diary,
+      summary: this.summary,
+      diary: [{
+        time: 0,
+        sentence: 'diary sample'
+      },
+      {
+        time: 1,
+        sentence: 'diary sample2'
+      },
+      ],
       keywords: this.keywords,
       recording: this.day.recording
     }, 'confirm');

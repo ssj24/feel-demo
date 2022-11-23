@@ -23,8 +23,8 @@
       <ion-card class="ion-padding ion-margin-vertical w100">
         <p>한 줄 일기</p>
         <ion-card-content class="ion-no-padding">
-          <!-- <ion-input [disabled]="!aLine" placeholder="오늘의 일기를 녹음 후 편집할 수 있어요" [(ngModel)]="aLine" value="aLine"> -->
-          <ion-input placeholder="오늘의 일기를 녹음 후 편집할 수 있어요" [(ngModel)]="aLine" value="aLine">
+          <!-- <ion-input [disabled]="!summary" placeholder="오늘의 일기를 녹음 후 편집할 수 있어요" [(ngModel)]="summary" value="summary"> -->
+          <ion-input placeholder="오늘의 일기를 녹음 후 편집할 수 있어요" [(ngModel)]="summary" value="summary">
           </ion-input>
         </ion-card-content>
       </ion-card>
@@ -33,10 +33,10 @@
       <ion-card class="ion-padding ion-margin-vertical w100">
         <p>오늘의 일기</p>
         <ion-card-content class="ion-no-padding">
-          <ion-list *ngIf="diary[0].diary">
+          <ion-list *ngIf="diary">
             <ion-item *ngFor="let sent of diary; let i=index;">
               {{sent.time}}:
-              <ion-input [(ngModel)]="diary[i].diary" value="sent.diary"></ion-input>
+              <ion-input [(ngModel)]="diary[i].sentence" value="sent.diary"></ion-input>
             </ion-item>
           </ion-list>
           <ion-buttons class="ion-justify-content-center">
@@ -60,13 +60,15 @@
       <ion-card class="ion-padding ion-margin-vertical w100">
         <p>키워드</p>
         <span class="dFlex ion-wrap keywordBadges">
-          <ion-badge
-            *ngFor="let word of keywords"
-            (click)="onBadgeClicked(word)"
-            size="large" class="keywordBadge" color="danger"
-            >
-            {{word}}
-          </ion-badge>
+          <span *ngIf="keywords" >
+            <ion-badge
+              *ngFor="let word of keywords"
+              (click)="onBadgeClicked(word)"
+              size="large" class="keywordBadge" color="danger"
+              >
+              {{word}}
+            </ion-badge>
+          </span>
           <ion-icon (click)="onKeywordCreate($event)" class="keywordIcon" name="add-circle" size="large" color="medium"></ion-icon>
         </span>
       </ion-card>

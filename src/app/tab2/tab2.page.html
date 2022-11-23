@@ -27,7 +27,7 @@
           </ion-row>
         </ion-card-header>
         <div class="calendar">
-          <ion-grid *ngIf="!isPickerOpen" >
+          <ion-grid>
             <ion-row class="ion-justify-content-center">
               <ion-col size="11" size-lg="8" size-xl="6">
                 <span *ngFor='let weekDay of weekDaysName' class="day ion-text-center" >
@@ -45,13 +45,15 @@
               </ion-col>
             </ion-row>
           </ion-grid>
-          <ion-grid *ngIf="isPickerOpen">
-            <ion-row class="ion-justify-content-center">
-              <ion-datetime  presentation="month-year"></ion-datetime>
-            </ion-row>
-          </ion-grid>
 
 
+          <ion-popover #popover [isOpen]="isPickerOpen" (didDismiss)="isPickerOpen = false">
+            <ion-grid *ngIf="isPickerOpen">
+              <ion-row class="ion-justify-content-center">
+                <ion-datetime  presentation="month-year" (ionChange)="monthChanged($event)"></ion-datetime>
+              </ion-row>
+            </ion-grid>
+          </ion-popover>
         </div>
 
 

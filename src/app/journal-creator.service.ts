@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable no-underscore-dangle */
 import { EventEmitter, Injectable, Output } from '@angular/core';
@@ -27,7 +28,7 @@ export class JournalCreatorService {
       dayNumber: this._today.getDate(),
       // 이미 오늘 일기가 있으면 그걸 가져와야 되지 않을까?
       feelings: ['none', 'none', 'none'],
-      aLine: '',
+      summary: '',
       diary: [
           {
               time: 0,
@@ -38,61 +39,61 @@ export class JournalCreatorService {
       recording: {},
     };
   }
-  public createJournal(day: Day = this.getToday) {
+  public async createJournal(day: Day = this.getToday) {
     const data = {
       message: 'DayDiary',
       id_mail:'test@test.com',
       date: `${day.year}-${day.monthIndex+1}-${day.dayNumber}`
     };
-    this.http.post('http://192.168.31.35:8000/DayDiary/', data, {
+    await this.http.post('http://192.168.31.35:8000/DayDiary/', data, {
       headers: new HttpHeaders()
         .set('Content-Type', 'application/json')
       })
       .toPromise()
       .then((res: any) => {
+          console.log('createJournal-1',res);
+          day.summary = res.summary;
+          day.diary = JSON.parse(res.diary.replace(/'/g, '"'));
+          day.keywords = JSON.parse(res.keywords.replace(/'/g, '"'));
+          this.modalCtrl.create({
+            component: CreateJournalComponent,
+            componentProps: {day},
+            cssClass: 'diaryModal',
+          }).then (modalEl => {
+            modalEl.present();
+            return modalEl.onDidDismiss();
+          }).then(result => {
+            if (result.role === 'confirm') {
+              this.journalData.next(result.data);
+              const finalData = {
+                message: 'DiarySave',
+                id_mail: 'test@test.com',
+                date: result.data.date,
+                feelings: result.data.feelings,
+                summary: result.data.summary,
+                diary: result.data.diary,
+                keywords: result.data.keywords
+              };
+              console.log(finalData);
+              this.http.post('http://192.168.31.35:8000/DiarySave/', finalData, {
+                headers: new HttpHeaders()
+                  .set('Content-Type', 'application/json')
+                })
+                .toPromise()
+                .then((response: any) => {
 
-          console.log(res);
+                    console.log('createJournal-2',response);
+                })
+                .catch(err => {
+                  console.log(err);
+                });
+            } else {
+              console.log(result);
+          }
+          });
       })
       .catch(err => {
         console.log(err);
       });
-    this.modalCtrl.create({
-      component: CreateJournalComponent,
-      componentProps: {day},
-      cssClass: 'diaryModal',
-    }).then (modalEl => {
-      modalEl.present();
-      return modalEl.onDidDismiss();
-    }).then(result => {
-      if (result.role === 'confirm') {
-        this.journalData.next(result.data);
-        const data = {
-          message: 'DiarySave',
-          DiarySave: {
-            id_mail: 'test@test.com',
-            date: result.data.date,
-            feelings: result.data.feelings,
-            summary: result.data.aLine,
-            diary: result.data.diary,
-            keywords: result.data.keywords
-          }
-        };
-        console.log(data);
-        // this.http.post('https://192.168.31.35/feeling', {data}, {
-        //   headers: new HttpHeaders()
-        //     .set('Content-Type', 'application/json')
-        //   })
-        //   .toPromise()
-        //   .then((res: any) => {
-
-        //       console.log(res);
-        //   })
-        //   .catch(err => {
-        //     console.log(err);
-        //   });
-      } else {
-        console.log(result);
-      }
-    });
-}
+  }
 }
