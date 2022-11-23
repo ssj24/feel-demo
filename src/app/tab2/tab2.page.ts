@@ -23,123 +23,7 @@ export class Tab2Page implements OnInit, AfterViewInit {
   public today = new Date();
   public date = this.today.getDate();
   public daysArray: ElementRef[];
-  public monthData: Day[] = [
-    {
-      date: null,
-      dayNumber: 1,
-      year: 2022,
-      monthIndex: 10,
-      weekDayNumber: 2,
-      feelings: [
-          'happy',
-          'soso',
-          'good'
-      ],
-      summary: 'hihihihi',
-      diary: [
-          {
-              time: 0,
-              sentence: ''
-          }
-      ],
-      keywords: [
-          'a'
-      ],
-      recording: {}
-    },
-    {
-      date: null,
-      dayNumber: 2,
-      year: 2022,
-      monthIndex: 10,
-      weekDayNumber: 3,
-      feelings: [
-          'upset',
-          'depressed',
-          'none'
-      ],
-      summary: 'hihihihi',
-      diary: [
-          {
-              time: 0,
-              sentence: ''
-          }
-      ],
-      keywords: [
-          'a'
-      ],
-      recording: {}
-    },
-    {
-      date: null,
-      dayNumber: 9,
-      year: 2022,
-      monthIndex: 10,
-      weekDayNumber: 3,
-      feelings: [
-          'happy',
-          'none',
-          'none'
-      ],
-      summary: 'hihihihi',
-      diary: [
-          {
-              time: 0,
-              sentence: ''
-          }
-      ],
-      keywords: [
-          'a'
-      ],
-      recording: {}
-    },
-    {
-      date: null,
-      dayNumber: 10,
-      year: 2022,
-      monthIndex: 10,
-      weekDayNumber: 4,
-      feelings: [
-          'lonely',
-          'soso',
-          'sad'
-      ],
-      summary: 'hihihihi',
-      diary: [
-          {
-              time: 0,
-              sentence: ''
-          }
-      ],
-      keywords: [
-          'a'
-      ],
-      recording: {}
-    },
-    {
-      date: null,
-      dayNumber: 13,
-      year: 2022,
-      monthIndex: 10,
-      weekDayNumber: 7,
-      feelings: [
-          'surprise',
-          'not_good',
-          'uneasy'
-      ],
-      summary: 'hihihihi',
-      diary: [
-          {
-              time: 0,
-              sentence: ''
-          }
-      ],
-      keywords: [
-          'a'
-      ],
-      recording: {}
-    },
-  ];
+  public monthData: Day[] = [];
   public isPickerOpen = false;
   constructor(public calendarCreator: CalendarCreatorService,
               public feeling: FeelingService,
@@ -164,14 +48,26 @@ export class Tab2Page implements OnInit, AfterViewInit {
                     this.monthDays.push(newDay);
                   }
                   const targetDay = this.daysArray[newDay.dayNumber].nativeElement;
-                  this.setData(targetDay);
+                  this.setData(newDay, targetDay);
                   this.setStreak();
                 });
               }
   ngOnInit(): void {
     this.setMonthDays(this.calendarCreator.getCurrentMonth());
-    // this.dataToDays();
-
+    this.calendarCreator.getData(this.today.getMonth(), this.today.getFullYear()).subscribe(res => {
+    for (const i of res) {
+      const newDate = new Date(i.date);
+      const newDay = {
+        date: newDate,
+        year: newDate.getFullYear(),
+        monthIndex: newDate.getMonth(),
+        weekDayNumber: newDate.getDay(),
+        dayNumber: newDate.getDate(),
+        feelings: JSON.parse(i.feelings.replace(/'/g, '"')),
+      };
+      this.monthData.push(newDay);
+    }
+    });
   }
 
   ionViewDidEnter(){
@@ -181,11 +77,15 @@ export class Tab2Page implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void { // viewchild data binding
-    this.daysArray = this.eachDays.toArray();
-    this.eachDaysSet();
+    setTimeout(() => {
+      this.dataToDays();
+      this.daysArray = this.eachDays.toArray();
+      this.eachDaysSet();
+    }, 100);
     this.eachDays.changes.subscribe((r) => {
       console.log('afterviewinit, subscribe');
       setTimeout(() => {
+        this.calendarCreator.getData(this.monthNumber, this.year).subscribe(res => console.log('here',res));
         this.daysArray = this.eachDays.toArray();
         this.eachDaysSet();
       }, 0);
@@ -257,7 +157,7 @@ export class Tab2Page implements OnInit, AfterViewInit {
     }
 
     this.setMonthDays(this.calendarCreator.getCurrentMonth(this.monthNumber, this.year));
-    // this.dataToDays();
+    this.dataToDays();
 
   }
 
@@ -270,7 +170,7 @@ export class Tab2Page implements OnInit, AfterViewInit {
     }
 
     this.setMonthDays(this.calendarCreator.getCurrentMonth(this.monthNumber, this.year));
-    // this.dataToDays();
+    this.dataToDays();
 
   }
   monthChanged(e: CustomEvent) {
@@ -282,8 +182,8 @@ export class Tab2Page implements OnInit, AfterViewInit {
   }
 
   eachDaysSet() {
-    for (const i of this.daysArray) {
-      this.setData(i.nativeElement);
+    for (let i=0; i<this.daysArray.length; i++) {
+      this.setData(this.monthDays[i], this.daysArray[i].nativeElement);
     }
     this.setToday();
     // this.setStreak();
@@ -326,9 +226,9 @@ export class Tab2Page implements OnInit, AfterViewInit {
     }
     }
   }
-  setData(dayDiv: HTMLElement, monthData = this.monthDays): void {
+  setData(targetDay: Day, dayDiv: HTMLElement, monthData = this.monthDays): void {
     const targetDiv = dayDiv.children[0] as HTMLElement;
-    const targetData = monthData.find(x => x.year === this.year && x.monthIndex === this.monthNumber && String(x.dayNumber) === dayDiv.children[1].textContent );
+    const targetData = monthData.find(x => x.year === targetDay.year && x.monthIndex === targetDay.monthIndex && String(x.dayNumber) === dayDiv.children[1].textContent );
     if (targetData) {
       let noneCount = 0;
       for (const feeling of targetData.feelings) {

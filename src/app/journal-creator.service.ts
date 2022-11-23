@@ -1,3 +1,4 @@
+import { CalendarCreatorService } from './calendarCreator.service';
 /* eslint-disable max-len */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable no-underscore-dangle */
@@ -18,6 +19,7 @@ export class JournalCreatorService {
   // eslint-disable-next-line @typescript-eslint/member-ordering
   getJournalData$ = this.journalData.asObservable();
   constructor( private modalCtrl: ModalController,
+                private calService: CalendarCreatorService,
                 public http: HttpClient) {}
   get getToday(): Day {
     return {
@@ -43,9 +45,9 @@ export class JournalCreatorService {
     const data = {
       message: 'DayDiary',
       id_mail:'test@test.com',
-      date: `${day.year}-${day.monthIndex+1}-${day.dayNumber}`
+      date: `${day.year}-${day.monthIndex+1}-${day.dayNumber < 10 ? '0'+day.dayNumber : day.dayNumber}`
     };
-    await this.http.post('http://192.168.31.35:8000/DayDiary/', data, {
+    await this.http.post(`/api/DayDiary/`, data, {
       headers: new HttpHeaders()
         .set('Content-Type', 'application/json')
       })
@@ -75,7 +77,7 @@ export class JournalCreatorService {
                 keywords: result.data.keywords
               };
               console.log(finalData);
-              this.http.post('http://192.168.31.35:8000/DiarySave/', finalData, {
+              this.http.post(`/api/DiarySave/`, finalData, {
                 headers: new HttpHeaders()
                   .set('Content-Type', 'application/json')
                 })

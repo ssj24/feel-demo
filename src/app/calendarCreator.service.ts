@@ -7,20 +7,69 @@ import { Day } from './day.model';
 import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { DaySeriesModel } from '@fullcalendar/core';
-
+// ionic serve -- --proxy-config proxy.conf.json
 @Injectable({
   providedIn: 'root'
 })
 export class CalendarCreatorService {
+  public url = 'http://118.67.132.111:8000/';
   private currentYear: number;
   private currentMonthIndex: number;
-
   constructor(public http: HttpClient) {
     const date = new Date();
     this.currentYear = date.getFullYear();
     this.currentMonthIndex = date.getMonth(); // January == 0
   }
 
+  public getData(month: number, year: number) {
+    const nextYear = month === 11 ? year + 1 : year;
+    const nextMonth = month === 11 ? 0 : month + 1;
+    const data = {
+      message: 'MonthDiary',
+      id_mail:'test@test.com',
+      // StartDate: '2022-10-01',
+      // EndDate: '2022-10-31',
+      StartDate: this.getDateFormatted(new Date(year, month, 1)),
+      EndDate: this.getDateFormatted(new Date(nextYear, nextMonth, 0))
+    };
+    return this.http.post<{
+      date: string;
+      feelings: string;
+      id_mail: string;
+    }[]>(`/api/MonthDiary/`, data, {
+      headers: new HttpHeaders()
+        .set('Content-Type', 'application/json')
+    });
+      // .pipe(
+      //   map(res => {
+      //     console.log(res);
+      //     return res;
+      //   }),
+      //   tap(res => {
+      //     // this.recipeService.setRecipes(res);
+      //   })
+      // );
+      // .toPromise();
+      // .then((res) => {
+      //   console.log(res);
+      //   for (const i of res) {
+      //     const newDate = new Date(i.date);
+      //     const newDay = {
+      //       date: newDate,
+      //       year: newDate.getFullYear(),
+      //       monthIndex: newDate.getMonth(),
+      //       weekDayNumber: newDate.getDay(),
+      //       dayNumber: newDate.getDate(),
+      //       feelings: i.feelings,
+      //     };
+      //     days.push(newDay);
+      //   }
+      //   return days;
+      // })
+      // .catch(err => {
+      //   console.log(err);
+      // });
+  }
   public getCurrentMonth(month: number = this.currentMonthIndex, year: number = this.currentYear): Day[] {
     const data = this.getMonth(month, year);
     const sampleRes = [
@@ -200,19 +249,7 @@ export class CalendarCreatorService {
           feelings: ['none', 'none', 'none']
       }
     ];
-    const days: Day[] = [];
-    for (const i of sampleRes) {
-      const newDate = new Date(i.date);
-      const newDay = {
-        date: newDate,
-        year: newDate.getFullYear(),
-        monthIndex: newDate.getMonth(),
-        weekDayNumber: newDate.getDay(),
-        dayNumber: newDate.getDate(),
-        feelings: i.feelings,
-      };
-      days.push(newDay);
-    }
+
     // console.log(days);
     return data;
 
@@ -266,243 +303,8 @@ export class CalendarCreatorService {
         curDay++;
       }
     }
-    const data = {
-      message: 'MonthDiary',
-      id_mail:'test@test.com',
-      // StartDate: '2022-10-01',
-      // EndDate: '2022-10-31',
-      StartDate: this.getDateFormatted(new Date(year, monthIndex, 1)),
-      EndDate: this.getDateFormatted(new Date(nextYear, nextMonth, 0))
-    };
-    const responseData = this.http.post<[{
-      id_mail: string;
-      date: string;
-      feelings: string[];
-    }]>('http://192.168.31.35:8000/MonthDiary/', data, {
-      headers: new HttpHeaders()
-        .set('Content-Type', 'application/json')
-    }).toPromise()
-    .then(res => {
-      console.log(res);
-    });
-      // .pipe(
-      //   map(res => {
-      //     console.log(res);
-      //     return res;
-      //   }),
-      //   tap(res => {
-      //     // this.recipeService.setRecipes(res);
-      //   })
-      // );
-      // .toPromise();
-      // .then((res) => {
-      //   console.log(res);
-      //   for (const i of res) {
-      //     const newDate = new Date(i.date);
-      //     const newDay = {
-      //       date: newDate,
-      //       year: newDate.getFullYear(),
-      //       monthIndex: newDate.getMonth(),
-      //       weekDayNumber: newDate.getDay(),
-      //       dayNumber: newDate.getDate(),
-      //       feelings: i.feelings,
-      //     };
-      //     days.push(newDay);
-      //   }
-      //   return days;
-      // })
-      // .catch(err => {
-      //   console.log(err);
-      // });
-    const sampleRes = [
-      {
-          id_mail: 'test@test.com',
-          date: '2022-10-31T07:06:13.029000Z',
-          feelings: ['happy', 'soso', 'good']
-      },
-      {
-          id_mail: 'test@test.com',
-          date: '2022-11-01T07:06:13.029000Z',
-          feelings: ['happy', 'soso', 'good']
-      },
-      {
-          id_mail: 'test@test.com',
-          date: '2022-11-02T07:06:13.029000Z',
-          feelings: ['happy', 'soso', 'good']
-      },
-      {
-          id_mail: 'test@test.com',
-          date: '2022-11-03T07:06:13.029000Z',
-          feelings: ['happy', 'soso', 'good']
-      },
-      {
-          id_mail: 'test@test.com',
-          date: '2022-11-04T07:06:13.029000Z',
-          feelings: ['happy', 'soso', 'good']
-      },
-      {
-          id_mail: 'test@test.com',
-          date: '2022-11-05T07:06:13.029000Z',
-          feelings: ['happy', 'soso', 'good']
-      },
-      {
-          id_mail: 'test@test.com',
-          date: '2022-11-06T07:06:13.029000Z',
-          feelings: ['happy', 'soso', 'good']
-      },
-      {
-          id_mail: 'test@test.com',
-          date: '2022-11-07T07:06:13.029000Z',
-          feelings: ['happy', 'soso', 'good']
-      },
-      {
-          id_mail: 'test@test.com',
-          date: '2022-11-08T07:06:13.029000Z',
-          feelings: ['happy', 'soso', 'good']
-      },
-      {
-          id_mail: 'test@test.com',
-          date: '2022-11-09T07:06:13.029000Z',
-          feelings: ['happy', 'soso', 'good']
-      },
-      {
-          id_mail: 'test@test.com',
-          date: '2022-11-10T07:06:13.029000Z',
-          feelings: ['happy', 'soso', 'good']
-      },
-      {
-          id_mail: 'test@test.com',
-          date: '2022-11-11T07:06:13.029000Z',
-          feelings: ['happy', 'soso', 'good']
-      },
-      {
-          id_mail: 'test@test.com',
-          date: '2022-11-12T07:06:13.029000Z',
-          feelings: ['happy', 'soso', 'good']
-      },
-      {
-          id_mail: 'test@test.com',
-          date: '2022-11-13T07:06:13.029000Z',
-          feelings: ['happy', 'soso', 'good']
-      },
-      {
-          id_mail: 'test@test.com',
-          date: '2022-11-14T07:06:13.029000Z',
-          feelings: ['happy', 'soso', 'good']
-      },
-      {
-          id_mail: 'test@test.com',
-          date: '2022-11-15T07:06:13.029000Z',
-          feelings: ['happy', 'soso', 'good']
-      },
-      {
-          id_mail: 'test@test.com',
-          date: '2022-11-16T07:06:13.029000Z',
-          feelings: ['happy', 'soso', 'good']
-      },
-      {
-          id_mail: 'test@test.com',
-          date: '2022-11-17T07:06:13.029000Z',
-          feelings: ['happy', 'soso', 'good']
-      },
-      {
-          id_mail: 'test@test.com',
-          date: '2022-11-18T07:06:13.029000Z',
-          feelings: ['happy', 'soso', 'good']
-      },
-      {
-          id_mail: 'test@test.com',
-          date: '2022-11-19T07:06:13.029000Z',
-          feelings: ['happy', 'soso', 'good']
-      },
-      {
-          id_mail: 'test@test.com',
-          date: '2022-11-20T07:06:13.029000Z',
-          feelings: ['happy', 'soso', 'good']
-      },
-      {
-          id_mail: 'test@test.com',
-          date: '2022-11-21T07:06:13.029000Z',
-          feelings: ['happy', 'soso', 'good']
-      },
-      {
-          id_mail: 'test@test.com',
-          date: '2022-11-22T07:06:13.029000Z',
-          feelings: ['happy', 'soso', 'good']
-      },
-      {
-          id_mail: 'test@test.com',
-          date: '2022-11-23T07:06:13.029000Z',
-          feelings: ['happy', 'soso', 'good']
-      },
-      {
-          id_mail: 'test@test.com',
-          date: '2022-11-24T07:06:13.029000Z',
-          feelings: ['happy', 'soso', 'good']
-      },
-      {
-          id_mail: 'test@test.com',
-          date: '2022-11-25T07:06:13.029000Z',
-          feelings: ['happy', 'soso', 'good']
-      },
-      {
-          id_mail: 'test@test.com',
-          date: '2022-11-26T07:06:13.029000Z',
-          feelings: ['happy', 'soso', 'good']
-      },
-      {
-          id_mail: 'test@test.com',
-          date: '2022-11-27T07:06:13.029000Z',
-          feelings: ['happy', 'soso', 'good']
-      },
-      {
-          id_mail: 'test@test.com',
-          date: '2022-11-28T07:06:13.029000Z',
-          feelings: ['happy', 'soso', 'good']
-      },
-      {
-          id_mail: 'test@test.com',
-          date: '2022-11-29T07:06:13.029000Z',
-          feelings: ['happy', 'soso', 'good']
-      },
-      {
-          id_mail: 'test@test.com',
-          date: '2022-11-30T07:06:13.029000Z',
-          feelings: ['happy', 'soso', 'good']
-      },
-      {
-          id_mail: 'test@test.com',
-          date: '2022-12-01T07:06:13.029000Z',
-          feelings: ['happy', 'soso', 'good']
-      },
-      {
-          id_mail: 'test@test.com',
-          date: '2022-12-02T07:06:13.029000Z',
-          feelings: ['happy', 'soso', 'good']
-      },
-      {
-          id_mail: 'test@test.com',
-          date: '2022-12-03T07:06:13.029000Z',
-          feelings: ['happy', 'soso', 'good']
-      },
-      {
-          id_mail: 'test@test.com',
-          date: '2022-12-04T07:06:13.029000Z',
-          feelings: ['happy', 'soso', 'good']
-      }
-    ];
-    // for (const i of response) {
-    //       const newDate = new Date(i.date);
-    //       const newDay = {
-    //         date: newDate,
-    //         year: newDate.getFullYear(),
-    //         monthIndex: newDate.getMonth(),
-    //         weekDayNumber: newDate.getDay(),
-    //         dayNumber: newDate.getDate(),
-    //         feelings: i.feelings,
-    //       };
-    //       days.push(newDay);
-    //     }
+
+
     return days;
   }
 
