@@ -38,11 +38,13 @@ export class CreateJournalComponent implements OnInit, AfterViewInit {
   ngAfterViewInit() {
 
   }
+
   onCancel() {
     this.modalCtrl.dismiss(null, 'cancel');
   }
+
   onJournalConfirm() {
-    console.log(this.feelings);
+    console.log('journalConfirm-feelings',this.feelings);
     this.modalCtrl.dismiss({
       date: this.day.date,
       dayNumber: this.day.dayNumber,
@@ -64,6 +66,7 @@ export class CreateJournalComponent implements OnInit, AfterViewInit {
       recording: this.day.recording
     }, 'confirm');
   }
+
   onRecording() {
     this.modalCtrl.create({
       component: RecordingComponent,
@@ -77,6 +80,12 @@ export class CreateJournalComponent implements OnInit, AfterViewInit {
       console.log('result');
     });
   }
+
+  writeDiary(el: HTMLTextAreaElement) {
+    console.log(el);
+    console.log('ggg');
+  }
+
   onSetFeeling(e: Event, i: number) {
     this.popoverCtrl.create({
       component: SetFeelingComponent,

@@ -3,11 +3,12 @@ import { CalendarCreatorService } from './calendarCreator.service';
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable no-underscore-dangle */
 import { EventEmitter, Injectable, Output } from '@angular/core';
-import { ModalController } from '@ionic/angular';
+import { ModalController, ToastController } from '@ionic/angular';
 import { CreateJournalComponent } from './tab2/create-journal/create-journal.component';
 import { Day } from './day.model';
 import { Subject } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { stringify } from 'querystring';
 
 @Injectable({
   providedIn: 'root'
@@ -19,8 +20,9 @@ export class JournalCreatorService {
   // eslint-disable-next-line @typescript-eslint/member-ordering
   getJournalData$ = this.journalData.asObservable();
   constructor( private modalCtrl: ModalController,
-                private calService: CalendarCreatorService,
-                public http: HttpClient) {}
+              private toastCtrl: ToastController,
+              private calService: CalendarCreatorService,
+              public http: HttpClient) {}
   get getToday(): Day {
     return {
       date: this._today,
@@ -41,61 +43,112 @@ export class JournalCreatorService {
       recording: {},
     };
   }
-  public async createJournal(day: Day = this.getToday) {
-    const data = {
-      message: 'DayDiary',
-      id_mail:'test@test.com',
-      date: `${day.year}-${day.monthIndex+1}-${day.dayNumber < 10 ? '0'+day.dayNumber : day.dayNumber}`
-    };
-    await this.http.post(`/api/DayDiary/`, data, {
-      headers: new HttpHeaders()
-        .set('Content-Type', 'application/json')
-      })
-      .toPromise()
-      .then((res: any) => {
-          console.log('createJournal-1',res);
-          day.summary = res.summary;
-          day.diary = JSON.parse(res.diary.replace(/'/g, '"'));
-          day.keywords = JSON.parse(res.keywords.replace(/'/g, '"'));
-          this.modalCtrl.create({
-            component: CreateJournalComponent,
-            componentProps: {day},
-            cssClass: 'diaryModal',
-          }).then (modalEl => {
-            modalEl.present();
-            return modalEl.onDidDismiss();
-          }).then(result => {
-            if (result.role === 'confirm') {
-              this.journalData.next(result.data);
-              const finalData = {
-                message: 'DiarySave',
-                id_mail: 'test@test.com',
-                date: result.data.date,
-                feelings: result.data.feelings,
-                summary: result.data.summary,
-                diary: result.data.diary,
-                keywords: result.data.keywords
-              };
-              console.log(finalData);
-              this.http.post(`/api/DiarySave/`, finalData, {
-                headers: new HttpHeaders()
-                  .set('Content-Type', 'application/json')
-                })
-                .toPromise()
-                .then((response: any) => {
+  public createJournal(day: Day = this.getToday) {
+    this.modalCtrl.create({
+                component: CreateJournalComponent,
+                componentProps: {day},
+                cssClass: 'diaryModal',
+              }).then (modalEl => {
+                modalEl.present();
+                return modalEl.onDidDismiss();
+              }).then(result => {
+                if (result.role === 'confirm') {
+                  this.journalData.next(result.data);
+                  const finalData = {
+                    message: 'DiarySave',
+                    id_mail: 'test@test.com',
+                    date: result.data.date,
+                    feelings: result.data.feelings,
+                    summary: result.data.summary,
+                    diary: result.data.diary,
+                    keywords: result.data.keywords
+                  };
+                  console.log('finalData feelings', finalData.feelings);
+  }});
+  }
+  // public async createJournal(day: Day = this.getToday) {
+  //   const data = {
+  //     message: 'DayDiary',
+  //     id_mail:'test@test.com',
+  //     date: day.date.toLocaleDateString,
+  //     // date: `${day.year}-${day.monthIndex < 9 ? '0'+String(day.monthIndex+1) : day.monthIndex+1}-${day.dayNumber < 10 ? '0'+String(day.dayNumber) : day.dayNumber}`
+  //   };
+  //   await this.http.post(`/api/DayDiary/`, data, {
+  //     headers: new HttpHeaders()
+  //       .set('Content-Type', 'application/json')
+  //     })
+  //     .toPromise()
+  //     .then((res: any) => {
+  //         console.log('createJournal-1',res);
+  //         if (res !== 'DataNotExist') {
+  //           day.feelings = JSON.parse(res.feelings.replace(/'/g, '"'));
+  //           day.summary = res.summary;
+  //           day.diary = JSON.parse(res.diary.replace(/'/g, '"'));
+  //           day.keywords = JSON.parse(res.keywords.replace(/'/g, '"'));
+  //         }
+  //         this.modalCtrl.create({
+  //           component: CreateJournalComponent,
+  //           componentProps: {day},
+  //           cssClass: 'diaryModal',
+  //         }).then (modalEl => {
+  //           modalEl.present();
+  //           return modalEl.onDidDismiss();
+  //         }).then(result => {
+  //           if (result.role === 'confirm') {
+  //             this.journalData.next(result.data);
+  //             const finalData = {
+  //               message: 'DiarySave',
+  //               id_mail: 'test@test.com',
+  //               date: result.data.date,
+  //               feelings: result.data.feelings,
+  //               summary: result.data.summary,
+  //               diary: result.data.diary,
+  //               keywords: result.data.keywords
+  //             };
+  //             console.log('finalData feelings', finalData.feelings);
+  //             this.http.post(`/api/DiarySave/`, finalData, {
+  //               headers: new HttpHeaders()
+  //                 .set('Content-Type', 'application/json')
+  //               })
+  //               .toPromise()
+  //               .then((response: any) => {
 
-                    console.log('createJournal-2',response);
-                })
-                .catch(err => {
-                  console.log(err);
-                });
-            } else {
-              console.log(result);
-          }
-          });
-      })
-      .catch(err => {
-        console.log(err);
-      });
+  //                   console.log('createJournal-2',response);
+  //                   this.presentToast('감정 적립', day);
+
+  //               })
+  //               .catch(err => {
+  //                 this.presentToast('감정 적립 실패');
+
+  //                 console.log(err);
+
+  //               });
+  //           } else {
+  //             console.log(result);
+  //         }
+  //         });
+  //     })
+  //     .catch(err => {
+  //       console.log(err);
+  //     });
+  // }
+
+
+  public async presentToast(msg: string, day?: Day) {
+    const toast = await this.toastCtrl.create({
+      message: `
+      <p class="ion-text-center">
+      ${day.year}년 ${day.monthIndex + 1}월 ${day.dayNumber}일의
+      ${msg}
+      </p>
+      `,
+      duration: 2000,
+      cssClass: 'journalToast'
+    });
+
+    await toast.present();
+
+    const { role } = await toast.onDidDismiss();
+    // this.roleMessage = `Dismissed with role: ${role}`;
   }
 }

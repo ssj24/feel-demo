@@ -25,6 +25,13 @@
               </ion-list>
             </ion-col> -->
           </ion-row>
+          <ion-popover class="marginAuto" #popover [isOpen]="isPickerOpen" (didDismiss)="isPickerOpen = false">
+            <ion-grid *ngIf="isPickerOpen">
+              <ion-row class="ion-justify-content-center">
+                <ion-datetime  presentation="month-year" (ionChange)="monthChanged($event)"></ion-datetime>
+              </ion-row>
+            </ion-grid>
+          </ion-popover>
         </ion-card-header>
         <div class="calendar">
           <ion-grid>
@@ -38,22 +45,16 @@
             <ion-row class="mainCalendar">
               <ion-col size="11" size-lg="8" size-xl="6">
 
-                <div #eachDays *ngFor='let day of monthDays' (click)="dayClicked($event, day)" class="date" [class.text-transparent]="!day.dayNumber">
-                  <div class="imgContainer" [class.ion-hide]="!day.dayNumber" [id]="'date'+day.dayNumber"></div>
-                  <p>{{ day.dayNumber ? day.dayNumber : '' }}</p>
+                <div #eachDays *ngFor='let day of monthDays' (click)="dayClicked($event, day)" class="date">
+                  <div class="imgContainer" [id]="'date'+day.dayNumber"></div>
+                  <p>{{ day.dayNumber }}</p>
                 </div>
               </ion-col>
             </ion-row>
           </ion-grid>
 
 
-          <ion-popover #popover [isOpen]="isPickerOpen" (didDismiss)="isPickerOpen = false">
-            <ion-grid *ngIf="isPickerOpen">
-              <ion-row class="ion-justify-content-center">
-                <ion-datetime  presentation="month-year" (ionChange)="monthChanged($event)"></ion-datetime>
-              </ion-row>
-            </ion-grid>
-          </ion-popover>
+
         </div>
 
 

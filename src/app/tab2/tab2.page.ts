@@ -34,12 +34,6 @@ export class Tab2Page implements OnInit, AfterViewInit {
                 journalService.getJournalData$.subscribe(data => {
                   const newDay: Day = data as Day;
                   console.log('tab2.constructor',newDay.feelings);
-                  const target = this.monthDays.findIndex(x => x.year === newDay.year && x.monthIndex === newDay.monthIndex && x.dayNumber === newDay.dayNumber);
-                  if (target) {
-                    this.monthDays[target] = newDay;
-                  } else {
-                    console.log('journalService got error');
-                  };
                   // console.log(this.monthData[target]);
                   const targetData = this.monthDays.findIndex(x => x.year === newDay.year && x.monthIndex === newDay.monthIndex && x.dayNumber === newDay.dayNumber);
                   if (targetData) {
@@ -49,34 +43,27 @@ export class Tab2Page implements OnInit, AfterViewInit {
                   }
                   const targetDay = this.daysArray[newDay.dayNumber].nativeElement;
                   this.setData(newDay, targetDay);
-                  this.setStreak();
+                  // this.setStreak();
                 });
               }
   ngOnInit(): void {
+    console.log('oninit');
+
     this.setMonthDays(this.calendarCreator.getCurrentMonth());
-    this.calendarCreator.getData(this.today.getMonth(), this.today.getFullYear()).subscribe(res => {
-    for (const i of res) {
-      const newDate = new Date(i.date);
-      const newDay = {
-        date: newDate,
-        year: newDate.getFullYear(),
-        monthIndex: newDate.getMonth(),
-        weekDayNumber: newDate.getDay(),
-        dayNumber: newDate.getDate(),
-        feelings: JSON.parse(i.feelings.replace(/'/g, '"')),
-      };
-      this.monthData.push(newDay);
-    }
-    });
+    // this.getData();
+
   }
 
   ionViewDidEnter(){
     // month data 받아온 걸  monthdays에 엎어씌워야 함
+    console.log('ionViewDidEnter');
 
 
   }
 
   ngAfterViewInit(): void { // viewchild data binding
+    console.log('ngAfterViewInit');
+
     setTimeout(() => {
       this.dataToDays();
       this.daysArray = this.eachDays.toArray();
@@ -85,10 +72,10 @@ export class Tab2Page implements OnInit, AfterViewInit {
     this.eachDays.changes.subscribe((r) => {
       console.log('afterviewinit, subscribe');
       setTimeout(() => {
-        this.calendarCreator.getData(this.monthNumber, this.year).subscribe(res => console.log('here',res));
+        // this.getData(this.monthNumber, this.year);
         this.daysArray = this.eachDays.toArray();
         this.eachDaysSet();
-      }, 0);
+      }, 10);
     });
     const swipeGesture = this.gestureCtrl.create({
       el: document.querySelector('.mainCalendar'),
@@ -139,14 +126,42 @@ export class Tab2Page implements OnInit, AfterViewInit {
     // Don't forget to enable!
     // swipeGesture.enable(true);
   }
-
+  getData(month: number = this.today.getMonth(), year: number = this.today.getFullYear()) {
+    console.log('getdata entered');
+    this.calendarCreator.getData(month, year).subscribe(res => {
+      console.log('getdata',month, year,res);
+      for (const i of res) {
+        const newDate = new Date(i.date);
+        console.log(newDate);
+        const newDay = {
+          date: newDate,
+          year: newDate.getFullYear(),
+          monthIndex: newDate.getMonth(),
+          weekDayNumber: newDate.getDay(),
+          dayNumber: newDate.getDate(),
+          feelings: JSON.parse(i.feelings.replace(/'/g, '"')),
+        };
+        this.monthData.push(newDay);
+      }
+      console.log('getDatabottom',this.monthData);
+    });
+  }
   dataToDays(): void {
-    for (const day of this.monthDays) {
-      const targetData = this.monthData.find(x => x.year === day.year && x.monthIndex === day.monthIndex && x.dayNumber === day.dayNumber);
-      if (targetData) {
-        day.feelings = targetData.feelings;
+    // for (const day of this.monthDays) {
+    //   const targetData = this.monthData.find(x =>  x.dayNumber === day.dayNumber && x.year === day.year && x.monthIndex === day.monthIndex);
+    //   if (targetData) {
+    //     console.log(day.year, targetData.year, day.monthIndex, targetData.monthIndex, day.dayNumber, targetData.dayNumber, targetData.feelings);
+    //     day.feelings = targetData.feelings;
+    //   }
+    // }
+    for (const data of this.monthData) {
+      const targetDay = this.monthDays.findIndex(x =>  x.dayNumber === data.dayNumber && x.year === data.year && x.monthIndex === data.monthIndex);
+      if (targetDay >= 0) {
+        this.monthDays[targetDay].feelings = data.feelings;
+        console.log(targetDay, data.year, this.monthDays[targetDay].year, data.monthIndex, this.monthDays[targetDay].monthIndex, data.dayNumber, this.monthDays[targetDay].dayNumber, this.monthDays[targetDay].feelings);
       }
     }
+    console.log('datatodays', this.monthDays);
   }
 
   onNextMonth(): void {
@@ -173,11 +188,14 @@ export class Tab2Page implements OnInit, AfterViewInit {
     this.dataToDays();
 
   }
-  monthChanged(e: CustomEvent) {
-    const newDate = new Date(e.detail.value);
+  monthChanged(e: Event) {
+    const ev = e as CustomEvent;
+    const newDate = new Date(ev.detail.value);
     this.setMonthDays(this.calendarCreator.getCurrentMonth(newDate.getMonth(), newDate.getFullYear()));
+    this.dataToDays();
   }
   dayClicked(e: Event, clickedDay: Day) {
+    console.log(e, clickedDay);
     this.journalService.createJournal(clickedDay);
   }
 
@@ -227,18 +245,19 @@ export class Tab2Page implements OnInit, AfterViewInit {
     }
   }
   setData(targetDay: Day, dayDiv: HTMLElement, monthData = this.monthDays): void {
+    console.log('setdata');
     const targetDiv = dayDiv.children[0] as HTMLElement;
-    const targetData = monthData.find(x => x.year === targetDay.year && x.monthIndex === targetDay.monthIndex && String(x.dayNumber) === dayDiv.children[1].textContent );
-    if (targetData) {
+    const targetData = monthData.findIndex(x => x.year === targetDay.year && x.monthIndex === targetDay.monthIndex && String(x.dayNumber) === dayDiv.children[1].textContent );
+    if (targetData >= 0) {
       let noneCount = 0;
-      for (const feeling of targetData.feelings) {
+      for (const feeling of monthData[targetData].feelings) {
         if (feeling === 'none') { noneCount++; }
       }
       if (noneCount === 2) { targetDiv.classList.add('singleContainer'); targetDiv.classList.remove('doubleContainer'); targetDiv.classList.remove('tripleContainer');}
       else if (noneCount === 1) {targetDiv.classList.add('doubleContainer'); targetDiv.classList.remove('singleContainer'); targetDiv.classList.remove('tripleContainer');}
       else if (noneCount === 0) {targetDiv.classList.add('tripleContainer'); targetDiv.classList.remove('doubleContainer'); targetDiv.classList.remove('singleContainer');}
       else if (noneCount === 3) { targetDiv.classList.remove('singleContainer'); targetDiv.classList.remove('doubleContainer'); targetDiv.classList.remove('tripleContainer');}
-      targetDiv.style.backgroundImage = targetData.feelings.filter(i => i !== 'none').map(i => `url('/assets/feeling/${i}.svg')`).join();
+      targetDiv.style.backgroundImage = monthData[targetData].feelings.filter(i => i !== 'none').map(i => `url('/assets/feeling/${i}.svg')`).join();
     }
 
   }
@@ -246,7 +265,6 @@ export class Tab2Page implements OnInit, AfterViewInit {
     this.isPickerOpen = true;
   }
   private setMonthDays(days: Day[]): void {
-    console.log(days);
     this.monthDays = days;
     this.monthNumber = days[10].monthIndex;
     this.month = this.calendarCreator.getMonthName(days[10].monthIndex);

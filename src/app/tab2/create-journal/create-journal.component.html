@@ -33,14 +33,17 @@
       <ion-card class="ion-padding ion-margin-vertical w100">
         <p>오늘의 일기</p>
         <ion-card-content class="ion-no-padding">
-          <ion-list *ngIf="diary">
+          <ion-list *ngIf="diary else diaryText">
             <ion-item *ngFor="let sent of diary; let i=index;">
               {{sent.time}}:
               <ion-input [(ngModel)]="diary[i].sentence" value="sent.diary"></ion-input>
             </ion-item>
           </ion-list>
+          <ng-template #diaryText>
+            <ion-textarea></ion-textarea>
+          </ng-template>
           <ion-buttons class="ion-justify-content-center">
-            <ion-button fill="solid" color="light">
+            <ion-button (click)="writeDiary(diaryText)" fill="solid" color="light">
               <ion-img src="/assets/write.svg"></ion-img>
               바로 작성하기
             </ion-button>
@@ -50,9 +53,7 @@
             </ion-button>
           </ion-buttons>
 
-          <ng-template>
-            <ion-textarea></ion-textarea>
-          </ng-template>
+
         </ion-card-content>
       </ion-card>
     </ion-row>

@@ -22,15 +22,18 @@ export class CalendarCreatorService {
   }
 
   public getData(month: number, year: number) {
+    console.log('calSvc-getdata entered');
     const nextYear = month === 11 ? year + 1 : year;
     const nextMonth = month === 11 ? 0 : month + 1;
     const data = {
       message: 'MonthDiary',
       id_mail:'test@test.com',
+      StartDate: new Date(year, month, 1).toLocaleDateString(),
+      EndDate: new Date(nextYear, nextMonth, 0).toLocaleDateString(),
       // StartDate: '2022-10-01',
       // EndDate: '2022-10-31',
-      StartDate: this.getDateFormatted(new Date(year, month, 1)),
-      EndDate: this.getDateFormatted(new Date(nextYear, nextMonth, 0))
+      // StartDate: this.getDateFormatted(new Date(year, month, 1)),
+      // EndDate: this.getDateFormatted(new Date(nextYear, nextMonth, 0))
     };
     return this.http.post<{
       date: string;
@@ -266,14 +269,14 @@ export class CalendarCreatorService {
     const countDaysInMonth = new Date(year, monthIndex + 1, 0).getDate(); // if it's monthIndex, we can get days of prvious month
 
     for (let i = 1; i < firstday.weekDayNumber; i++) { // i start from 1 because week's first day is monday(0 => start from sunday)
-      days.unshift({
-        date: new Date(prevYear, prevMonth, prevLastday),
-        year: prevYear,
-        monthIndex: prevMonth,
-        weekDayNumber: i,
-        dayNumber: prevLastday,
-        feelings: ['none', 'none', 'none'],
-      });
+      const newDay = new Day();
+      newDay.date = new Date(prevYear, prevMonth, prevLastday);
+      newDay.year = prevYear;
+      newDay.monthIndex = prevMonth;
+      newDay.weekDayNumber = i;
+      newDay.dayNumber = prevLastday;
+      newDay.feelings = ['none', 'none', 'none'];
+      days.unshift(newDay);
       prevLastday--;
     }
     days.push(firstday);
@@ -282,29 +285,27 @@ export class CalendarCreatorService {
     }
     let curDay = 1;
     for (let i = days[days.length-1].weekDayNumber + 1; i <= 7; i++) {
+      const newDay = new Day();
       if (i === 7) {
-        days.push({
-          date: new Date(nextYear, nextMonth, days[days.length-1].dayNumber+1),
-          year: nextYear,
-          monthIndex: nextMonth,
-          weekDayNumber: 0,
-          dayNumber: curDay,
-          feelings: ['none', 'none', 'none'],
-        });
+        newDay.date = new Date(nextYear, nextMonth, days[days.length-1].dayNumber+1);
+        newDay.year = nextYear;
+        newDay.monthIndex = nextMonth;
+        newDay.weekDayNumber = 0;
+        newDay.dayNumber = curDay;
+        newDay.feelings = ['none', 'none', 'none'];
       } else {
-        days.push({
-          date: new Date(nextYear, nextMonth, curDay),
-          year: nextYear,
-          monthIndex: nextMonth,
-          weekDayNumber: i,
-          dayNumber: curDay,
-          feelings: ['none', 'none', 'none'],
-        });
+        newDay.date = new Date(nextYear, nextMonth, curDay);
+        newDay.year = nextYear;
+        newDay.monthIndex = nextMonth;
+        newDay.weekDayNumber = i;
+        newDay.dayNumber = curDay;
+        newDay.feelings = ['none', 'none', 'none'];
         curDay++;
       }
+      days.push(newDay);
     }
 
-
+    console.log('getmonth',days);
     return days;
   }
 
