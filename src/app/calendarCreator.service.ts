@@ -28,12 +28,12 @@ export class CalendarCreatorService {
     const data = {
       message: 'MonthDiary',
       id_mail:'test@test.com',
-      StartDate: new Date(year, month, 1).toLocaleDateString(),
-      EndDate: new Date(nextYear, nextMonth, 0).toLocaleDateString(),
+      // StartDate: new Date(year, month, 1).toLocaleDateString(),
+      // EndDate: new Date(nextYear, nextMonth, 0).toLocaleDateString(),
       // StartDate: '2022-10-01',
       // EndDate: '2022-10-31',
-      // StartDate: this.getDateFormatted(new Date(year, month, 1)),
-      // EndDate: this.getDateFormatted(new Date(nextYear, nextMonth, 0))
+      StartDate: this.getDateFormatted(new Date(year, month, 1)),
+      EndDate: this.getDateFormatted(new Date(nextYear, nextMonth, 0))
     };
     return this.http.post<{
       date: string;
