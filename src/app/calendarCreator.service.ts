@@ -368,9 +368,17 @@ export class CalendarCreatorService {
       target.feelings = data;
     }
   }
+  public getDateFormatted(date: Date){
+    const year = date.getFullYear();
+    const month = ('0' + (1 + date.getMonth())).slice(-2);
+    const day = ('0' + date.getDate()).slice(-2);
+
+    return `${year}-${month}-${day}`;
+}
 
   private createDay(year: number, monthIndex: number, dayNumber: number) {
     const day = new Day();
+
     day.date = new Date(year, monthIndex, dayNumber);
     day.year = year;
     day.monthIndex = monthIndex;
@@ -378,21 +386,10 @@ export class CalendarCreatorService {
     day.dayNumber = dayNumber;
     day.feelings = ['none', 'none', 'none'];
     day.summary = '';
-    day.diary = [
-        {
-            time: 0,
-            sentence: ''
-        }
-    ];
+    day.diary = [];
     day.keywords = [];
     day.recording = {};
     return day;
   }
-  private getDateFormatted(date: Date){
-    const year = date.getFullYear();
-    const month = ('0' + (1 + date.getMonth())).slice(-2);
-    const day = ('0' + date.getDate()).slice(-2);
 
-    return `${year}-${month}-${day}`;
-}
 }

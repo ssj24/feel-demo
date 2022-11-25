@@ -50,7 +50,7 @@ export class Tab2Page implements OnInit, AfterViewInit {
     console.log('oninit');
 
     this.setMonthDays(this.calendarCreator.getCurrentMonth());
-    // this.getData();
+    this.getData();
 
   }
 
@@ -72,7 +72,7 @@ export class Tab2Page implements OnInit, AfterViewInit {
     this.eachDays.changes.subscribe((r) => {
       console.log('afterviewinit, subscribe');
       setTimeout(() => {
-        // this.getData(this.monthNumber, this.year);
+        this.getData(this.monthNumber, this.year);
         this.daysArray = this.eachDays.toArray();
         this.eachDaysSet();
       }, 10);
@@ -124,7 +124,7 @@ export class Tab2Page implements OnInit, AfterViewInit {
     }, true);
 
     // Don't forget to enable!
-    // swipeGesture.enable(true);
+    swipeGesture.enable(true);
   }
   getData(month: number = this.today.getMonth(), year: number = this.today.getFullYear()) {
     console.log('getdata entered');
@@ -132,7 +132,6 @@ export class Tab2Page implements OnInit, AfterViewInit {
       console.log('getdata',month, year,res);
       for (const i of res) {
         const newDate = new Date(i.date);
-        console.log(newDate);
         const newDay = {
           date: newDate,
           year: newDate.getFullYear(),
@@ -158,7 +157,6 @@ export class Tab2Page implements OnInit, AfterViewInit {
       const targetDay = this.monthDays.findIndex(x =>  x.dayNumber === data.dayNumber && x.year === data.year && x.monthIndex === data.monthIndex);
       if (targetDay >= 0) {
         this.monthDays[targetDay].feelings = data.feelings;
-        console.log(targetDay, data.year, this.monthDays[targetDay].year, data.monthIndex, this.monthDays[targetDay].monthIndex, data.dayNumber, this.monthDays[targetDay].dayNumber, this.monthDays[targetDay].feelings);
       }
     }
     console.log('datatodays', this.monthDays);
@@ -245,7 +243,6 @@ export class Tab2Page implements OnInit, AfterViewInit {
     }
   }
   setData(targetDay: Day, dayDiv: HTMLElement, monthData = this.monthDays): void {
-    console.log('setdata');
     const targetDiv = dayDiv.children[0] as HTMLElement;
     const targetData = monthData.findIndex(x => x.year === targetDay.year && x.monthIndex === targetDay.monthIndex && String(x.dayNumber) === dayDiv.children[1].textContent );
     if (targetData >= 0) {

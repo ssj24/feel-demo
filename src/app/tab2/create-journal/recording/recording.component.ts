@@ -17,9 +17,8 @@ export class RecordingComponent implements OnInit {
   public isRecording = false;
   public isPaused = false;
   public storedFileNames = [];
-  public startTime = 0;
-  public endTime = 0;
-  public curTime = 0;
+  public duration = 0;
+  public durationDisplay = '';
   public interval = null;
   constructor(private media: Media, public recordService: RecordingService) { }
 
@@ -38,27 +37,31 @@ export class RecordingComponent implements OnInit {
   getRandomInt(max) {
     return Math.floor(Math.random() * max);
   }
-  timeCalc(time = 0) {
-    if (this.isRecording) {
-      this.curTime = Math.ceil((performance.now() - this.startTime)/1000) / 10 + time;
+  timeCalc() {
+    if (this.isPaused) {
+      return;
+    } else if (!this.isRecording) {
+      this.duration = 0;
+      this.durationDisplay = '';
+      return;
     }
+    this.duration += 1;
+    const minutes = Math.floor(this.duration / 60);
+    const seconds = (this.duration % 60).toString().padStart(2, '0');
+    this.durationDisplay = minutes + ':' + seconds;
+    setTimeout(() => {
+      this.timeCalc();
+    }, 1000);
   }
   onPlayClicked() {
     if (this.isRecording) { return;}
     if (this.isPaused) {
       VoiceRecorder.resumeRecording();
-      this.startTime = this.curTime ? this.curTime : performance.now();
-      this.isRecording = true;
-      this.interval = setInterval(() => {
-        this.timeCalc(this.endTime);
-      }, 100);
+
     }
-    VoiceRecorder.startRecording();
-    this.startTime = this.curTime ? this.curTime : performance.now();
     this.isRecording = true;
-      this.interval = setInterval(() => {
-        this.timeCalc();
-      }, 100);
+    VoiceRecorder.startRecording();
+    this.timeCalc();
   }
   onPauseClicked() {
     if (this.isPaused) { return; }
@@ -66,16 +69,18 @@ export class RecordingComponent implements OnInit {
     this.isRecording = false;
     this.isPaused = true;
     VoiceRecorder.pauseRecording();
-    this.endTime = this.curTime;
+    this.timeCalc();
   }
   onStopClicked() {
     if (!this.isRecording) { return; }
     clearInterval(this.interval);
     this.isRecording = false;
+    this.timeCalc();
     VoiceRecorder.stopRecording()
       .then(async (record: RecordingData) => {
         if (record.value && record.value.recordDataBase64) {
           const recordData = record.value.recordDataBase64;
+          const duration = record.value.msDuration;
           const fileName = new Date().getTime() + '.wav';
           await Filesystem.writeFile({
             path: fileName,

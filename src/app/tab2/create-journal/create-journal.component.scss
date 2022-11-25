@@ -20,13 +20,41 @@ ion-card p {
   background-color: #f9f9f9;
   border-radius: 50%;
 }
+.customBtn {
+  color: var(--red-color);
+}
+.customBtn:hover {
+    background-color: var(--middle-red-color);
+}
 .keywordBadge {
   margin: 8px 10px;
+}
+.keywordBadge:hover,
+.keywordIcon:hover {
+  cursor: pointer;
 }
 .keywordIcon {
   margin: 8px 0 8px 16px;
 }
 ion-footer ion-button {
+  margin: 0px 0px 10px 0px;
+  height: 50px;
   width: 90%;
 }
+.footer-md::before {
+  width: 0;
+  height: 0;
+}
 
+@media only screen and (min-width: 319.98px) {
+
+  .imgContainer {
+    width: 50px;
+    height: 50px;
+    margin: auto;
+    ion-img {
+      width: 100%;
+      height: 100%;
+    }
+  }
+}

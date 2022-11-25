@@ -1,5 +1,5 @@
-import { Component, Input, OnInit, AfterViewInit } from '@angular/core';
-import { mdTransitionAnimation, ModalController, PopoverController } from '@ionic/angular';
+import { Component, Input, OnInit, AfterViewInit, TemplateRef, ViewChild, ElementRef } from '@angular/core';
+import { IonTextarea, mdTransitionAnimation, ModalController, PopoverController } from '@ionic/angular';
 import { CalendarCreatorService } from '../../calendarCreator.service';
 import { element } from 'protractor';
 import { SetFeelingComponent } from './setFeeling/set-feeling.component';
@@ -14,6 +14,7 @@ import { Day } from 'src/app/day.model';
   styleUrls: ['./create-journal.component.scss'],
 })
 export class CreateJournalComponent implements OnInit, AfterViewInit {
+  @ViewChild('diaryTextarea') diaryTextarea: IonTextarea;
   @Input() day: Day;
   public year = 0;
   public month = '';
@@ -22,6 +23,7 @@ export class CreateJournalComponent implements OnInit, AfterViewInit {
   public summary = '';
   public diary: Diary[] = [];
   public keywords: string[] = [];
+  public isWrite = false;
 
   constructor(private modalCtrl: ModalController,
               private calendarService: CalendarCreatorService,
@@ -44,7 +46,6 @@ export class CreateJournalComponent implements OnInit, AfterViewInit {
   }
 
   onJournalConfirm() {
-    console.log('journalConfirm-feelings',this.feelings);
     this.modalCtrl.dismiss({
       date: this.day.date,
       dayNumber: this.day.dayNumber,
@@ -53,15 +54,7 @@ export class CreateJournalComponent implements OnInit, AfterViewInit {
       weekDayNumber: this.day.weekDayNumber,
       feelings: this.feelings,
       summary: this.summary,
-      diary: [{
-        time: 0,
-        sentence: 'diary sample'
-      },
-      {
-        time: 1,
-        sentence: 'diary sample2'
-      },
-      ],
+      diary: this.diary,
       keywords: this.keywords,
       recording: this.day.recording
     }, 'confirm');
@@ -80,13 +73,28 @@ export class CreateJournalComponent implements OnInit, AfterViewInit {
       console.log('result');
     });
   }
-
-  writeDiary(el: HTMLTextAreaElement) {
-    console.log(el);
-    console.log('ggg');
+  onSentDelete(sent) {
+    this.diary = this.diary.filter(x => x !== sent);
+  }
+  writeDiary() {
+    if (this.isWrite) {
+      this.diary.push({
+        time: 0,
+        sentence: this.diaryTextarea.value
+      });
+      this.isWrite = false;
+    } else {
+      this.isWrite = true;
+      setTimeout(() => {
+        this.diaryTextarea.setFocus();
+      }, 0);
+    }
   }
 
   onSetFeeling(e: Event, i: number) {
+    if(!(e.target as Element).classList.contains('timeCard')) {
+      return;
+    };
     this.popoverCtrl.create({
       component: SetFeelingComponent,
       componentProps: {time: i},
@@ -102,7 +110,7 @@ export class CreateJournalComponent implements OnInit, AfterViewInit {
         this.feelings[result.data.time] = result.data.feeling;
       } else {
         // 이모지가 아닌 바깥 쪽 클릭으로 닫으면 이모지 사라짐
-        this.feelings[i] = 'none';
+        // this.feelings[i] = 'none';
       }
     });
 

@@ -39,6 +39,8 @@
   --middle-yellow-color: #FFF1C4;
   --high-color: #211A49;
   --active-color: #7623ff;
+
+  --red-color: rgb(237, 41, 41);
 }
 
 .ion-color-custom {
@@ -99,7 +101,7 @@
 }
 
 ion-popover {
-  --width: 335px;
+  --width: 300px;
 }
 .keywordBadges ion-badge {
   --padding-top: 10px;
@@ -133,4 +135,16 @@ ion-popover::part(backdrop) {
 
 .w100 {
   width: 100%;
+}
+
+.customBtn {
+  border: none;
+  background-color: transparent;
+  padding: 10px 15px;
+  margin: 0 5px;
+}
+.customBtn:hover {
+  // padding: 20px 20px;
+  border-radius: 50%;
+  font-weight: 900;
 }

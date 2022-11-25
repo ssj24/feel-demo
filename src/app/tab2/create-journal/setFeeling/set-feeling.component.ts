@@ -19,6 +19,9 @@ export class SetFeelingComponent implements OnInit {
     else if (this.time === 2) { this.timeStr = '저녁';}
 
   }
+  deleteFeeling() {
+    this.popoverCtrl.dismiss({feeling: 'none', time: this.time}, 'confirm');
+  }
   selectFeeling(e: Event) {
     const target = e.target as Element;
     if (target.closest('div')) {
