@@ -65,6 +65,7 @@ export class RecordingService {
     return this.http.post(`/api/StorageSend/`, data, {
       headers: new HttpHeaders()
         .set('Content-Type', 'application/x-www-form-urlencoded')
+        // .set('X-CSRFToken', $cookies.get('app-Xsrf-Cookie'))
       })
       .toPromise()
       .then((res: any) => {
