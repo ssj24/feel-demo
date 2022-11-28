@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import { Component, Input, OnInit } from '@angular/core';
 import { PopoverController } from '@ionic/angular';
 
@@ -9,8 +10,8 @@ import { PopoverController } from '@ionic/angular';
 export class SetFeelingComponent implements OnInit {
   @Input() time: number;
   public timeStr: string;
-  public imgList = ['happy','soso','good','excite','great','uneasy','sad','not_good','lonely','depressed','surprise','upset','unpleasant'];
-  public feelings = ['즐거워', '그냥 그래', '좋아!', '설레', '행복해', '불안해', '슬퍼', '별로야', '외로워', '우울해', '놀랐어', '화났어', '불쾌해'];
+  public imgList = ['happy','soso','good','excite','great','uneasy','sad','not_good','lonely','depressed','surprise','upset','unpleasant','idk','empty'];
+  public feelings = ['즐거워', '그냥 그래', '좋아!', '설레', '행복해', '불안해', '슬퍼', '별로야', '외로워', '우울해', '놀랐어', '화났어', '불쾌해', '모르겠어', '비워둘래'];
   constructor(private popoverCtrl: PopoverController) { }
 
   ngOnInit() {

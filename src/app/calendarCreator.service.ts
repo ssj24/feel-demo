@@ -12,7 +12,6 @@ import { DaySeriesModel } from '@fullcalendar/core';
   providedIn: 'root'
 })
 export class CalendarCreatorService {
-  public url = 'http://118.67.132.111:8000/';
   private currentYear: number;
   private currentMonthIndex: number;
   constructor(public http: HttpClient) {

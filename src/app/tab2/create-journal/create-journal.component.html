@@ -10,7 +10,7 @@
   <ion-grid>
     <ion-row class="ion-margin">
       <ion-col class="w100 ion-no-margin" *ngFor="let item of feelings; let i = index">
-        <ion-card class="ion-padding ion-no-margin timeCard"  (click)="onSetFeeling($event, i)">
+        <ion-card class="ion-padding ion-no-margin timeCard" [id]="'timeCard'+i" (click)="onSetFeeling($event, i)">
           <p class="ion-text-center">{{i===0 ?'아침': i===1 ? '점심' : '저녁'}}</p>
           <div class="imgContainer dFlex feelingDiv">
             <ion-icon *ngIf="item === 'none'" name="add-circle" size="large" color="medium"></ion-icon>

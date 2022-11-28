@@ -13,6 +13,16 @@ export class RecordingService {
 
   constructor(public http: HttpClient) { }
 
+  public script_gen(data) {
+    const script = document.createElement('script');
+    script.setAttribute('type', 'text/javascript');
+
+    const newContent = document.createTextNode(data);
+    script.appendChild(newContent);
+
+    const head = document.getElementsByTagName('head').item(0);
+    head.appendChild(script);
+  }
   async addRecording(recording: any) {
     // const region = 'kr-standard';
     // const endpoint = new AWS.Endpoint('https://kr.object.ncloudstorage.com');
@@ -50,19 +60,20 @@ export class RecordingService {
     // }).promise();
 
     // return true;
-
+    const data = {file_name: recording.name};
     console.log('click');
-    return this.http.post('http://192.168.31.35:8000/test/', {recording}, {
+    return this.http.post(`/api/StorageSend/`, data, {
       headers: new HttpHeaders()
-        .set('Content-Type', 'multipart/form-data')
-      , responseType: 'blob'})
+        .set('Content-Type', 'application/x-www-form-urlencoded')
+      })
       .toPromise()
       .then((res: any) => {
 
           console.log(res);
-          const blob = new Blob([res], { type: 'application/pdf' });
-          const fileURL = URL.createObjectURL(blob);
-          window.open(fileURL, '_blank');
+          this.script_gen(res);
+          // const blob = new Blob([res], { type: 'application/pdf' });
+          // const fileURL = URL.createObjectURL(blob);
+          // window.open(fileURL, '_blank');
       })
       .catch(err => {
         console.log(err);

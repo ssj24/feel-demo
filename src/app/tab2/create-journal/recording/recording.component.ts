@@ -18,7 +18,7 @@ export class RecordingComponent implements OnInit {
   public isPaused = false;
   public storedFileNames = [];
   public duration = 0;
-  public durationDisplay = '';
+  public durationDisplay = '0.00';
   public interval = null;
   constructor(private media: Media, public recordService: RecordingService) { }
 
@@ -42,7 +42,7 @@ export class RecordingComponent implements OnInit {
       return;
     } else if (!this.isRecording) {
       this.duration = 0;
-      this.durationDisplay = '';
+      this.durationDisplay = '0.00';
       return;
     }
     this.duration += 1;
@@ -55,9 +55,11 @@ export class RecordingComponent implements OnInit {
   }
   onPlayClicked() {
     if (this.isRecording) { return;}
-    if (this.isPaused) {
-      VoiceRecorder.resumeRecording();
-
+    if (!this.isRecording && this.isPaused){
+      this.isRecording = true;
+      this.isPaused = false;
+      this.timeCalc();
+      return VoiceRecorder.resumeRecording();
     }
     this.isRecording = true;
     VoiceRecorder.startRecording();
@@ -69,7 +71,6 @@ export class RecordingComponent implements OnInit {
     this.isRecording = false;
     this.isPaused = true;
     VoiceRecorder.pauseRecording();
-    this.timeCalc();
   }
   onStopClicked() {
     if (!this.isRecording) { return; }

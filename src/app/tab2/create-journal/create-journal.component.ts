@@ -92,8 +92,9 @@ export class CreateJournalComponent implements OnInit, AfterViewInit {
   }
 
   onSetFeeling(e: Event, i: number) {
+    let realTarget = e.target;
     if(!(e.target as Element).classList.contains('timeCard')) {
-      return;
+      realTarget = (e.target as Element).closest('.timeCard');
     };
     this.popoverCtrl.create({
       component: SetFeelingComponent,
@@ -101,6 +102,8 @@ export class CreateJournalComponent implements OnInit, AfterViewInit {
       cssClass: 'set-feeling-popover',
       event: e,
       translucent: true,
+      trigger: `timeCard${i}`,
+      triggerAction: 'hover',
       mode: 'md',
     }).then (popoverEl => {
       popoverEl.present();

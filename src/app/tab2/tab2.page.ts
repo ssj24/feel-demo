@@ -48,7 +48,6 @@ export class Tab2Page implements OnInit, AfterViewInit {
               }
   ngOnInit(): void {
     console.log('oninit');
-
     this.setMonthDays(this.calendarCreator.getCurrentMonth());
     this.getData();
 
@@ -65,17 +64,19 @@ export class Tab2Page implements OnInit, AfterViewInit {
     console.log('ngAfterViewInit');
 
     setTimeout(() => {
+      console.log('afterviewinit, first');
       this.dataToDays();
       this.daysArray = this.eachDays.toArray();
       this.eachDaysSet();
     }, 100);
     this.eachDays.changes.subscribe((r) => {
       console.log('afterviewinit, subscribe');
+
       setTimeout(() => {
-        this.getData(this.monthNumber, this.year);
+        this.dataToDays();
         this.daysArray = this.eachDays.toArray();
         this.eachDaysSet();
-      }, 10);
+      }, 50);
     });
     const swipeGesture = this.gestureCtrl.create({
       el: document.querySelector('.mainCalendar'),
@@ -132,7 +133,7 @@ export class Tab2Page implements OnInit, AfterViewInit {
       console.log('getdata',month, year,res);
       for (const i of res) {
         const newDate = new Date(i.date);
-        const newDay = {
+        const newDay: Day = {
           date: newDate,
           year: newDate.getFullYear(),
           monthIndex: newDate.getMonth(),
@@ -170,7 +171,7 @@ export class Tab2Page implements OnInit, AfterViewInit {
     }
 
     this.setMonthDays(this.calendarCreator.getCurrentMonth(this.monthNumber, this.year));
-    this.dataToDays();
+    this.getData(this.monthNumber, this.year);
 
   }
 
@@ -183,14 +184,15 @@ export class Tab2Page implements OnInit, AfterViewInit {
     }
 
     this.setMonthDays(this.calendarCreator.getCurrentMonth(this.monthNumber, this.year));
-    this.dataToDays();
+    this.getData(this.monthNumber, this.year);
 
   }
   monthChanged(e: Event) {
     const ev = e as CustomEvent;
     const newDate = new Date(ev.detail.value);
     this.setMonthDays(this.calendarCreator.getCurrentMonth(newDate.getMonth(), newDate.getFullYear()));
-    this.dataToDays();
+    this.getData(this.monthNumber, this.year);
+
   }
   dayClicked(e: Event, clickedDay: Day) {
     console.log(e, clickedDay);
@@ -203,6 +205,7 @@ export class Tab2Page implements OnInit, AfterViewInit {
     }
     this.setToday();
     // this.setStreak();
+    this.monthData = [];
   }
 
   setToday(): void {

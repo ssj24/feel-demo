@@ -41,6 +41,9 @@ ion-card-header {
 .date {
   height: 80px;
   margin: 5px 0;
+  &:hover {
+    cursor: pointer;
+  }
   p {
     margin: 2px 0;
     text-align: center;
