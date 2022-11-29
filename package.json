@@ -31,6 +31,7 @@
     "@capacitor/status-bar": "4.0.1",
     "@fullcalendar/core": "^6.0.0-beta.1",
     "@ionic/angular": "^6.1.9",
+    "aws-sdk": "^2.1263.0",
     "capacitor-voice-recorder": "^4.0.0",
     "cordova-plugin-media": "^6.1.0",
     "dayjs": "^1.11.6",

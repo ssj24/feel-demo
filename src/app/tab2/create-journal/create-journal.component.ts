@@ -7,6 +7,7 @@ import { RecordingComponent } from './recording/recording.component';
 import { AddKeywordComponent } from './add-keyword/add-keyword.component';
 import { Diary } from 'src/app/diary.model';
 import { Day } from 'src/app/day.model';
+import { WritingComponent } from './writing/writing.component';
 
 @Component({
   selector: 'app-create-journal',
@@ -77,18 +78,33 @@ export class CreateJournalComponent implements OnInit, AfterViewInit {
     this.diary = this.diary.filter(x => x !== sent);
   }
   writeDiary() {
-    if (this.isWrite) {
-      this.diary.push({
-        time: 0,
-        sentence: this.diaryTextarea.value
-      });
-      this.isWrite = false;
-    } else {
-      this.isWrite = true;
-      setTimeout(() => {
-        this.diaryTextarea.setFocus();
-      }, 0);
-    }
+    // if (this.isWrite) {
+    //   this.diary.push({
+    //     time: 0,
+    //     sentence: this.diaryTextarea.value
+    //   });
+    //   this.isWrite = false;
+    // } else {
+    //   this.isWrite = true;
+    //   setTimeout(() => {
+    //     this.diaryTextarea.setFocus();
+    //   }, 0);
+    // }
+    this.modalCtrl.create({
+      component: WritingComponent,
+      cssClass: 'writingModal dFlex',
+      breakpoints: [0, 0.4, 0.7],
+      initialBreakpoint: 0.4,
+    }).then(modalEl => {
+      modalEl.present();
+      return modalEl.onDidDismiss();
+    }).then(result => {
+      console.log('result');
+    });
+  }
+  onSummaryFocus(e: CustomEvent) {
+  //   (e.target as HTMLElement).style.border='#E2DEFF';
+  //   (e.target as HTMLElement).style.borderRadius='10px';
   }
 
   onSetFeeling(e: Event, i: number) {
@@ -143,5 +159,8 @@ export class CreateJournalComponent implements OnInit, AfterViewInit {
   }
   onBadgeClicked(keyword: string) {
     this.keywords = this.keywords.filter(x => x !== keyword);
+  }
+  onChkClicked(e: Event) {
+    console.log((e.target as HTMLIonCheckboxElement).checked);
   }
 }

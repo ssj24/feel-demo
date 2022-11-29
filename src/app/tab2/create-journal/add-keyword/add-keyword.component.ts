@@ -20,7 +20,11 @@ export class AddKeywordComponent implements OnInit, AfterViewInit {
       this.inputEl.setFocus();
     },100);
   }
-
+  onKeyPress(e: KeyboardEvent) {
+    if (e.key === 'Enter') {
+      this.onAdd();
+    }
+  }
   onCancel() {
     this.popoverCtrl.dismiss(null, 'cancel');
   }

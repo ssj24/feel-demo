@@ -29,7 +29,7 @@
     </ion-row>
   </ion-grid>
   <ion-list>
-    <ion-item button *ngFor="let f of storedFileNames" (click)="playFile(f)">
+    <ion-item button *ngFor="let f of storedFileNames" [id]="f.name" (click)="playFile(f)">
       {{ f.name }}
     </ion-item>
   </ion-list>

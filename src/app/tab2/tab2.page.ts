@@ -25,6 +25,7 @@ export class Tab2Page implements OnInit, AfterViewInit {
   public daysArray: ElementRef[];
   public monthData: Day[] = [];
   public isPickerOpen = false;
+  public isCal = true;
   constructor(public calendarCreator: CalendarCreatorService,
               public feeling: FeelingService,
               private renderer: Renderer2,
@@ -263,6 +264,12 @@ export class Tab2Page implements OnInit, AfterViewInit {
   }
   onYearClicked() {
     this.isPickerOpen = true;
+  }
+  toCal() {
+    this.isCal = true;
+  }
+  toList() {
+    this.isCal = false;
   }
   private setMonthDays(days: Day[]): void {
     this.monthDays = days;

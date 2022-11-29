@@ -41,6 +41,9 @@
   --active-color: #7623ff;
 
   --red-color: rgb(237, 41, 41);
+
+  --keyword-color: #B5C7FF;
+  --keyword-first-color: #FFACEF;
 }
 
 .ion-color-custom {
@@ -120,6 +123,20 @@ ion-popover ion-content {
 
 ion-popover::part(backdrop) {
 }
+.item-has-focus {
+  --highlight-background: var(--middle-purple-color);
+  ion-label {
+    color: var(--ion-color-secondary) !important;
+  }
+}
+ion-item#diary {
+  &::part(native) {
+
+    caret-color: black;
+  }
+  // --highlight-height: 2px;
+  // --highlight-color-focused: var(--middle-purple-color);
+}
 
 .journalToast::part(message) { text-align: center; }
 
@@ -147,4 +164,8 @@ ion-popover::part(backdrop) {
   // padding: 20px 20px;
   border-radius: 50%;
   font-weight: 900;
+}
+
+.textBlack {
+  color: black;
 }

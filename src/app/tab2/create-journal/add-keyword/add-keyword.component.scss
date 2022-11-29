@@ -9,3 +9,11 @@ div {
     color: var(--active-color);
   }
 }
+ion-input {
+  border: 1px solid transparent;
+  border-radius: 15px;
+}
+ion-input:focus-within {
+  border-color: var(--middle-purple-color);
+  color: black;
+}

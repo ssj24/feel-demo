@@ -24,6 +24,23 @@ ion-card p {
   background-color: #f9f9f9;
   border-radius: 50%;
 }
+
+ion-input#summary {
+  border: 1px solid transparent;
+  border-radius: 15px;
+}
+ion-input#summary:focus-within {
+  border-color: var(--middle-purple-color);
+  color: black;
+}
+
+ion-item#diary:focus-within {
+  border-color: red;
+}
+.diaryTime {
+  display: block;
+}
+
 .customBtn {
   color: var(--red-color);
 }
@@ -31,7 +48,13 @@ ion-card p {
     background-color: var(--middle-red-color);
 }
 .keywordBadge {
-  margin: 8px 10px;
+  margin: 8px 4px;
+  background-color: var(--keyword-color);
+  border-radius: 30px;
+  color: black;
+  &:nth-child(1) {
+    background-color: var(--keyword-first-color);
+  }
 }
 .keywordBadge:hover,
 .keywordIcon:hover {

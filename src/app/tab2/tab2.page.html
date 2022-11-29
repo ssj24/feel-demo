@@ -33,6 +33,12 @@
             </ion-grid>
           </ion-popover>
         </ion-card-header>
+        <ion-row class="ion-justify-content-end">
+          <ion-col size="4">
+            <button *ngIf="!isCal" class="customBtn" (click)="toCal()">달력</button>
+            <button *ngIf="isCal" class="customBtn" (click)="toList()">리스트</button>
+          </ion-col>
+        </ion-row>
         <div class="calendar">
           <ion-grid>
             <ion-row class="ion-justify-content-center">
@@ -42,6 +48,7 @@
                 </span>
               </ion-col>
             </ion-row>
+
             <ion-row class="mainCalendar">
               <ion-col size="11" size-lg="8" size-xl="6">
 
