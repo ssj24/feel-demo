@@ -1,0 +1,10 @@
+<p>
+  calendar-list works!
+</p>
+<div #eachDays *ngFor='let day of monthDays' class="date">
+  <span *ngIf="day.feelings">
+    <div class="imgContainer" [id]="'date'+day.dayNumber"></div>
+    <p>{{ day.dayNumber }}</p>
+    <p>{{ day.feelings | json }}</p>
+  </span>
+</div>

@@ -9,6 +9,13 @@
  * https://ionicframework.com/docs/layout/global-stylesheets
  */
 
+@font-face {
+  font-family: 'Pretendard-Regular';
+  src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+}
+
 /* Core CSS required for Ionic components to work properly */
 @import "~@ionic/angular/css/core.css";
 
@@ -26,6 +33,7 @@
 @import "~@ionic/angular/css/flex-utils.css";
 
 :root {
+  --ion-font-family: 'Pretendard-Regular';
 	--ion-color-custom: #7623ff;
 	--ion-color-custom-rgb: 118,35,255;
 	--ion-color-custom-contrast: #ffffff;
@@ -41,6 +49,7 @@
   --active-color: #7623ff;
 
   --red-color: rgb(237, 41, 41);
+  --gray-color: #cccbcb;
 
   --keyword-color: #B5C7FF;
   --keyword-first-color: #FFACEF;

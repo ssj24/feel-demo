@@ -1,0 +1,15 @@
+<ion-content class="popoverContainer ion-padding">
+  <div class="popoverHeader">
+    <div>
+      <ion-img class="imgContainer" src="/assets/feel_tab.svg"></ion-img>
+      <p> 오늘 {{timeStr}} 기분은 어떤가요? </p>
+    </div>
+    <button class="customBtn" (click)="deleteFeeling()">X</button>
+  </div>
+  <div>
+    <div class="feelContainer" *ngFor="let item of imgList; let i=index;" (click)="selectFeeling($event)" >
+      <ion-img src="/assets/feeling/{{item}}.svg"></ion-img>
+      <p>{{feelings[i]}}</p>
+    </div>
+  </div>
+</ion-content>

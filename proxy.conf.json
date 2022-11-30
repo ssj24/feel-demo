@@ -11,10 +11,10 @@
     "secure": false,
     "pathRewrite": {"^/recording" : ""}
   },
-  "/aws": {
-    "target": "https://kr.object.ncloudstorage.com",
+  "/test": {
+    "target": "https://192.168.31.35/",
     "changeOrigin": true,
     "secure": false,
-    "pathRewrite": {"^/aws" : ""}
+    "pathRewrite": {"^/test" : ""}
   }
 }

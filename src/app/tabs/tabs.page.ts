@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
-import { CreateJournalComponent } from '../tab2/create-journal/create-journal.component';
+import { CreateJournalComponent } from '../tab2/mine/create-journal/create-journal.component';
 import { JournalCreatorService } from '../journal-creator.service';
 
 @Component({

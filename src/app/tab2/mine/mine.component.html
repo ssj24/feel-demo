@@ -1,0 +1,64 @@
+<ion-content>
+  <ion-row class="ion-justify-content-center">
+    <ion-col>
+      <div>
+
+        <ion-card-header class="ion-no-padding">
+
+          <ion-row class="w100">
+            <ion-col class="dFlex marginAuto calTitleCol" size="11" size-lg="8" size-xl="6">
+              <ion-button fill="clear" color="dark" (click)="onPreviousMonth()">
+                <ion-icon name="chevron-back-outline"></ion-icon>
+              </ion-button>
+              <p (click)="onYearClicked()" class="calTitle"> {{ year }}년 {{ calendarCreator.getMonthName(monthNumber) }}월 </p>
+              <ion-button fill="clear" color="dark" (click)="onNextMonth()">
+                <ion-icon name="chevron-forward-outline"></ion-icon>
+              </ion-button>
+              <ion-row class="ion-justify-content-end ion-no-padding calToggleRow">
+                <ion-col class="ion-padding-horizontal ion-text-end">
+                  <ion-icon button class="ion-margin-end" (click)="toCal()" name="calendar-outline"></ion-icon>
+                  <ion-icon button class="ion-md-margin-end" (click)="toList()" name="list-outline"></ion-icon>
+                </ion-col>
+              </ion-row>
+            </ion-col>
+          </ion-row>
+          <ion-popover class="marginAuto" #popover [isOpen]="isPickerOpen" (didDismiss)="isPickerOpen = false">
+            <ion-grid *ngIf="isPickerOpen">
+              <ion-row class="ion-justify-content-center">
+                <ion-datetime  presentation="month-year" (ionChange)="monthChanged($event)"></ion-datetime>
+              </ion-row>
+            </ion-grid>
+          </ion-popover>
+        </ion-card-header>
+
+        <div class="calendar" *ngIf="isCal">
+          <ion-grid>
+            <ion-row class="ion-justify-content-center">
+              <ion-col size="11" size-lg="8" size-xl="6">
+                <span *ngFor='let weekDay of weekDaysName' class="day ion-text-center" >
+                  {{ weekDay }}
+                </span>
+              </ion-col>
+            </ion-row>
+
+            <ion-row class="mainCalendar">
+              <ion-col size="11" size-lg="8" size-xl="6">
+
+                <div #eachDays *ngFor='let day of monthDays' (click)="dayClicked($event, day)" class="date">
+                  <div class="imgContainer" [id]="'date'+day.dayNumber"></div>
+                  <p>{{ day.dayNumber }}</p>
+                </div>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+
+
+
+        </div>
+        <app-calendar-list *ngIf="!isCal" [monthDays]="monthDays">
+        </app-calendar-list>
+
+      </div>
+    </ion-col>
+  </ion-row>
+</ion-content>

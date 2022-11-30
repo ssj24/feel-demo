@@ -4,7 +4,7 @@ import { CalendarCreatorService } from './calendarCreator.service';
 /* eslint-disable no-underscore-dangle */
 import { EventEmitter, Injectable, Output } from '@angular/core';
 import { ModalController, ToastController } from '@ionic/angular';
-import { CreateJournalComponent } from './tab2/create-journal/create-journal.component';
+import { CreateJournalComponent } from './tab2/mine/create-journal/create-journal.component';
 import { Day } from './day.model';
 import { Subject } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
