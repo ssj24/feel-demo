@@ -17,7 +17,7 @@ export class RecordingService {
   }
 
   async addRecording(recording: any) {
-    const blobToFile = new File([recording], 'record');
+    const blobToFile = new File([recording], 'my-file.webm', { type: 'audio/webm' });
     console.log(blobToFile);
     const fileData = new DataTransfer();
     fileData.items.add(blobToFile);
@@ -28,12 +28,24 @@ export class RecordingService {
     //   couns_id: '1234',
     //   file: fileData.files,
     // };
+    // const blob = new Blob(recording, { type: 'audio/ogg' });
+    // const file = new File([blob], 'recording.ogg');
+
+    // const data = {
+    //   message: 'stt_analysis',
+    //   client_id: 'client1@test.com',
+    //   couns_id: '1234',
+    // };
+
+    // const formData = new FormData();
+    // formData.append('files.file', file);
+    // formData.append('data', JSON.stringify(data));
     const data = new FormData();
     data.append('message', 'stt_analysis');
     data.append('client_id', 'client1@test.com');
     data.append('couns_id', '1234');
     data.append('file', fileData.files[0]);
-    // console.log('click');
+    console.log('click');
 
     const options  = {
       headers: new HttpHeaders({

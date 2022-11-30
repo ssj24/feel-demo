@@ -82,6 +82,7 @@ export class RecordingComponent implements OnInit {
       .then(async (record: RecordingData) => {
         if (record.value && record.value.recordDataBase64) {
           const recordData = record.value.recordDataBase64;
+          console.log(record.value.mimeType);
           this.recordData = recordData;
           const duration = record.value.msDuration;
           const fileName = new Date().getTime() + '.wav';
