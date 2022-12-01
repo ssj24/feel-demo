@@ -1,3 +1,14 @@
-<p>
-  writing works!
-</p>
+<ion-header class="ion-padding">
+  <p>
+    직접 작성하기
+  </p>
+  <ion-buttons>
+    <ion-button (click)="onCancel()">취소</ion-button>
+    <ion-button (click)="onSave()">저장</ion-button>
+  </ion-buttons>
+</ion-header>
+<ion-content>
+  <ion-textarea #inputEl autoGrow [(ngModel)]="val" placeholder="오늘의 일기를 작성해주세요.">
+  </ion-textarea>
+
+</ion-content>

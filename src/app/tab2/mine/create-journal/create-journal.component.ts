@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, AfterViewInit, TemplateRef, ViewChild, ElementRef } from '@angular/core';
-import { IonTextarea, mdTransitionAnimation, ModalController, PopoverController } from '@ionic/angular';
+import { ActionSheetController, IonTextarea, mdTransitionAnimation, ModalController, PopoverController } from '@ionic/angular';
 import { CalendarCreatorService } from '../../../calendarCreator.service';
 import { element } from 'protractor';
 import { SetFeelingComponent } from './setFeeling/set-feeling.component';
@@ -25,10 +25,12 @@ export class CreateJournalComponent implements OnInit, AfterViewInit {
   public diary: Diary[] = [];
   public keywords: string[] = [];
   public isWrite = false;
+  public result: string;
 
   constructor(private modalCtrl: ModalController,
               private calendarService: CalendarCreatorService,
-              public popoverCtrl: PopoverController) { }
+              public popoverCtrl: PopoverController,
+              private actionSheetCtrl: ActionSheetController) { }
 
   ngOnInit() {
     console.log(this.day);
@@ -65,8 +67,8 @@ export class CreateJournalComponent implements OnInit, AfterViewInit {
     this.modalCtrl.create({
       component: RecordingComponent,
       cssClass: 'recordingModal dFlex',
-      breakpoints: [0, 0.4, 0.7],
-      initialBreakpoint: 0.4,
+      breakpoints: [0, 0.5, 0.7],
+      initialBreakpoint: 0.5,
     }).then(modalEl => {
       modalEl.present();
       return modalEl.onDidDismiss();
@@ -78,28 +80,22 @@ export class CreateJournalComponent implements OnInit, AfterViewInit {
     this.diary = this.diary.filter(x => x !== sent);
   }
   writeDiary() {
-    // if (this.isWrite) {
-    //   this.diary.push({
-    //     time: 0,
-    //     sentence: this.diaryTextarea.value
-    //   });
-    //   this.isWrite = false;
-    // } else {
-    //   this.isWrite = true;
-    //   setTimeout(() => {
-    //     this.diaryTextarea.setFocus();
-    //   }, 0);
-    // }
     this.modalCtrl.create({
       component: WritingComponent,
+      componentProps: {diary: this.diary},
       cssClass: 'writingModal dFlex',
-      breakpoints: [0, 0.4, 0.7],
-      initialBreakpoint: 0.4,
+      breakpoints: [0, 0.5, 0.9],
+      initialBreakpoint: 0.5,
     }).then(modalEl => {
       modalEl.present();
       return modalEl.onDidDismiss();
     }).then(result => {
-      console.log('result');
+      if (result.role === 'confirm') {
+        this.diary.push({
+          time: 0,
+          sentence: result.data
+        });
+      }
     });
   }
   onSummaryFocus(e: CustomEvent) {
@@ -162,5 +158,46 @@ export class CreateJournalComponent implements OnInit, AfterViewInit {
   }
   onChkClicked(e: Event) {
     console.log((e.target as HTMLIonCheckboxElement).checked);
+  }
+  async presentActionSheet() {
+    const actionSheet = await this.actionSheetCtrl.create({
+      header: `${this.day.year}/${this.month}/${this.day.dayNumber}의 일기를 삭제하시겠습니까?`,
+      // subHeader: 'Example subheader',
+      buttons: [
+        {
+          text: 'Delete',
+          role: 'destructive',
+          data: {
+            action: 'delete',
+          },
+        },
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          data: {
+            action: 'cancel',
+          },
+        },
+      ],
+      mode: 'ios'
+    });
+
+    await actionSheet.present();
+
+    const result = await actionSheet.onDidDismiss();
+    if (result.role === 'destructive') {
+      this.deleteDiary();
+    }
+  }
+  deleteDiary() {
+    this.feelings = ['none', 'none', 'none'];
+    this.diary = [];
+    this.keywords = [];
+    this.summary = '';
+    this.day.feelings = ['none', 'none', 'none'];
+    this.day.summary = '';
+    this.day.diary = [];
+    this.day.keywords = [];
+    this.day.recording = {};
   }
 }

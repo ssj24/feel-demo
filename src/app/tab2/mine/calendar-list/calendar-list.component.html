@@ -1,10 +1,19 @@
-<p>
-  calendar-list works!
-</p>
 <div #eachDays *ngFor='let day of monthDays' class="date">
-  <span *ngIf="day.feelings">
-    <div class="imgContainer" [id]="'date'+day.dayNumber"></div>
-    <p>{{ day.dayNumber }}</p>
-    <p>{{ day.feelings | json }}</p>
-  </span>
+  <ion-card [id]="'date'+day.dayNumber">
+    <ion-card-header>
+      <ion-card-subtitle>
+        {{day.date.toLocaleDateString()}}
+      </ion-card-subtitle>
+    </ion-card-header>
+
+    <ion-card-content>
+      {{day.diary | json}}
+      <div class="imgContainer">
+        <ion-img src="/assets/feeling/great.svg"></ion-img>
+      </div>
+    </ion-card-content>
+    <ion-footer>
+      {{ day.feelings | json}}
+    </ion-footer>
+  </ion-card>
 </div>

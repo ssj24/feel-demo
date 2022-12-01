@@ -1,19 +1,17 @@
-ion-col {
-  border-bottom: 2px solid var(--base-color);
-  padding-bottom: 0;
-  &:hover {
+.colTab  {
+  border-bottom: 3px solid var(--base-color);
+  border-radius: 15px 15px 0 0;
+  &:not([disabled]):hover {
     p {
-      z-index: 2;
-      // border-bottom-color: var(--active-color);
+      // z-index: 2;
       color: var(--active-color);
     }
+    background-color: var(--middle-purple-color);
     border-color: var(--active-color);
   }
   p {
     font-size: 14px;
     font-weight: 700;
-    border: 2px solid transparent;
-    margin-bottom: 0;
     background-color: transparent;
     display: block;
     margin: auto;

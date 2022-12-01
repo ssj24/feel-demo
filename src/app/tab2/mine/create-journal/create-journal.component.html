@@ -4,6 +4,11 @@
       <ion-back-button defaultHref="/tabs/tab2" (click)="onCancel()" ></ion-back-button>
     </ion-buttons>
     <ion-title>{{day.year}}년 {{month}}월 {{day.dayNumber}}일</ion-title>
+    <ion-buttons slot="end" class="container">
+      <ion-button (click)="presentActionSheet()" shape="round" class="trashBtn">
+        <ion-icon name="trash-bin-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 <ion-content>

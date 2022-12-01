@@ -95,15 +95,17 @@ export class RecordingComponent implements OnInit {
         }
       });
   }
+
   async playFile(fileNames) {
     const audioFile = await Filesystem.readFile({
       path: fileNames.name,
       directory: Directory.Data
     });
-    this.recordData = audioFile.data;
-    console.log(audioFile);
+
     const base64Sound = audioFile.data;
-    const audioRef = new Audio(`data:audio/aac;base64, ${base64Sound}`);
+    const audioRef = new Audio(`data:audio/webm;base64,${base64Sound}`);
+    this.recordData = audioRef.src;
+    console.log(this.recordData);
     audioRef.oncanplaythrough = () => audioRef.play();
     audioRef.load();
   }

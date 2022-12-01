@@ -17,8 +17,10 @@ export class RecordingService {
   }
 
   async addRecording(recording: any) {
+
+    // return console.log(blobUrl);
     const blobToFile = new File([recording], 'my-file.webm', { type: 'audio/webm' });
-    console.log(blobToFile);
+    // return console.log(blobToFile);
     const fileData = new DataTransfer();
     fileData.items.add(blobToFile);
     console.log(fileData.files[0]);
@@ -28,23 +30,13 @@ export class RecordingService {
     //   couns_id: '1234',
     //   file: fileData.files,
     // };
-    // const blob = new Blob(recording, { type: 'audio/ogg' });
-    // const file = new File([blob], 'recording.ogg');
 
-    // const data = {
-    //   message: 'stt_analysis',
-    //   client_id: 'client1@test.com',
-    //   couns_id: '1234',
-    // };
-
-    // const formData = new FormData();
-    // formData.append('files.file', file);
-    // formData.append('data', JSON.stringify(data));
     const data = new FormData();
     data.append('message', 'stt_analysis');
     data.append('client_id', 'client1@test.com');
     data.append('couns_id', '1234');
     data.append('file', fileData.files[0]);
+    // data.append('file', recording);
     console.log('click');
 
     const options  = {
@@ -52,10 +44,57 @@ export class RecordingService {
         'MIME-Type': 'audio/webm'
       }),
     };
-    this.http.post(`/recording/SttAnalysis/`, data, options)
+    this.http.post(`https://192.168.31.35/SttAnalysis/`, data)
     .toPromise()
     .then(res => {
       console.log(res);
+    //   {
+    //     "sentence": [
+    //         {
+    //             "speaker": "0",
+    //             "name": "A",
+    //             "sentence": "그래서",
+    //             "first_sentence": "true",
+    //             "quiet_time": 0,
+    //             "start": 1619,
+    //             "end": 2579,
+    //             "senti": "None",
+    //             "sent_no": 1,
+    //             "confidence": 0
+    //         }
+    //     ],
+    //     "sentimental": {
+    //         "0": {
+    //             "word_count": 2,
+    //             "speak_len": 960,
+    //             "speed": 125,
+    //             "speak_rate": 0.3722373012795657,
+    //             "senti": "negative",
+    //             "pos_count": 0,
+    //             "neg_count": 0,
+    //             "type_count": 0,
+    //             "word_freq": {},
+    //             "senti_freq": {
+    //                 "고통": 0,
+    //                 "기쁨": 0,
+    //                 "기타": 0,
+    //                 "놀람": 0,
+    //                 "두려움": 0,
+    //                 "분노": 0,
+    //                 "슬픔": 0,
+    //                 "중성": 0,
+    //                 "지루함": 0,
+    //                 "혐오": 0,
+    //                 "흥미": 0,
+    //                 "부끄러움": 0
+    //             },
+    //             "wc_svg": "",
+    //             "si_svg": "/media//Senti_0_C:\\Users\\bright\\OneDrive\\finger\\Finger.ai\\_media\\seamspace\\my-file.jpg",
+    //             "swc_svg": ""
+    //         }
+    //     },
+    //     "duration": 1
+    // }
     })
     .catch(err => {
       console.log(err);

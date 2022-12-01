@@ -11,4 +11,9 @@ export class Tab2Page implements OnInit {
   constructor() {};
   ngOnInit(): void {
   }
+  onExploreClick(e: Event) {
+    // if ((e.target as HTMLElement).attributes.includes('disabled')) {
+
+    // }
+  }
 }

@@ -4,23 +4,26 @@
     <ion-img *ngFor="let feel of feelings"  src="/assets/feeling/{{feel}}.svg"></ion-img>
   </div>
   <p class="ion-text-center">오늘 하루를 기록 중이예요 :)</p>
-  <input type="file" id="fileTest" (change)="onFileUpload($event)">
+  <!-- <input type="file" id="fileTest" (change)="onFileUpload($event)"> -->
+  <audio id="audio" controls>
+    <source id="source" src="" type="audio/ogg" />
+  </audio>
   <ion-grid>
     <ion-row>
-      <ion-col>
-        <ion-button [disabled]="!isRecording" (click)="onStopClicked()">
-          <ion-icon name="stop"></ion-icon>
+      <ion-col class="dFlex">
+        <ion-button class="stopBtn" [disabled]="!isRecording" (click)="onStopClicked()" color="custom" shape="circle" >
+          <ion-icon slot="icon-only" size="large" name="stop"></ion-icon>
         </ion-button>
-        <ion-button (click)="sendRecord()">
+        <ion-button (click)="sendRecord()" color="custom" >
           <ion-icon name="save"></ion-icon>
         </ion-button>
       </ion-col>
-      <ion-col>
-        <ion-button *ngIf="!isRecording" (click)="onPlayClicked()" >
-          <ion-icon name="play" size="large"></ion-icon>
+      <ion-col class="dFlex">
+        <ion-button class="playBtn" *ngIf="!isRecording" (click)="onPlayClicked()" size="large" color="custom" shape="circle" >
+          <ion-icon slot="icon-only" name="play" size="large"></ion-icon>
         </ion-button>
-        <ion-button *ngIf="isRecording" (click)="onPauseClicked()" >
-          <ion-icon name="pause" size="large"></ion-icon>
+        <ion-button class="pauseBtn" *ngIf="isRecording" (click)="onPauseClicked()" size="large" color="custom" shape="circle" >
+          <ion-icon slot="icon-only" name="pause" size="large"></ion-icon>
         </ion-button>
       </ion-col>
       <ion-col class="dFlex">

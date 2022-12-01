@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, AfterViewInit } from '@angular/core';
 import { Day } from 'src/app/day.model';
 
 @Component({
@@ -11,5 +11,8 @@ export class CalendarListComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {}
+  monthDaysFiltering() {
+    const existDays = this.monthDays;
+  }
 
 }
