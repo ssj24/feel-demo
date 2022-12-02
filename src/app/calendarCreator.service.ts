@@ -20,8 +20,8 @@ export class CalendarCreatorService {
     this.currentMonthIndex = date.getMonth(); // January == 0
   }
 
-  public getData(month: number, year: number) {
-    console.log('calSvc-getdata entered');
+  public getHttpData(month: number, year: number) {
+    console.log('calSvc-gethttpdata entered');
     const nextYear = month === 11 ? year + 1 : year;
     const nextMonth = month === 11 ? 0 : month + 1;
     const data = {
@@ -72,6 +72,28 @@ export class CalendarCreatorService {
       //   console.log(err);
       // });
   }
+  getData(month: number = this.currentMonthIndex, year: number = this.currentYear): Day[] {
+    console.log('getdata entered');
+    const monthData: Day[] = [];
+    this.getHttpData(month, year).subscribe(res => {
+      console.log('getdata',month, year,res);
+      for (const i of res) {
+        const newDate = new Date(i.date);
+        const newDay: Day = {
+          date: newDate,
+          year: newDate.getFullYear(),
+          monthIndex: newDate.getMonth(),
+          weekDayNumber: newDate.getDay(),
+          dayNumber: newDate.getDate(),
+          feelings: JSON.parse(i.feelings.replace(/'/g, '"')),
+        };
+        monthData.push(newDay);
+      }
+      console.log('getDatabottom',monthData);
+    });
+    return monthData;
+  }
+
   public getCurrentMonth(month: number = this.currentMonthIndex, year: number = this.currentYear): Day[] {
     const data = this.getMonth(month, year);
     const sampleRes = [

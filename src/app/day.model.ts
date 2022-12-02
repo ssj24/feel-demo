@@ -11,4 +11,6 @@ export class Day {
   public diary?: Diary[];
   public keywords?: string[];
   public recording?: any;
+  public src?: string;
+  public feelingsClass?: string;
 }

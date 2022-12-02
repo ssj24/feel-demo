@@ -92,6 +92,7 @@ export class RecordingComponent implements OnInit {
             data: recordData,
           });
           this.loadFiles();
+          // this.sendRecord();
         }
       });
   }

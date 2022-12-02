@@ -134,6 +134,16 @@ export class JournalCreatorService {
       })
       .catch(err => {
         console.log(err);
+        this.modalCtrl.create({
+          component: CreateJournalComponent,
+          componentProps: {day},
+          cssClass: 'diaryModal',
+        }).then (modalEl => {
+          modalEl.present();
+          return modalEl.onDidDismiss();
+        }).then(result => {
+          console.log(result);
+        });
       });
   }
 

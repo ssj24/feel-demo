@@ -47,11 +47,18 @@ ion-input#summary:focus-within {
   border-color: var(--middle-purple-color);
   color: black;
 }
-
 .diaryTime {
   display: block;
   color: var(--gray-color);
   margin-bottom: -10px;
+}
+.diaryBtns {
+  .diaryBtn {
+    margin: 8px;
+  }
+  ion-img {
+    margin-right: 5px;
+  }
 }
 
 .customBtn {

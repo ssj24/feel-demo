@@ -61,14 +61,13 @@
               <button class="customBtn" (click)="onSentDelete(sent)">X</button>
             </ion-item>
           </ion-list> -->
-          <ion-textarea *ngIf="isWrite" #diaryTextarea></ion-textarea>
-          <ion-buttons class="ion-justify-content-center">
-            <ion-button (click)="writeDiary()" fill="solid" color="light">
-              <ion-img src="/assets/write.svg"></ion-img>
-              {{ isWrite ? '저장' : '바로 작성하기'}}
+          <ion-buttons class="ion-justify-content-center diaryBtns">
+            <ion-button class="diaryBtn" (click)="writeDiary()" shape="round" fill="solid" color="medium">
+              <ion-img src="/assets/write_w.svg"></ion-img>
+              바로 작성하기
             </ion-button>
-            <ion-button (click)="onRecording()" fill="solid" color="light">
-              <ion-img src="/assets/recording.svg"></ion-img>
+            <ion-button class="diaryBtn" (click)="onRecording()" shape="round" fill="solid" color="medium">
+              <ion-img src="/assets/recording_w.svg"></ion-img>
               녹음하기
             </ion-button>
           </ion-buttons>

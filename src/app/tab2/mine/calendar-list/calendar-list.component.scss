@@ -1,0 +1,37 @@
+.dayContainer {
+  padding-bottom: 60px;
+}
+.keywords {
+  color: var(--active-light-color);
+}
+.imgContainer {
+  width: 100%;
+  height: 100%;
+  margin: auto;
+  background-color: #f7f7f7;
+  border-radius: 50%;
+}
+
+.singleContainer {
+  border-radius: 0%;
+  background-color: transparent;
+  background-position:center center;
+  background-repeat:no-repeat;
+  background-size: 100% 100%;
+  color: transparent;
+}
+.doubleContainer {
+  border-radius: 0%;
+  background-color: transparent;
+  background-position: left top, right bottom;
+  background-repeat:no-repeat, no-repeat;
+  background-size: 65% 65%, 65% 65%;
+}
+.tripleContainer {
+  border-radius: 0%;
+  background-color: transparent;
+  background-position: left bottom,center top, right bottom;
+  background-repeat:no-repeat, no-repeat, no-repeat;
+  background-size: 57% 57%, 57% 57%, 57% 57%;
+  color: transparent;
+}

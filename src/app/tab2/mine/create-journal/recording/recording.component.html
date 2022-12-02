@@ -5,18 +5,15 @@
   </div>
   <p class="ion-text-center">오늘 하루를 기록 중이예요 :)</p>
   <!-- <input type="file" id="fileTest" (change)="onFileUpload($event)"> -->
-  <audio id="audio" controls>
-    <source id="source" src="" type="audio/ogg" />
-  </audio>
   <ion-grid>
     <ion-row>
       <ion-col class="dFlex">
         <ion-button class="stopBtn" [disabled]="!isRecording" (click)="onStopClicked()" color="custom" shape="circle" >
           <ion-icon slot="icon-only" size="large" name="stop"></ion-icon>
         </ion-button>
-        <ion-button (click)="sendRecord()" color="custom" >
+        <!-- <ion-button (click)="sendRecord()" color="custom" >
           <ion-icon name="save"></ion-icon>
-        </ion-button>
+        </ion-button> -->
       </ion-col>
       <ion-col class="dFlex">
         <ion-button class="playBtn" *ngIf="!isRecording" (click)="onPlayClicked()" size="large" color="custom" shape="circle" >
@@ -32,9 +29,9 @@
       </ion-col>
     </ion-row>
   </ion-grid>
-  <ion-list>
+  <!-- <ion-list>
     <ion-item button *ngFor="let f of storedFileNames" [id]="f.name" (click)="playFile(f)">
       {{ f.name }}
     </ion-item>
-  </ion-list>
+  </ion-list> -->
 </ion-content>

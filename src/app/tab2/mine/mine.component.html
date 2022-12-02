@@ -1,4 +1,4 @@
-<ion-content>
+<div>
   <ion-row class="ion-justify-content-center">
     <ion-col>
       <div>
@@ -16,8 +16,8 @@
               </ion-button>
               <ion-row class="ion-justify-content-end ion-no-padding calToggleRow">
                 <ion-col class="ion-padding-horizontal ion-text-end">
-                  <ion-icon button class="ion-margin-end" (click)="toCal()" name="calendar-outline"></ion-icon>
-                  <ion-icon button class="ion-md-margin-end" (click)="toList()" name="list-outline"></ion-icon>
+                  <ion-icon button class="ion-margin-end" (click)="toCal()" name="calendar-outline" [color]="isCal ? 'custom' : ''"></ion-icon>
+                  <ion-icon button class="ion-md-margin-end" (click)="toList()" name="list-outline" [color]="isCal ? '' : 'custom'"></ion-icon>
                 </ion-col>
               </ion-row>
             </ion-col>
@@ -52,13 +52,11 @@
             </ion-row>
           </ion-grid>
 
-
-
         </div>
-        <app-calendar-list *ngIf="!isCal" [monthDays]="monthDays">
+        <app-calendar-list *ngIf="!isCal" [data]="monthData" [year]="year" [monthNumber]="monthNumber">
         </app-calendar-list>
 
       </div>
     </ion-col>
   </ion-row>
-</ion-content>
+</div>

@@ -19,7 +19,7 @@ export class WritingComponent implements OnInit, AfterViewInit {
     setTimeout(() => {
       this.inputEl.setFocus();
       for(const i of this.diary) {
-        this.val += i.sentence;
+        this.val += i.sentence + ' ';
       }
     },100);
 

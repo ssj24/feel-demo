@@ -50,7 +50,7 @@ export class MineComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     console.log('oninit');
     this.setMonthDays(this.calendarCreator.getCurrentMonth());
-    this.getData();
+    this.monthData = this.calendarCreator.getData();
 
   }
 
@@ -74,6 +74,7 @@ export class MineComponent implements OnInit, AfterViewInit {
     }, 100);
     this.eachDays.changes.subscribe((r) => {
       console.log('afterviewinit, subscribe');
+      this.monthData = this.calendarCreator.getData(this.monthNumber, this.year);
 
       setTimeout(() => {
         this.dataToDays();
@@ -132,25 +133,6 @@ export class MineComponent implements OnInit, AfterViewInit {
     // Don't forget to enable!
     swipeGesture.enable(true);
   }
-  getData(month: number = this.today.getMonth(), year: number = this.today.getFullYear()) {
-    console.log('getdata entered');
-    this.calendarCreator.getData(month, year).subscribe(res => {
-      console.log('getdata',month, year,res);
-      for (const i of res) {
-        const newDate = new Date(i.date);
-        const newDay: Day = {
-          date: newDate,
-          year: newDate.getFullYear(),
-          monthIndex: newDate.getMonth(),
-          weekDayNumber: newDate.getDay(),
-          dayNumber: newDate.getDate(),
-          feelings: JSON.parse(i.feelings.replace(/'/g, '"')),
-        };
-        this.monthData.push(newDay);
-      }
-      console.log('getDatabottom',this.monthData);
-    });
-  }
   dataToDays(): void {
     // for (const day of this.monthDays) {
     //   const targetData = this.monthData.find(x =>  x.dayNumber === day.dayNumber && x.year === day.year && x.monthIndex === day.monthIndex);
@@ -176,7 +158,6 @@ export class MineComponent implements OnInit, AfterViewInit {
     }
 
     this.setMonthDays(this.calendarCreator.getCurrentMonth(this.monthNumber, this.year));
-    this.getData(this.monthNumber, this.year);
 
   }
 
@@ -189,14 +170,12 @@ export class MineComponent implements OnInit, AfterViewInit {
     }
 
     this.setMonthDays(this.calendarCreator.getCurrentMonth(this.monthNumber, this.year));
-    this.getData(this.monthNumber, this.year);
 
   }
   monthChanged(e: Event) {
     const ev = e as CustomEvent;
     const newDate = new Date(ev.detail.value);
     this.setMonthDays(this.calendarCreator.getCurrentMonth(newDate.getMonth(), newDate.getFullYear()));
-    this.getData(this.monthNumber, this.year);
 
   }
   dayClicked(e: Event, clickedDay: Day) {

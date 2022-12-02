@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, AfterViewInit, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit, ElementRef, Input } from '@angular/core';
 import { IonInput, PopoverController } from '@ionic/angular';
 
 @Component({
@@ -8,8 +8,9 @@ import { IonInput, PopoverController } from '@ionic/angular';
 })
 export class AddKeywordComponent implements OnInit, AfterViewInit {
   @ViewChild('inputEl') inputEl: IonInput;
-  public show = false;
-  public keywordVal = '';
+  @Input() keywords: string[];
+  show: any = false;
+  keywordVal = '';
   constructor(private popoverCtrl: PopoverController) { }
 
   ngOnInit() {
@@ -20,15 +21,31 @@ export class AddKeywordComponent implements OnInit, AfterViewInit {
       this.inputEl.setFocus();
     },100);
   }
+  chkDuplication() {
+    if (this.keywordVal.trim().length < 1) {
+      this.show = '한 글자 이상의 키워드를 입력해주세요.';
+      return false;
+    }
+    if (this.keywords.includes(this.keywordVal)) {
+      this.show = '이미 존재하는 키워드입니다.';
+      return false;
+    }
+    return true;
+  }
   onKeyPress(e: KeyboardEvent) {
+    this.show = false;
     if (e.key === 'Enter') {
-      this.onAdd();
+      if (this.chkDuplication()) {
+        return this.onAdd();
+      }
     }
   }
   onCancel() {
     this.popoverCtrl.dismiss(null, 'cancel');
   }
   onAdd() {
-    this.popoverCtrl.dismiss(this.keywordVal, 'confirm');
+    if (this.chkDuplication()) {
+      this.popoverCtrl.dismiss(this.keywordVal, 'confirm');
+    }
   }
 }

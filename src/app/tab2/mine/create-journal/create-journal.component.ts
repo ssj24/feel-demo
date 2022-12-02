@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import { Component, Input, OnInit, AfterViewInit, TemplateRef, ViewChild, ElementRef } from '@angular/core';
 import { ActionSheetController, IonTextarea, mdTransitionAnimation, ModalController, PopoverController } from '@ionic/angular';
 import { CalendarCreatorService } from '../../../calendarCreator.service';
@@ -15,7 +16,6 @@ import { WritingComponent } from './writing/writing.component';
   styleUrls: ['./create-journal.component.scss'],
 })
 export class CreateJournalComponent implements OnInit, AfterViewInit {
-  @ViewChild('diaryTextarea') diaryTextarea: IonTextarea;
   @Input() day: Day;
   public year = 0;
   public month = '';
@@ -24,7 +24,6 @@ export class CreateJournalComponent implements OnInit, AfterViewInit {
   public summary = '';
   public diary: Diary[] = [];
   public keywords: string[] = [];
-  public isWrite = false;
   public result: string;
 
   constructor(private modalCtrl: ModalController,
@@ -41,7 +40,6 @@ export class CreateJournalComponent implements OnInit, AfterViewInit {
     this.keywords = this.day.keywords || [];
   }
   ngAfterViewInit() {
-
   }
 
   onCancel() {
@@ -73,7 +71,58 @@ export class CreateJournalComponent implements OnInit, AfterViewInit {
       modalEl.present();
       return modalEl.onDidDismiss();
     }).then(result => {
-      console.log('result');
+      console.log(result);
+      const res = {
+        sentence: [
+            {
+                speaker: '0',
+                name: 'A',
+                sentence: '그래서',
+                first_sentence: 'true',
+                quiet_time: 0,
+                start: 1619,
+                end: 2579,
+                senti: 'None',
+                sent_no: 1,
+                confidence: 0
+            }
+        ],
+        sentimental: {
+            0: {
+                word_count: 2,
+                speak_len: 960,
+                speed: 125,
+                speak_rate: 0.3722373012795657,
+                senti: 'negative',
+                pos_count: 0,
+                neg_count: 0,
+                type_count: 0,
+                word_freq: {},
+                senti_freq: {
+                    고통: 0,
+                    기쁨: 0,
+                    기타: 0,
+                    놀람: 0,
+                    두려움: 0,
+                    분노: 0,
+                    슬픔: 0,
+                    중성: 0,
+                    지루함: 0,
+                    혐오: 0,
+                    흥미: 0,
+                    부끄러움: 0
+                },
+                wc_svg: '',
+                si_svg: '/media//Senti_0_C:\\Users\\bright\\OneDrive\\finger\\Finger.ai\\_media\\seamspace\\my-file.jpg',
+                swc_svg: ''
+            }
+        },
+        duration: 1
+      };
+      for (const i of res.sentence) {
+        this.diary.push({time: i.start, sentence: i.sentence});
+      };
+      this.keywords.push(res.sentimental[0].senti);
     });
   }
   onSentDelete(sent) {
@@ -115,7 +164,8 @@ export class CreateJournalComponent implements OnInit, AfterViewInit {
       event: e,
       translucent: true,
       trigger: `timeCard${i}`,
-      triggerAction: 'hover',
+      reference: 'trigger',
+      alignment: 'center',
       mode: 'md',
     }).then (popoverEl => {
       popoverEl.present();
@@ -135,7 +185,7 @@ export class CreateJournalComponent implements OnInit, AfterViewInit {
   onKeywordCreate(e: Event) {
     this.popoverCtrl.create({
       component: AddKeywordComponent,
-      componentProps: {},
+      componentProps: {keywords: this.keywords},
       cssClass: 'add-keyword-popover',
       event: e,
       translucent: true,

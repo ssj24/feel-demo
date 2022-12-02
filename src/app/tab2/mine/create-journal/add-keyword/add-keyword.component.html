@@ -1,5 +1,6 @@
 <ion-content class="ion-padding">
   <ion-input #inputEl [(ngModel)]="keywordVal" placeholder="키워드를 입력해주세요" autofocus (keypress)="onKeyPress($event)"></ion-input>
+  <p *ngIf="show">{{show}}</p>
   <div>
     <button class="customBtn" (click)="onCancel()">
       취소
