@@ -9,12 +9,12 @@
 
       <ion-card-content>
         <ion-grid>
-          <ion-row style="min-height: 70px;">
+          <ion-row class="mainContent">
             <ion-col size="8">
               <ion-row>
                 {{day.summary}}
               </ion-row>
-              <ion-row>
+              <ion-row class="keywordsContainer">
                 <span *ngFor="let k of day.keywords" class="keywords">
                   #{{k}} &nbsp;
                 </span>

@@ -44,111 +44,17 @@ export class RecordingService {
         'MIME-Type': 'audio/webm'
       }),
     };
-    this.http.post(`https://192.168.31.35/SttAnalysis/`, data)
+    this.http.post(`recording/SttAnalysis/`, data)
     .toPromise()
     .then(res => {
       console.log(res);
-    //   {
-    //     "sentence": [
-    //         {
-    //             "speaker": "0",
-    //             "name": "A",
-    //             "sentence": "그래서",
-    //             "first_sentence": "true",
-    //             "quiet_time": 0,
-    //             "start": 1619,
-    //             "end": 2579,
-    //             "senti": "None",
-    //             "sent_no": 1,
-    //             "confidence": 0
-    //         }
-    //     ],
-    //     "sentimental": {
-    //         "0": {
-    //             "word_count": 2,
-    //             "speak_len": 960,
-    //             "speed": 125,
-    //             "speak_rate": 0.3722373012795657,
-    //             "senti": "negative",
-    //             "pos_count": 0,
-    //             "neg_count": 0,
-    //             "type_count": 0,
-    //             "word_freq": {},
-    //             "senti_freq": {
-    //                 "고통": 0,
-    //                 "기쁨": 0,
-    //                 "기타": 0,
-    //                 "놀람": 0,
-    //                 "두려움": 0,
-    //                 "분노": 0,
-    //                 "슬픔": 0,
-    //                 "중성": 0,
-    //                 "지루함": 0,
-    //                 "혐오": 0,
-    //                 "흥미": 0,
-    //                 "부끄러움": 0
-    //             },
-    //             "wc_svg": "",
-    //             "si_svg": "/media//Senti_0_C:\\Users\\bright\\OneDrive\\finger\\Finger.ai\\_media\\seamspace\\my-file.jpg",
-    //             "swc_svg": ""
-    //         }
-    //     },
-    //     "duration": 1
-    // }
     })
     .catch(err => {
       console.log(err);
     });
-    // this.http.get('assets/test.MP3', {responseType: 'blob'})
-    // .subscribe(mp3 => {
-    //   console.log(mp3);
-    //   data.append('file', mp3);
-    //   console.log(data);
-    //   setTimeout(() => {
-    //     this.http.post(`/recording/SttAnalysis/`, data, options)
-    //     .toPromise()
-    //     .then(res => {
-    //       console.log(res);
-    //     })
-    //     .catch(err => {
-    //       console.log(err);
-    //     });
-    //   }, 100);
-    // });
-
-
 
   }
 }
-// console.log('click');
-//     const options  = {
-//       headers: new HttpHeaders({
-//         'Accept': 'text/html, application/xhtml+xml, */*',
-//         'Content-Type': 'text/plain; charset=utf-8'
-// 'Content-Type': 'multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW'
-//       }),
-//       responseType: 'text' as 'text'
-//     };
-// return this.http.post(`/recording/StorageSend/`, data, {
-    //   headers: new HttpHeaders()
-    //     .set('Content-Type', 'application/json')
-    //     // .set('X-CSRFToken', $cookies.get('app-Xsrf-Cookie')),
-    //   responseType: 'text'
-    //   })
-    // return this.http.post(`/api/StorageSend/`, data, options)
-    //   .toPromise()
-    //   .then((res: any) => {
-
-    //       console.log(res);
-    //       this.script_gen(res);
-    //       // const blob = new Blob([res], { type: 'application/pdf' });
-    //       // const fileURL = URL.createObjectURL(blob);
-    //       // window.open(fileURL, '_blank');
-    //   })
-    //   .catch(err => {
-    //     console.log(err);
-    //   });
-
 
     // console.log('Storage Send Start');
     // const region = 'kr-standard';

@@ -5,6 +5,9 @@
     </ion-buttons>
     <ion-title>{{day.year}}년 {{month}}월 {{day.dayNumber}}일</ion-title>
     <ion-buttons slot="end" class="container">
+      <ion-button (click)="onShare($event)" shape="round" [class.activateBtn]="isShare">
+        <ion-icon name="share-outline"></ion-icon>
+      </ion-button>
       <ion-button (click)="presentActionSheet()" shape="round" class="trashBtn">
         <ion-icon name="trash-bin-outline"></ion-icon>
       </ion-button>
@@ -17,7 +20,7 @@
       <ion-col class="w100 ion-no-margin" *ngFor="let item of feelings; let i = index">
         <ion-card class="ion-padding ion-no-margin timeCard" [id]="'timeCard'+i" (click)="onSetFeeling($event, i)">
           <p class="ion-text-center textBlack">{{i===0 ?'아침': i===1 ? '점심' : '저녁'}}</p>
-          <div class="imgContainer dFlex feelingDiv">
+          <div class="imgContainer dFlex feelingDiv" [class.iconBack]="item === 'none'">
             <ion-icon *ngIf="item === 'none'" name="add-circle" size="large" color="medium"></ion-icon>
             <ion-img *ngIf="item !== 'none'" src="/assets/feeling/{{item}}.svg"></ion-img>
           </div>
@@ -92,14 +95,6 @@
           <ion-icon (click)="onKeywordCreate($event)" class="keywordIcon" name="add-circle" size="large" color="medium"></ion-icon>
         </span>
       </ion-card>
-    </ion-row>
-    <ion-row>
-      <ion-col>
-        <ion-item>
-          <ion-checkbox slot="start" (ionChange)="onChkClicked($event)"></ion-checkbox>
-          <ion-label>공유하기</ion-label>
-        </ion-item>
-      </ion-col>
     </ion-row>
   </ion-grid>
 </ion-content>

@@ -72,7 +72,7 @@ export class JournalCreatorService {
       date: this.calService.getDateFormatted(day.date),
       // date: `${day.year}-${day.monthIndex < 9 ? '0'+String(day.monthIndex+1) : day.monthIndex+1}-${day.dayNumber < 10 ? '0'+String(day.dayNumber) : day.dayNumber}`
     };
-    await this.http.post(`http://118.67.132.111:8000/DayDiary/`, data, {
+    await this.http.post(`api/DayDiary/`, data, {
       headers: new HttpHeaders()
         .set('Content-Type', 'application/json')
       })
@@ -110,7 +110,7 @@ export class JournalCreatorService {
               };
               console.log(finalData);
               console.log('finalData feelings', finalData.feelings);
-              this.http.post(`http://118.67.132.111:8000/DiarySave/`, finalData, {
+              this.http.post(`api/DiarySave/`, finalData, {
                 headers: new HttpHeaders()
                   .set('Content-Type', 'application/json')
                 })
@@ -149,10 +149,11 @@ export class JournalCreatorService {
 
 
   public async presentToast(msg: string, day?: Day) {
+    const dayStr = day ? `${day.year}년 ${day.monthIndex + 1}월 ${day.dayNumber}일의` : '';
     const toast = await this.toastCtrl.create({
       message: `
       <p class="ion-text-center">
-      ${day.year}년 ${day.monthIndex + 1}월 ${day.dayNumber}일의
+      ${dayStr}
       ${msg}
       </p>
       `,

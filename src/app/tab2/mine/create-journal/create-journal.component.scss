@@ -1,16 +1,23 @@
-.trashBtn {
-  width: 48px;
-  height: 48px;
-  &:hover {
-    color: var(--red-color);
-  }
-}
 .container {
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-direction: column;
   height: 100%;
+  ion-button {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    &:hover {
+      color: var(--active-color);
+    }
+    &.activateBtn {
+      background-color: var(--middle-purple-color);
+      color: var(--active-color);
+    }
+    &.trashBtn:hover {
+      color: var(--red-color);
+    }
+  }
 }
 
 .timeCard:hover {
@@ -30,6 +37,19 @@ ion-card p {
   ion-img {
     width: 100%;
     height: 100%;
+  }
+}
+.iconBack {
+  background-image: url('/assets/feeling/empty.svg');
+  background-color: transparent;
+  background-position:center center;
+  background-repeat:no-repeat;
+  background-size: 100% 100%;
+  ion-icon {
+    display: none;
+  }
+  &:hover ion-icon {
+    display: block;
   }
 }
 .feelingDiv:hover {

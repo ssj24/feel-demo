@@ -1,14 +1,14 @@
+import { JournalCreatorService } from './../../../journal-creator.service';
 /* eslint-disable @typescript-eslint/naming-convention */
 import { Component, Input, OnInit, AfterViewInit, TemplateRef, ViewChild, ElementRef } from '@angular/core';
 import { ActionSheetController, IonTextarea, mdTransitionAnimation, ModalController, PopoverController } from '@ionic/angular';
 import { CalendarCreatorService } from '../../../calendarCreator.service';
-import { element } from 'protractor';
 import { SetFeelingComponent } from './setFeeling/set-feeling.component';
 import { RecordingComponent } from './recording/recording.component';
 import { AddKeywordComponent } from './add-keyword/add-keyword.component';
+import { WritingComponent } from './writing/writing.component';
 import { Diary } from 'src/app/diary.model';
 import { Day } from 'src/app/day.model';
-import { WritingComponent } from './writing/writing.component';
 
 @Component({
   selector: 'app-create-journal',
@@ -25,10 +25,12 @@ export class CreateJournalComponent implements OnInit, AfterViewInit {
   public diary: Diary[] = [];
   public keywords: string[] = [];
   public result: string;
+  public isShare = false;
 
-  constructor(private modalCtrl: ModalController,
+  constructor(private journalCreator: JournalCreatorService,
+              private modalCtrl: ModalController,
               private calendarService: CalendarCreatorService,
-              public popoverCtrl: PopoverController,
+              private popoverCtrl: PopoverController,
               private actionSheetCtrl: ActionSheetController) { }
 
   ngOnInit() {
@@ -123,8 +125,15 @@ export class CreateJournalComponent implements OnInit, AfterViewInit {
         this.diary.push({time: i.start, sentence: i.sentence});
       };
       this.keywords.push(res.sentimental[0].senti);
+      this.keywords = [...new Set(this.keywords)];
+      if (this.keywords.length > 10) {
+        this.journalCreator.presentToast('키워드는 최대 10개까지 설정할 수 있습니다.');
+        this.keywords = [...this.keywords].slice(0, 10);
+        console.log(this.keywords);
+      }
     });
   }
+
   onSentDelete(sent) {
     this.diary = this.diary.filter(x => x !== sent);
   }
@@ -206,8 +215,9 @@ export class CreateJournalComponent implements OnInit, AfterViewInit {
   onBadgeClicked(keyword: string) {
     this.keywords = this.keywords.filter(x => x !== keyword);
   }
-  onChkClicked(e: Event) {
-    console.log((e.target as HTMLIonCheckboxElement).checked);
+  onShare(e: Event) {
+    this.isShare = !this.isShare;
+    this.journalCreator.presentToast('오늘의 일기는 공유되지 않습니다');
   }
   async presentActionSheet() {
     const actionSheet = await this.actionSheetCtrl.create({
