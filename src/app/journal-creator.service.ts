@@ -91,7 +91,7 @@ export class JournalCreatorService {
       date: this.calService.getDateFormatted(day.date),
       // date: `${day.year}-${day.monthIndex < 9 ? '0'+String(day.monthIndex+1) : day.monthIndex+1}-${day.dayNumber < 10 ? '0'+String(day.dayNumber) : day.dayNumber}`
     };
-    await this.http.post(`api/DayDiary/`, data, {
+    await this.http.post(`https://192.168.31.35/DayDiary/`, data, {
       headers: new HttpHeaders()
         .set('Content-Type', 'application/json')
       })
@@ -129,7 +129,7 @@ export class JournalCreatorService {
               };
               console.log(finalData);
               console.log('finalData feelings', finalData.feelings);
-              this.http.post(`api/DiarySave/`, finalData, {
+              this.http.post(`https://192.168.31.35/DiarySave/`, finalData, {
                 headers: new HttpHeaders()
                   .set('Content-Type', 'application/json')
                 })

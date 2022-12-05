@@ -38,7 +38,7 @@ export class CalendarCreatorService {
       date: string;
       feelings: string;
       id_mail: string;
-    }[]>(`api/MonthDiary/`, data, {
+    }[]>(`https://192.168.31.35/MonthDiary/`, data, {
       headers: new HttpHeaders()
         .set('Content-Type', 'application/json')
     });
