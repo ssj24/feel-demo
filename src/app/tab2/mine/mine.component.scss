@@ -12,27 +12,25 @@ ion-card-header {
   position: relative;
 
   .calTitleCol {
-    position: relative;
+    // position: relative;
+    // margin-bottom: 16px;
 
-    .calToggleRow {
-      width: 100%;
-      position: absolute;
-      bottom: -12px;
-      right: 10px;
-
-      ion-icon {
-        color: var(--gray-color);
-        &:hover {
-          cursor: pointer;
-          color: var(--active-color);
-        }
-      }
-    }
   }
   .calTitle {
     display: inline-block;
     width: auto;
     margin: auto;
+  }
+  .calToggleRow {
+    width: 100%;
+
+    ion-icon {
+      color: var(--gray-color);
+      &:hover {
+        cursor: pointer;
+        color: var(--active-color);
+      }
+    }
   }
 
 }

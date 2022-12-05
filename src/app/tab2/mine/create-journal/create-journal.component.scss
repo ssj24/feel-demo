@@ -4,8 +4,8 @@
   justify-content: center;
   height: 100%;
   ion-button {
-    width: 48px;
-    height: 48px;
+    width: 32px;
+    height: 32px;
     border-radius: 50%;
     &:hover {
       color: var(--active-color);
@@ -45,12 +45,12 @@ ion-card p {
   background-position:center center;
   background-repeat:no-repeat;
   background-size: 100% 100%;
-  ion-icon {
-    display: none;
-  }
-  &:hover ion-icon {
-    display: block;
-  }
+  // ion-icon {
+  //   display: none;
+  // }
+  // &:hover ion-icon {
+  //   display: block;
+  // }
 }
 .feelingDiv:hover {
   cursor: pointer;

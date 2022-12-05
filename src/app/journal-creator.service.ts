@@ -14,6 +14,8 @@ import { stringify } from 'querystring';
   providedIn: 'root'
 })
 export class JournalCreatorService {
+  public _imgList = ['happy','soso','good','excite','great','uneasy','sad','not_good','lonely','depressed','surprise','upset','unpleasant','idk','empty'];
+  public _feelings = ['즐거워', '그냥 그래', '좋아!', '설레', '행복해', '불안해', '슬퍼', '별로야', '외로워', '우울해', '놀랐어', '화났어', '불쾌해', '모르겠어', '비워둘래'];
   private _today = new Date();
   private journalData = new Subject<object>();
 
@@ -23,6 +25,13 @@ export class JournalCreatorService {
               private toastCtrl: ToastController,
               private calService: CalendarCreatorService,
               public http: HttpClient) {}
+
+  get getImgList(): string[] {
+    return this._imgList;
+  }
+  get getFeelings(): string[] {
+    return this._feelings;
+  }
   get getToday(): Day {
     return {
       date: this._today,
@@ -65,6 +74,16 @@ export class JournalCreatorService {
   //                 console.log('finalData feelings', finalData.feelings);
   // }});
   // }
+  public getFeelingName(img: string): string {
+    if (img === 'none') {
+      return '비워둘래';
+    }
+    for (let i=0; i<this._imgList.length; i++) {
+      if (this._imgList[i] === img) {
+        return this._feelings[i];
+      }
+    }
+  }
   public async createJournal(day: Day = this.getToday) {
     const data = {
       message: 'DayDiary',

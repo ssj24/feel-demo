@@ -1,6 +1,7 @@
 /* eslint-disable max-len */
 import { Component, Input, OnInit } from '@angular/core';
 import { PopoverController } from '@ionic/angular';
+import { JournalCreatorService } from '../../../../journal-creator.service';
 
 @Component({
   selector: 'app-set-feeling',
@@ -10,9 +11,13 @@ import { PopoverController } from '@ionic/angular';
 export class SetFeelingComponent implements OnInit {
   @Input() time: number;
   public timeStr: string;
-  public imgList = ['happy','soso','good','excite','great','uneasy','sad','not_good','lonely','depressed','surprise','upset','unpleasant','idk','empty'];
-  public feelings = ['즐거워', '그냥 그래', '좋아!', '설레', '행복해', '불안해', '슬퍼', '별로야', '외로워', '우울해', '놀랐어', '화났어', '불쾌해', '모르겠어', '비워둘래'];
-  constructor(private popoverCtrl: PopoverController) { }
+  public imgList: string[];
+  public feelings: string[];
+  constructor(private popoverCtrl: PopoverController,
+              private journalCreator: JournalCreatorService) {
+                this.imgList = this.journalCreator.getImgList;
+                this.feelings = this.journalCreator.getFeelings;
+              }
 
   ngOnInit() {
     if (this.time === 0) { this.timeStr = '아침';}
@@ -28,7 +33,8 @@ export class SetFeelingComponent implements OnInit {
     if (target.closest('div')) {
       const targetImg = target.closest('div').children[0] as HTMLImageElement;
       const targetFeeling = targetImg.src.slice(16, -4);
-      this.popoverCtrl.dismiss({feeling: targetFeeling, time: this.time}, 'confirm');
+      const name = this.journalCreator.getFeelingName(targetFeeling);
+      this.popoverCtrl.dismiss({feeling: targetFeeling, time: this.time, name}, 'confirm');
     }
   }
 }

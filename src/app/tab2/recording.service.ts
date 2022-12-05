@@ -44,10 +44,11 @@ export class RecordingService {
         'MIME-Type': 'audio/webm'
       }),
     };
-    this.http.post(`recording/SttAnalysis/`, data)
+    this.http.post(`test/SttAnalysis/`, data)
     .toPromise()
     .then(res => {
       console.log(res);
+      return res;
     })
     .catch(err => {
       console.log(err);

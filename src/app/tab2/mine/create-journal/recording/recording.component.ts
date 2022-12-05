@@ -4,6 +4,7 @@ import { fileURLToPath } from 'url';
 import { Directory, Filesystem } from '@capacitor/filesystem';
 import { RecordingData, VoiceRecorder } from 'capacitor-voice-recorder';
 import { RecordingService } from '../../../recording.service';
+import { ModalController } from '@ionic/angular';
 
 @Component({
   selector: 'app-recording',
@@ -21,7 +22,8 @@ export class RecordingComponent implements OnInit {
   public durationDisplay = '0.00';
   public interval = null;
   public recordData = null;
-  constructor(private media: Media, public recordService: RecordingService) { }
+  constructor(private modalCtrl: ModalController,
+              public recordService: RecordingService) { }
 
   ngOnInit() {
     for (let i=0; i<3; i++) {
@@ -92,7 +94,7 @@ export class RecordingComponent implements OnInit {
             data: recordData,
           });
           this.loadFiles();
-          // this.sendRecord();
+          this.sendRecord();
         }
       });
   }
@@ -119,8 +121,9 @@ export class RecordingComponent implements OnInit {
       this.storedFileNames = result.files;
     });
   }
-  sendRecord() {
-    this.recordService.addRecording(this.recordData);
+  async sendRecord() {
+    const data = await this.recordService.addRecording(this.recordData);
+    await this.modalCtrl.dismiss(data, 'confirm');
   }
   onFileUpload(e: Event) {
     const element = e.currentTarget as HTMLInputElement;

@@ -25,7 +25,7 @@ export class MineComponent implements OnInit, AfterViewInit {
   public daysArray: ElementRef[];
   public monthData: Day[] = [];
   public isPickerOpen = false;
-  public isCal = false;
+  public isCal = true;
   constructor(public calendarCreator: CalendarCreatorService,
               public feeling: FeelingService,
               private renderer: Renderer2,

@@ -1,32 +1,49 @@
 <div class="dayContainer">
-  <div #eachDays *ngFor='let day of monthData' class="date">
-    <ion-card [id]="'date'+day.dayNumber">
-      <ion-card-header>
-        <ion-card-subtitle>
-          {{day.date.toLocaleDateString()}}
-        </ion-card-subtitle>
-      </ion-card-header>
+  <ion-grid>
+    <ion-row class="ion-justify-content-center">
+      <ion-col size="12" size-md="8" size-lg="6">
+        <div #eachDays *ngFor='let day of monthData' class="date" (click)="onCardClick(day)"  style="max-width: 400px; margin: auto;">
+          <ion-card [id]="'date'+day.dayNumber">
+            <ion-card-header class="ion-no-padding ion-padding-start ion-padding-top">
+              <p class="ion-no-margin">
+                {{day.year + '. ' + ('0' + (1 + day.monthIndex)).slice(-2) + '. ' + ('0' + day.dayNumber).slice(-2)}}
+              </p>
+              <!-- <span class="container">
+                <ion-button (click)="onShare(day)" shape="round" [class.activateBtn]="isShare" fill="plain">
+                  <ion-icon name="share-outline"></ion-icon>
+                </ion-button>
+                <ion-button (click)="presentActionSheet(day)" shape="round" class="trashBtn" fill="plain">
+                  <ion-icon name="trash-bin-outline"></ion-icon>
+                </ion-button>
+              </span> -->
+            </ion-card-header>
 
-      <ion-card-content>
-        <ion-grid>
-          <ion-row class="mainContent">
-            <ion-col size="8">
-              <ion-row>
-                {{day.summary}}
-              </ion-row>
+            <ion-card-content class="ion-no-padding ion-padding-horizontal">
+              <ion-grid>
+                <ion-row class="mainContent">
+                  <ion-col size="8">
+                    <ion-row>
+                      {{day.summary}}
+                    </ion-row>
+
+                  </ion-col>
+                  <ion-col size="4">
+                    <div class="imgContainer" [class]="day.feelingsClass" [style.backgroundImage]="day.src">
+                    </div>
+                  </ion-col>
+                </ion-row>
+              </ion-grid>
+            </ion-card-content>
+            <ion-card-subtitle class="ion-padding-horizontal ion-margin-bottom">
               <ion-row class="keywordsContainer">
                 <span *ngFor="let k of day.keywords" class="keywords">
                   #{{k}} &nbsp;
                 </span>
               </ion-row>
-            </ion-col>
-            <ion-col>
-              <div class="imgContainer" [class]="day.feelingsClass" [style.backgroundImage]="day.src">
-              </div>
-            </ion-col>
-          </ion-row>
-        </ion-grid>
-      </ion-card-content>
-    </ion-card>
-  </div>
+            </ion-card-subtitle>
+          </ion-card>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </div>

@@ -9,6 +9,7 @@ import { AddKeywordComponent } from './add-keyword/add-keyword.component';
 import { WritingComponent } from './writing/writing.component';
 import { Diary } from 'src/app/diary.model';
 import { Day } from 'src/app/day.model';
+import { throwIfEmpty } from 'rxjs/operators';
 
 @Component({
   selector: 'app-create-journal',
@@ -21,6 +22,8 @@ export class CreateJournalComponent implements OnInit, AfterViewInit {
   public month = '';
   public dayNumber =  1;
   public feelings = ['none', 'none', 'none'];
+  public feelingList: string[];
+  public feelNames = ['선택해주세요', '선택해주세요', '선택해주세요'];
   public summary = '';
   public diary: Diary[] = [];
   public keywords: string[] = [];
@@ -31,11 +34,15 @@ export class CreateJournalComponent implements OnInit, AfterViewInit {
               private modalCtrl: ModalController,
               private calendarService: CalendarCreatorService,
               private popoverCtrl: PopoverController,
-              private actionSheetCtrl: ActionSheetController) { }
+              private actionSheetCtrl: ActionSheetController) {
+                this.feelingList = this.journalCreator.getFeelings;
+              }
 
   ngOnInit() {
-    console.log(this.day);
     this.feelings = this.day.feelings.slice(); // copy not reference
+    for (let i=0; i<this.feelings.length; i++) {
+      this.feelNames[i] = this.journalCreator.getFeelingName(this.feelings[i]);
+    }
     this.month = this.calendarService.getMonthName(this.day.monthIndex);
     this.summary = this.day.summary || '';
     this.diary = this.day.diary || null;
@@ -74,53 +81,7 @@ export class CreateJournalComponent implements OnInit, AfterViewInit {
       return modalEl.onDidDismiss();
     }).then(result => {
       console.log(result);
-      const res = {
-        sentence: [
-            {
-                speaker: '0',
-                name: 'A',
-                sentence: '그래서',
-                first_sentence: 'true',
-                quiet_time: 0,
-                start: 1619,
-                end: 2579,
-                senti: 'None',
-                sent_no: 1,
-                confidence: 0
-            }
-        ],
-        sentimental: {
-            0: {
-                word_count: 2,
-                speak_len: 960,
-                speed: 125,
-                speak_rate: 0.3722373012795657,
-                senti: 'negative',
-                pos_count: 0,
-                neg_count: 0,
-                type_count: 0,
-                word_freq: {},
-                senti_freq: {
-                    고통: 0,
-                    기쁨: 0,
-                    기타: 0,
-                    놀람: 0,
-                    두려움: 0,
-                    분노: 0,
-                    슬픔: 0,
-                    중성: 0,
-                    지루함: 0,
-                    혐오: 0,
-                    흥미: 0,
-                    부끄러움: 0
-                },
-                wc_svg: '',
-                si_svg: '/media//Senti_0_C:\\Users\\bright\\OneDrive\\finger\\Finger.ai\\_media\\seamspace\\my-file.jpg',
-                swc_svg: ''
-            }
-        },
-        duration: 1
-      };
+      const res = result.data;
       for (const i of res.sentence) {
         this.diary.push({time: i.start, sentence: i.sentence});
       };
@@ -156,7 +117,7 @@ export class CreateJournalComponent implements OnInit, AfterViewInit {
       }
     });
   }
-  onSummaryFocus(e: CustomEvent) {
+  onSummaryFocus(e: Event) {
   //   (e.target as HTMLElement).style.border='#E2DEFF';
   //   (e.target as HTMLElement).style.borderRadius='10px';
   }
@@ -182,6 +143,7 @@ export class CreateJournalComponent implements OnInit, AfterViewInit {
     }).then(result => {
       if (result.role === 'confirm') {
         this.feelings[result.data.time] = result.data.feeling;
+        this.feelNames[result.data.time] = result.data.name;
       } else {
         // 이모지가 아닌 바깥 쪽 클릭으로 닫으면 이모지 사라짐
         // this.feelings[i] = 'none';
@@ -259,5 +221,6 @@ export class CreateJournalComponent implements OnInit, AfterViewInit {
     this.day.diary = [];
     this.day.keywords = [];
     this.day.recording = {};
+    this.onJournalConfirm();
   }
 }

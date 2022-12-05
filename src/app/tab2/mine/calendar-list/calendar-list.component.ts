@@ -3,6 +3,8 @@ import { Component, Input, OnInit, AfterViewInit, SimpleChanges } from '@angular
 import { Day } from 'src/app/day.model';
 import { OnChanges } from '@angular/core';
 import { CalendarCreatorService } from '../../../calendarCreator.service';
+import { JournalCreatorService } from '../../../journal-creator.service';
+import { ActionSheetController } from '@ionic/angular';
 
 @Component({
   selector: 'app-calendar-list',
@@ -14,7 +16,10 @@ export class CalendarListComponent implements OnInit, AfterViewInit, OnChanges {
   @Input() year: number;
   @Input() monthNumber: number;
   monthData: Day[];
-  constructor(private calendarCreator: CalendarCreatorService) { }
+  isShare = false;
+  constructor(private calendarCreator: CalendarCreatorService,
+              private journalCreator: JournalCreatorService,
+              private actionSheetCtrl: ActionSheetController) { }
 
   ngOnInit() {
   }
@@ -293,18 +298,22 @@ export class CalendarListComponent implements OnInit, AfterViewInit, OnChanges {
   //     }
   // ];
     setTimeout(() => {
-      this.monthDaysFiltering();
+      this.monthDaysFiltering(this.data);
     }, 50);
   }
   ngOnChanges(changes: SimpleChanges) {
     if (changes.monthNumber) {
+      console.log('onchange');
       this.monthData = this.calendarCreator.getData(this.monthNumber, this.year);
-      this.monthDaysFiltering();
+      setTimeout(() => {
+        this.monthDaysFiltering(this.monthData);
+      }, 100);
     }
   }
 
-  monthDaysFiltering() {
-    this.monthData = this.data.filter(x => x.year === this.year && x.monthIndex === this.monthNumber);
+  monthDaysFiltering(data: Day[]) {
+    console.log('filtering', this.monthData);
+    this.monthData = data.filter(x => x.year === this.year && x.monthIndex === this.monthNumber);
 
     // this.monthData = this.monthData.filter(x => x.year === this.year && x.monthIndex === this.monthNumber);
     for (const day of this.monthData) {
@@ -324,6 +333,7 @@ export class CalendarListComponent implements OnInit, AfterViewInit, OnChanges {
         },
       ];
       day.keywords = ['회의실', '예약', '콜라비', '일정', '음성', '녹음', '모바일', 'api'];
+
       let noneCount = 0;
       for (const feeling of day.feelings) {
         if (feeling === 'none') {noneCount++;}
@@ -335,27 +345,46 @@ export class CalendarListComponent implements OnInit, AfterViewInit, OnChanges {
         day.src = day.feelings.filter(i => i !== 'none').map(i => `url('/assets/feeling/${i}.svg')`).join();
 
       }
+    }
+  }
+  onCardClick(day: Day) {
+    this.journalCreator.createJournal(day);
+  }
+  onShare(day: Day) {
+    console.log(day);
+    this.isShare = !this.isShare;
+    this.journalCreator.presentToast('오늘의 일기는 공유되지 않습니다');
+  }
 
+  async presentActionSheet(day: Day) {
+    const actionSheet = await this.actionSheetCtrl.create({
+      header: `${day.year}/${day.monthIndex+1}/${day.dayNumber} 일기를 삭제하시겠습니까?`,
+      // subHeader: 'Example subheader',
+      buttons: [
+        {
+          text: 'Delete',
+          role: 'destructive',
+          data: {
+            action: 'delete',
+          },
+        },
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          data: {
+            action: 'cancel',
+          },
+        },
+      ],
+      mode: 'ios'
+    });
 
+    await actionSheet.present();
 
-
-
-      //   const targetDiv = document.getElementById(`date${day.dayNumber}`);
-      //   const targetImageContainer = this.imgContainer.nativeElement;
-      //   console.log(targetImageContainer);
-      //   let noneCount = 0;
-      //   for (const feeling of day.feelings) {
-      //     if (feeling === 'none') {noneCount++;}
-      //   }
-      //   if (noneCount >= 2) { targetImageContainer.classList.add('singleContainer'); targetImageContainer.classList.remove('doubleContainer'); targetImageContainer.classList.remove('tripleContainer');}
-      //   else if (noneCount === 1) {targetImageContainer.classList.add('doubleContainer'); targetImageContainer.classList.remove('singleContainer'); targetImageContainer.classList.remove('tripleContainer');}
-      //   else if (noneCount === 0) {targetImageContainer.classList.add('tripleContainer'); targetImageContainer.classList.remove('doubleContainer'); targetImageContainer.classList.remove('singleContainer');}
-      //   // else if (noneCount === 3) { targetImageContainer.classList.remove('singleContainer'); targetImageContainer.classList.remove('doubleContainer'); targetImageContainer.classList.remove('tripleContainer');}
-      //   if (noneCount === 3) {
-      //     targetImageContainer.style.backgroundImage = `url('/assets/feeling/empty.svg')`;
-      //   } else if (noneCount <= 2) {
-      //     targetImageContainer.style.backgroundImage = day.feelings.filter(i => i !== 'none').map(i => `url('/assets/feeling/${i}.svg')`).join();
-        }
+    const result = await actionSheet.onDidDismiss();
+    if (result.role === 'destructive') {
+      console.log('delete');
+    }
   }
 
 }
