@@ -1,7 +1,6 @@
 /* eslint-disable max-len */
 import { Component, OnChanges, OnInit, SimpleChanges, Input, ViewChildren, QueryList, ElementRef, Renderer2, AfterViewInit, ViewChild } from '@angular/core';
 import { DomController, Gesture, GestureController } from '@ionic/angular';
-import { maxHeaderSize } from 'http';
 import { CalendarCreatorService } from '../../calendarCreator.service';
 import { Day } from '../../day.model';
 import { FeelingService } from '../../feeling.service';

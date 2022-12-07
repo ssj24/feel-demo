@@ -22,7 +22,8 @@ export class RecordingComponent implements OnInit {
   public durationDisplay = '0.00';
   public interval = null;
   public recordData = null;
-  constructor(private modalCtrl: ModalController,
+  constructor(private media: Media,
+              private modalCtrl: ModalController,
               public recordService: RecordingService) { }
 
   ngOnInit() {
