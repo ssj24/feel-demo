@@ -44,6 +44,7 @@ export class RecordingService {
         'MIME-Type': 'audio/webm'
       }),
     };
+
     this.http.post(`https://192.168.31.35/SttAnalysis/`, data)
     .toPromise()
     .then(res => {
