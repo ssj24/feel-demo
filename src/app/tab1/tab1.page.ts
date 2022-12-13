@@ -85,6 +85,24 @@ export class Tab1Page implements AfterViewInit{
     this.stopRecordButton.removeAttribute('disabled');
 
   }
+  onTest() {
+    const data = {
+      data: 'none'
+    };
+    this.http.post(`https://192.168.31.35/SttAnalysis/`, data, {
+      headers: new HttpHeaders()
+                .set('Content-Type', 'application/json')
+    })
+    .toPromise()
+    .then(res => {
+      console.log(res);
+      return res;
+    })
+    .catch(err => {
+      console.log(err);
+    });
+
+  }
   async onSave(blob: Blob) {
 
 
