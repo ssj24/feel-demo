@@ -20,9 +20,9 @@ export class SetFeelingComponent implements OnInit {
               }
 
   ngOnInit() {
-    if (this.time === 0) { this.timeStr = '아침';}
-    else if (this.time === 1) { this.timeStr = '점심';}
-    else if (this.time === 2) { this.timeStr = '저녁';}
+    if (this.time === 0) { this.timeStr = '첫번째';}
+    else if (this.time === 1) { this.timeStr = '두번째';}
+    else if (this.time === 2) { this.timeStr = '세번째';}
 
   }
   deleteFeeling() {
