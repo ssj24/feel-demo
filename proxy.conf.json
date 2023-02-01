@@ -1,6 +1,6 @@
 {
   "/api": {
-    "target": "http://118.67.132.111:8000/",
+    "target": "https://exp.finger.solutions/seamapi/",
     "changeOrigin": true,
     "secure": false,
     "pathRewrite": {"^/api" : ""}
