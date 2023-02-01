@@ -38,7 +38,7 @@ export class CalendarCreatorService {
       date: string;
       feelings: string;
       id_mail: string;
-    }[]>(`http://118.67.132.111:8000/MonthDiary/`, data, {
+    }[]>(`https://exp.finger.solutions/seamapi/MonthDiary/`, data, {
       headers: new HttpHeaders()
         .set('Content-Type', 'application/json')
     });
