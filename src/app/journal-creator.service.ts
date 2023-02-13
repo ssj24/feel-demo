@@ -79,7 +79,7 @@ export class JournalCreatorService {
       return '비워둘래';
     }
     for (let i=0; i<this._imgList.length; i++) {
-      if (this._imgList[i] === img) {
+      if (this._imgList[i] === img.slice(1, img.length)) {
         return this._feelings[i];
       }
     }
@@ -138,7 +138,7 @@ export class JournalCreatorService {
 
                     console.log('createJournal-2',response);
                     this.presentToast('감정 적립', day);
-
+                    this.calService.getCurrentMonth(this.getToday.monthIndex, this.getToday.year);
                 })
                 .catch(err => {
                   this.presentToast('감정 적립 실패');

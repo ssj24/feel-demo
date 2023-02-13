@@ -142,6 +142,7 @@ export class CreateJournalComponent implements OnInit, AfterViewInit {
       return popoverEl.onDidDismiss();
     }).then(result => {
       if (result.role === 'confirm') {
+        console.log(result.data);
         this.feelings[result.data.time] = result.data.feeling;
         this.feelNames[result.data.time] = result.data.name;
       } else {
