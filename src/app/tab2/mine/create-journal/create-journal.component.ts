@@ -168,8 +168,6 @@ export class CreateJournalComponent implements OnInit, AfterViewInit {
     }).then(result => {
       if (result.role === 'confirm') {
         console.log(this.keywords);
-        this.keywords.push(result.data);
-        console.log(this.keywords);
       }
       console.log(result);
     });

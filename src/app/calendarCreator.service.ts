@@ -38,7 +38,7 @@ export class CalendarCreatorService {
       date: string;
       feelings: string;
       id_mail: string;
-    }[]>(`https://exp.finger.solutions/seamapi/MonthDiary/`, data, {
+    }[]>(`/api/MonthDiary/`, data, {
       headers: new HttpHeaders()
         .set('Content-Type', 'application/json')
     });
@@ -91,6 +91,7 @@ export class CalendarCreatorService {
       }
       console.log('getDatabottom',monthData);
     });
+    console.log('getData return');
     return monthData;
   }
 
@@ -279,7 +280,7 @@ export class CalendarCreatorService {
 
   }
 
-  public getMonth(monthIndex: number, year: number) {
+  public getMonth(monthIndex: number = this.currentMonthIndex, year: number= this.currentYear): Day[] {
     const days: Day[] = [];
     const firstday = this.createDay(year, monthIndex, 1);
     const prevYear = monthIndex === 0 ? year - 1 : year;

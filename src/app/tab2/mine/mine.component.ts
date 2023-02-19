@@ -48,7 +48,7 @@ export class MineComponent implements OnInit, AfterViewInit {
               }
   ngOnInit(): void {
     console.log('oninit');
-    this.setMonthDays(this.calendarCreator.getCurrentMonth());
+    this.setMonthDays(this.calendarCreator.getMonth());
     this.monthData = this.calendarCreator.getData();
 
   }
@@ -71,10 +71,9 @@ export class MineComponent implements OnInit, AfterViewInit {
         this.eachDaysSet();
       }
     }, 100);
-    this.eachDays.changes.subscribe((r) => {
+    this.eachDays.changes.subscribe(async (r) => {
       console.log('afterviewinit, subscribe');
-      this.monthData = this.calendarCreator.getData(this.monthNumber, this.year);
-
+      this.monthData = await this.calendarCreator.getData(this.monthNumber, this.year);
       setTimeout(() => {
         this.dataToDays();
         if (this.isCal) {
@@ -156,7 +155,7 @@ export class MineComponent implements OnInit, AfterViewInit {
       this.year++;
     }
 
-    this.setMonthDays(this.calendarCreator.getCurrentMonth(this.monthNumber, this.year));
+    this.setMonthDays(this.calendarCreator.getMonth(this.monthNumber, this.year));
 
   }
 
@@ -168,13 +167,13 @@ export class MineComponent implements OnInit, AfterViewInit {
       this.year--;
     }
 
-    this.setMonthDays(this.calendarCreator.getCurrentMonth(this.monthNumber, this.year));
+    this.setMonthDays(this.calendarCreator.getMonth(this.monthNumber, this.year));
 
   }
   monthChanged(e: Event) {
     const ev = e as CustomEvent;
     const newDate = new Date(ev.detail.value);
-    this.setMonthDays(this.calendarCreator.getCurrentMonth(newDate.getMonth(), newDate.getFullYear()));
+    this.setMonthDays(this.calendarCreator.getMonth(newDate.getMonth(), newDate.getFullYear()));
 
   }
   dayClicked(e: Event, clickedDay: Day) {
@@ -253,6 +252,7 @@ export class MineComponent implements OnInit, AfterViewInit {
   toList() {
     this.isCal = false;
   }
+  // 빈 달력을 만든다
   private setMonthDays(days: Day[]): void {
     this.monthDays = days;
     this.monthNumber = days[10].monthIndex;

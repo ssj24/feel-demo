@@ -45,7 +45,8 @@ export class AddKeywordComponent implements OnInit, AfterViewInit {
   }
   onAdd() {
     if (this.chkDuplication()) {
-      this.popoverCtrl.dismiss(this.keywordVal, 'confirm');
+      this.inputEl.value = '';
+      this.keywords.push(this.keywordVal);
     }
   }
 }
