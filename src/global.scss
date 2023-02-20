@@ -49,6 +49,7 @@
   --active-light-color: #7600FF;
 
   --red-color: rgb(237, 41, 41);
+  --dark-gray-color: #8A94A0;
   --gray-color: #cccbcb;
   --gray-pale-color: #eeeeee;
 
@@ -183,6 +184,10 @@ ion-item#diary {
 
 .w100 {
   width: 100%;
+}
+.px-0 {
+  padding-left: 0px;
+  padding-right: 0px;
 }
 
 .customBtn {

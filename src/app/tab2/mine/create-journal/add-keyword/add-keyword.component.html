@@ -1,12 +1,14 @@
 <ion-content class="ion-padding">
-  <span class="row">
+  <span class="w100">
     <button class="customBtn closeBtn" (click)="onCancel()">
       X
     </button>
   </span>
-  <ion-input #inputEl [(ngModel)]="keywordVal" placeholder="키워드를 입력해주세요" autofocus (keypress)="onKeyPress($event)"></ion-input>
-  <p *ngIf="show">{{show}}</p>
-  <div>
+  <div class="mainDiv">
+    <div class="inputDiv">
+      <ion-input #inputEl [(ngModel)]="keywordVal" placeholder="키워드를 입력해주세요" autofocus (keypress)="onKeyPress($event)"></ion-input>
+      <p *ngIf="show">{{show}}</p>
+    </div>
     <button class="customBtn" (click)="onAdd()">
       더하기
     </button>

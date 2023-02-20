@@ -101,7 +101,7 @@ ion-input#summary:focus-within {
   cursor: pointer;
 }
 .keywordIcon {
-  margin: 8px 0 8px 16px;
+  // margin: 8px 0 8px 16px;
 }
 ion-footer ion-button {
   margin: 0px 0px 10px 0px;
@@ -111,6 +111,70 @@ ion-footer ion-button {
 .footer-md::before {
   width: 0;
   height: 0;
+}
+
+
+.toggle-switch {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.toggle-input {
+  display: none;
+}
+
+.toggle-label {
+  display: inline-block;
+  cursor: pointer;
+  font-size:13px;
+  width: 100px;
+  height: 30px;
+  background-color: #ccc;
+  border-radius: 15px;
+  position: relative;
+  transition: background-color 0.2s ease;
+}
+
+.toggle-label:before {
+  content: "";
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 50px;
+  height: 24px;
+  border-radius: 15px;
+  background-color: white;
+  transition: transform 0.2s ease;
+}
+
+.share {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 50%;
+  height: 100%;
+  line-height: 30px;
+  text-align: center;
+  color: white;
+}
+
+.exclusive {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 50%;
+  height: 100%;
+  line-height: 30px;
+  text-align: center;
+  color: #555;
+}
+
+.toggle-input:checked + .toggle-label {
+  background-color: var(--active-color);
+}
+
+.toggle-input:checked + .toggle-label:before {
+  transform: translateX(45px);
 }
 
 @media only screen and (min-width: 319.98px) {

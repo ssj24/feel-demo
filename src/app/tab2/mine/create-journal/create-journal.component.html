@@ -5,9 +5,24 @@
     </ion-buttons>
     <ion-title>{{day.year}}년 {{month}}월 {{day.dayNumber}}일</ion-title>
     <ion-buttons slot="end" class="container">
-      <ion-button (click)="onShare($event)" shape="round" [class.activateBtn]="isShare">
+      <!-- <ion-button (click)="onShare($event)" shape="round" [class.activateBtn]="isShare">
         <ion-icon name="share-outline"></ion-icon>
-      </ion-button>
+      </ion-button> -->
+      <!-- <ion-toggle color="custom" class="px-0" id="hover-trigger" [checked]="false" (ionChange)="onShare($event)"></ion-toggle>
+      <ion-popover trigger="hover-trigger" triggerAction="hover">
+        <ng-template>
+          <ion-content class="ion-padding">공유하기(오늘의 일기 전체 내용은 제외하고 공유돼요!)</ion-content>
+        </ng-template>
+      </ion-popover> -->
+      <!-- <div class="toggle-switch">
+        <input type="checkbox" id="toggle" name="toggle" class="toggle-input">
+        <label for="toggle" class="toggle-label">
+          <span class="share">나만</span>
+          <span class="exclusive"><ion-icon name="share-outline"></ion-icon></span>
+        </label>
+      </div> -->
+      공유
+      <ion-toggle color="custom" class="px-0" [(ngModel)]="checked" (ionChange)="onShare()" enable-on-off-labels="공유"></ion-toggle>
       <ion-button (click)="presentActionSheet()" shape="round" class="trashBtn">
         <ion-icon name="trash-bin-outline"></ion-icon>
       </ion-button>

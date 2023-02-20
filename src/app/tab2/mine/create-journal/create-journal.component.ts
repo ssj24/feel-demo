@@ -1,7 +1,7 @@
 import { JournalCreatorService } from './../../../journal-creator.service';
 /* eslint-disable @typescript-eslint/naming-convention */
 import { Component, Input, OnInit, AfterViewInit, TemplateRef, ViewChild, ElementRef } from '@angular/core';
-import { ActionSheetController, IonTextarea, mdTransitionAnimation, ModalController, PopoverController } from '@ionic/angular';
+import { ActionSheetController, ModalController, PopoverController, AlertController } from '@ionic/angular';
 import { CalendarCreatorService } from '../../../calendarCreator.service';
 import { SetFeelingComponent } from './setFeeling/set-feeling.component';
 import { RecordingComponent } from './recording/recording.component';
@@ -28,13 +28,14 @@ export class CreateJournalComponent implements OnInit, AfterViewInit {
   public diary: Diary[] = [];
   public keywords: string[] = [];
   public result: string;
-  public isShare = false;
+  public checked: false;
 
   constructor(private journalCreator: JournalCreatorService,
               private modalCtrl: ModalController,
               private calendarService: CalendarCreatorService,
               private popoverCtrl: PopoverController,
-              private actionSheetCtrl: ActionSheetController) {
+              private actionSheetCtrl: ActionSheetController,
+              private alertController: AlertController) {
                 this.feelingList = this.journalCreator.getFeelings;
               }
 
@@ -51,23 +52,49 @@ export class CreateJournalComponent implements OnInit, AfterViewInit {
   ngAfterViewInit() {
   }
 
-  onCancel() {
-    this.modalCtrl.dismiss(null, 'cancel');
+  async alertDismiss(msg: string): Promise<string> {
+    const alert = await this.alertController.create({
+      header: msg,
+      buttons: [
+        {
+          text: '취소',
+          role: 'cancel',
+        },
+        {
+          text: '확인',
+          role: 'confirm',
+        },
+      ],
+    });
+
+    await alert.present();
+
+    const { role } = await alert.onDidDismiss();
+    return role;
+  }
+  async onCancel() {
+    const confirm = await this.alertDismiss('저장하지 않고 나가시겠습니까?');
+    if (confirm === 'confirm') {
+      this.modalCtrl.dismiss(null, 'cancel');
+    } else {
+      console.log('canceled');
+    }
   }
 
-  onJournalConfirm() {
-    this.modalCtrl.dismiss({
-      date: this.day.date,
-      dayNumber: this.day.dayNumber,
-      year: this.day.year,
-      monthIndex: this.day.monthIndex,
-      weekDayNumber: this.day.weekDayNumber,
-      feelings: this.feelings,
-      summary: this.summary,
-      diary: this.diary,
-      keywords: this.keywords,
-      recording: this.day.recording
-    }, 'confirm');
+  async onJournalConfirm() {
+      this.modalCtrl.dismiss({
+        date: this.day.date,
+        dayNumber: this.day.dayNumber,
+        year: this.day.year,
+        monthIndex: this.day.monthIndex,
+        weekDayNumber: this.day.weekDayNumber,
+        feelings: this.feelings,
+        summary: this.summary,
+        diary: this.diary,
+        keywords: this.keywords,
+        recording: this.day.recording,
+        isShare: this.checked,
+      }, 'confirm');
   }
 
   onRecording() {
@@ -161,6 +188,7 @@ export class CreateJournalComponent implements OnInit, AfterViewInit {
       cssClass: 'add-keyword-popover',
       event: e,
       translucent: true,
+      alignment: 'center',
       mode: 'md',
     }).then (popoverEl => {
       popoverEl.present();
@@ -176,9 +204,10 @@ export class CreateJournalComponent implements OnInit, AfterViewInit {
   onBadgeClicked(keyword: string) {
     this.keywords = this.keywords.filter(x => x !== keyword);
   }
-  onShare(e: Event) {
-    this.isShare = !this.isShare;
-    this.journalCreator.presentToast('오늘의 일기는 공유되지 않습니다');
+  onShare() {
+    if (this.checked) {
+      this.journalCreator.presentToast('오늘의 일기 전체 내용은 제외하고 공유돼요.');
+    }
   }
   async presentActionSheet() {
     const actionSheet = await this.actionSheetCtrl.create({

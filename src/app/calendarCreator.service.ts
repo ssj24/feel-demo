@@ -26,7 +26,7 @@ export class CalendarCreatorService {
     const nextMonth = month === 11 ? 0 : month + 1;
     const data = {
       message: 'MonthDiary',
-      id_mail:'test@test.com',
+      email:'test@test.com',
       // StartDate: new Date(year, month, 1).toLocaleDateString(),
       // EndDate: new Date(nextYear, nextMonth, 0).toLocaleDateString(),
       // StartDate: '2022-10-01',
@@ -37,7 +37,7 @@ export class CalendarCreatorService {
     return this.http.post<{
       date: string;
       feelings: string;
-      id_mail: string;
+      email: string;
     }[]>(`/api/MonthDiary/`, data, {
       headers: new HttpHeaders()
         .set('Content-Type', 'application/json')
@@ -76,6 +76,7 @@ export class CalendarCreatorService {
     console.log('getdata entered');
     const monthData: Day[] = [];
     this.getHttpData(month, year).subscribe(res => {
+      console.log(res);
       console.log('getdata',month, year,res);
       for (const i of res) {
         const newDate = new Date(i.date);
@@ -99,177 +100,177 @@ export class CalendarCreatorService {
     const data = this.getMonth(month, year);
     const sampleRes = [
       {
-          id_mail: 'test@test.com',
+          email: 'test@test.com',
           date: '2022-10-31T07:06:13.029000Z',
           feelings: ['happy', 'soso', 'good']
       },
       {
-          id_mail: 'test@test.com',
+          email: 'test@test.com',
           date: '2022-11-01T07:06:13.029000Z',
           feelings: ['happy', 'soso', 'good']
       },
       {
-          id_mail: 'test@test.com',
+          email: 'test@test.com',
           date: '2022-11-02T07:06:13.029000Z',
           feelings: ['happy', 'soso', 'good']
       },
       {
-          id_mail: 'test@test.com',
+          email: 'test@test.com',
           date: '2022-11-03T07:06:13.029000Z',
           feelings: ['happy', 'soso', 'good']
       },
       {
-          id_mail: 'test@test.com',
+          email: 'test@test.com',
           date: '2022-11-04T07:06:13.029000Z',
           feelings: ['happy', 'soso', 'good']
       },
       {
-          id_mail: 'test@test.com',
+          email: 'test@test.com',
           date: '2022-11-05T07:06:13.029000Z',
           feelings: ['happy', 'soso', 'good']
       },
       {
-          id_mail: 'test@test.com',
+          email: 'test@test.com',
           date: '2022-11-06T07:06:13.029000Z',
           feelings: ['happy', 'soso', 'good']
       },
       {
-          id_mail: 'test@test.com',
+          email: 'test@test.com',
           date: '2022-11-07T07:06:13.029000Z',
           feelings: ['happy', 'soso', 'good']
       },
       {
-          id_mail: 'test@test.com',
+          email: 'test@test.com',
           date: '2022-11-08T07:06:13.029000Z',
           feelings: ['happy', 'soso', 'good']
       },
       {
-          id_mail: 'test@test.com',
+          email: 'test@test.com',
           date: '2022-11-09T07:06:13.029000Z',
           feelings: ['happy', 'soso', 'good']
       },
       {
-          id_mail: 'test@test.com',
+          email: 'test@test.com',
           date: '2022-11-10T07:06:13.029000Z',
           feelings: ['happy', 'soso', 'good']
       },
       {
-          id_mail: 'test@test.com',
+          email: 'test@test.com',
           date: '2022-11-11T07:06:13.029000Z',
           feelings: ['happy', 'soso', 'good']
       },
       {
-          id_mail: 'test@test.com',
+          email: 'test@test.com',
           date: '2022-11-12T07:06:13.029000Z',
           feelings: ['happy', 'soso', 'good']
       },
       {
-          id_mail: 'test@test.com',
+          email: 'test@test.com',
           date: '2022-11-13T07:06:13.029000Z',
           feelings: ['happy', 'soso', 'good']
       },
       {
-          id_mail: 'test@test.com',
+          email: 'test@test.com',
           date: '2022-11-14T07:06:13.029000Z',
           feelings: ['none', 'none', 'none']
       },
       {
-          id_mail: 'test@test.com',
+          email: 'test@test.com',
           date: '2022-11-15T07:06:13.029000Z',
           feelings: ['not_good', 'none', 'none']
       },
       {
-          id_mail: 'test@test.com',
+          email: 'test@test.com',
           date: '2022-11-16T07:06:13.029000Z',
           feelings: ['none', 'surprise', 'none']
       },
       {
-          id_mail: 'test@test.com',
+          email: 'test@test.com',
           date: '2022-11-17T07:06:13.029000Z',
           feelings: ['none', 'none', 'upset']
       },
       {
-          id_mail: 'test@test.com',
+          email: 'test@test.com',
           date: '2022-11-18T07:06:13.029000Z',
           feelings: ['none', 'none', 'none']
       },
       {
-          id_mail: 'test@test.com',
+          email: 'test@test.com',
           date: '2022-11-19T07:06:13.029000Z',
           feelings: ['none', 'soso', 'uneasy']
       },
       {
-          id_mail: 'test@test.com',
+          email: 'test@test.com',
           date: '2022-11-20T07:06:13.029000Z',
           feelings: ['none', 'none', 'none']
       },
       {
-          id_mail: 'test@test.com',
+          email: 'test@test.com',
           date: '2022-11-21T07:06:13.029000Z',
           feelings: ['none', 'none', 'none']
       },
       {
-          id_mail: 'test@test.com',
+          email: 'test@test.com',
           date: '2022-11-22T07:06:13.029000Z',
           feelings: ['none', 'none', 'none']
       },
       {
-          id_mail: 'test@test.com',
+          email: 'test@test.com',
           date: '2022-11-23T07:06:13.029000Z',
           feelings: ['none', 'none', 'none']
       },
       {
-          id_mail: 'test@test.com',
+          email: 'test@test.com',
           date: '2022-11-24T07:06:13.029000Z',
           feelings: ['none', 'none', 'none']
       },
       {
-          id_mail: 'test@test.com',
+          email: 'test@test.com',
           date: '2022-11-25T07:06:13.029000Z',
           feelings: ['none', 'none', 'none']
       },
       {
-          id_mail: 'test@test.com',
+          email: 'test@test.com',
           date: '2022-11-26T07:06:13.029000Z',
           feelings: ['none', 'none', 'none']
       },
       {
-          id_mail: 'test@test.com',
+          email: 'test@test.com',
           date: '2022-11-27T07:06:13.029000Z',
           feelings: ['none', 'none', 'none']
       },
       {
-          id_mail: 'test@test.com',
+          email: 'test@test.com',
           date: '2022-11-28T07:06:13.029000Z',
           feelings: ['none', 'none', 'none']
       },
       {
-          id_mail: 'test@test.com',
+          email: 'test@test.com',
           date: '2022-11-29T07:06:13.029000Z',
           feelings: ['none', 'none', 'none']
       },
       {
-          id_mail: 'test@test.com',
+          email: 'test@test.com',
           date: '2022-11-30T07:06:13.029000Z',
           feelings: ['none', 'none', 'none']
       },
       {
-          id_mail: 'test@test.com',
+          email: 'test@test.com',
           date: '2022-12-01T07:06:13.029000Z',
           feelings: ['none', 'none', 'none']
       },
       {
-          id_mail: 'test@test.com',
+          email: 'test@test.com',
           date: '2022-12-02T07:06:13.029000Z',
           feelings: ['none', 'none', 'none']
       },
       {
-          id_mail: 'test@test.com',
+          email: 'test@test.com',
           date: '2022-12-03T07:06:13.029000Z',
           feelings: ['none', 'none', 'none']
       },
       {
-          id_mail: 'test@test.com',
+          email: 'test@test.com',
           date: '2022-12-04T07:06:13.029000Z',
           feelings: ['none', 'none', 'none']
       }
