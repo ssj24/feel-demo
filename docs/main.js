@@ -170,7 +170,7 @@ let CalendarCreatorService = class CalendarCreatorService {
         const nextMonth = month === 11 ? 0 : month + 1;
         const data = {
             message: 'MonthDiary',
-            id_mail: 'test@test.com',
+            email: 'test@test.com',
             // StartDate: new Date(year, month, 1).toLocaleDateString(),
             // EndDate: new Date(nextYear, nextMonth, 0).toLocaleDateString(),
             // StartDate: '2022-10-01',
@@ -178,7 +178,7 @@ let CalendarCreatorService = class CalendarCreatorService {
             StartDate: this.getDateFormatted(new Date(year, month, 1)),
             EndDate: this.getDateFormatted(new Date(nextYear, nextMonth, 0))
         };
-        return this.http.post(`http://118.67.132.111:8000/MonthDiary/`, data, {
+        return this.http.post(`/api/MonthDiary/`, data, {
             headers: new _angular_common_http__WEBPACK_IMPORTED_MODULE_1__.HttpHeaders()
                 .set('Content-Type', 'application/json')
         });
@@ -216,6 +216,7 @@ let CalendarCreatorService = class CalendarCreatorService {
         console.log('getdata entered');
         const monthData = [];
         this.getHttpData(month, year).subscribe(res => {
+            console.log(res);
             console.log('getdata', month, year, res);
             for (const i of res) {
                 const newDate = new Date(i.date);
@@ -231,183 +232,184 @@ let CalendarCreatorService = class CalendarCreatorService {
             }
             console.log('getDatabottom', monthData);
         });
+        console.log('getData return');
         return monthData;
     }
     getCurrentMonth(month = this.currentMonthIndex, year = this.currentYear) {
         const data = this.getMonth(month, year);
         const sampleRes = [
             {
-                id_mail: 'test@test.com',
+                email: 'test@test.com',
                 date: '2022-10-31T07:06:13.029000Z',
                 feelings: ['happy', 'soso', 'good']
             },
             {
-                id_mail: 'test@test.com',
+                email: 'test@test.com',
                 date: '2022-11-01T07:06:13.029000Z',
                 feelings: ['happy', 'soso', 'good']
             },
             {
-                id_mail: 'test@test.com',
+                email: 'test@test.com',
                 date: '2022-11-02T07:06:13.029000Z',
                 feelings: ['happy', 'soso', 'good']
             },
             {
-                id_mail: 'test@test.com',
+                email: 'test@test.com',
                 date: '2022-11-03T07:06:13.029000Z',
                 feelings: ['happy', 'soso', 'good']
             },
             {
-                id_mail: 'test@test.com',
+                email: 'test@test.com',
                 date: '2022-11-04T07:06:13.029000Z',
                 feelings: ['happy', 'soso', 'good']
             },
             {
-                id_mail: 'test@test.com',
+                email: 'test@test.com',
                 date: '2022-11-05T07:06:13.029000Z',
                 feelings: ['happy', 'soso', 'good']
             },
             {
-                id_mail: 'test@test.com',
+                email: 'test@test.com',
                 date: '2022-11-06T07:06:13.029000Z',
                 feelings: ['happy', 'soso', 'good']
             },
             {
-                id_mail: 'test@test.com',
+                email: 'test@test.com',
                 date: '2022-11-07T07:06:13.029000Z',
                 feelings: ['happy', 'soso', 'good']
             },
             {
-                id_mail: 'test@test.com',
+                email: 'test@test.com',
                 date: '2022-11-08T07:06:13.029000Z',
                 feelings: ['happy', 'soso', 'good']
             },
             {
-                id_mail: 'test@test.com',
+                email: 'test@test.com',
                 date: '2022-11-09T07:06:13.029000Z',
                 feelings: ['happy', 'soso', 'good']
             },
             {
-                id_mail: 'test@test.com',
+                email: 'test@test.com',
                 date: '2022-11-10T07:06:13.029000Z',
                 feelings: ['happy', 'soso', 'good']
             },
             {
-                id_mail: 'test@test.com',
+                email: 'test@test.com',
                 date: '2022-11-11T07:06:13.029000Z',
                 feelings: ['happy', 'soso', 'good']
             },
             {
-                id_mail: 'test@test.com',
+                email: 'test@test.com',
                 date: '2022-11-12T07:06:13.029000Z',
                 feelings: ['happy', 'soso', 'good']
             },
             {
-                id_mail: 'test@test.com',
+                email: 'test@test.com',
                 date: '2022-11-13T07:06:13.029000Z',
                 feelings: ['happy', 'soso', 'good']
             },
             {
-                id_mail: 'test@test.com',
+                email: 'test@test.com',
                 date: '2022-11-14T07:06:13.029000Z',
                 feelings: ['none', 'none', 'none']
             },
             {
-                id_mail: 'test@test.com',
+                email: 'test@test.com',
                 date: '2022-11-15T07:06:13.029000Z',
                 feelings: ['not_good', 'none', 'none']
             },
             {
-                id_mail: 'test@test.com',
+                email: 'test@test.com',
                 date: '2022-11-16T07:06:13.029000Z',
                 feelings: ['none', 'surprise', 'none']
             },
             {
-                id_mail: 'test@test.com',
+                email: 'test@test.com',
                 date: '2022-11-17T07:06:13.029000Z',
                 feelings: ['none', 'none', 'upset']
             },
             {
-                id_mail: 'test@test.com',
+                email: 'test@test.com',
                 date: '2022-11-18T07:06:13.029000Z',
                 feelings: ['none', 'none', 'none']
             },
             {
-                id_mail: 'test@test.com',
+                email: 'test@test.com',
                 date: '2022-11-19T07:06:13.029000Z',
                 feelings: ['none', 'soso', 'uneasy']
             },
             {
-                id_mail: 'test@test.com',
+                email: 'test@test.com',
                 date: '2022-11-20T07:06:13.029000Z',
                 feelings: ['none', 'none', 'none']
             },
             {
-                id_mail: 'test@test.com',
+                email: 'test@test.com',
                 date: '2022-11-21T07:06:13.029000Z',
                 feelings: ['none', 'none', 'none']
             },
             {
-                id_mail: 'test@test.com',
+                email: 'test@test.com',
                 date: '2022-11-22T07:06:13.029000Z',
                 feelings: ['none', 'none', 'none']
             },
             {
-                id_mail: 'test@test.com',
+                email: 'test@test.com',
                 date: '2022-11-23T07:06:13.029000Z',
                 feelings: ['none', 'none', 'none']
             },
             {
-                id_mail: 'test@test.com',
+                email: 'test@test.com',
                 date: '2022-11-24T07:06:13.029000Z',
                 feelings: ['none', 'none', 'none']
             },
             {
-                id_mail: 'test@test.com',
+                email: 'test@test.com',
                 date: '2022-11-25T07:06:13.029000Z',
                 feelings: ['none', 'none', 'none']
             },
             {
-                id_mail: 'test@test.com',
+                email: 'test@test.com',
                 date: '2022-11-26T07:06:13.029000Z',
                 feelings: ['none', 'none', 'none']
             },
             {
-                id_mail: 'test@test.com',
+                email: 'test@test.com',
                 date: '2022-11-27T07:06:13.029000Z',
                 feelings: ['none', 'none', 'none']
             },
             {
-                id_mail: 'test@test.com',
+                email: 'test@test.com',
                 date: '2022-11-28T07:06:13.029000Z',
                 feelings: ['none', 'none', 'none']
             },
             {
-                id_mail: 'test@test.com',
+                email: 'test@test.com',
                 date: '2022-11-29T07:06:13.029000Z',
                 feelings: ['none', 'none', 'none']
             },
             {
-                id_mail: 'test@test.com',
+                email: 'test@test.com',
                 date: '2022-11-30T07:06:13.029000Z',
                 feelings: ['none', 'none', 'none']
             },
             {
-                id_mail: 'test@test.com',
+                email: 'test@test.com',
                 date: '2022-12-01T07:06:13.029000Z',
                 feelings: ['none', 'none', 'none']
             },
             {
-                id_mail: 'test@test.com',
+                email: 'test@test.com',
                 date: '2022-12-02T07:06:13.029000Z',
                 feelings: ['none', 'none', 'none']
             },
             {
-                id_mail: 'test@test.com',
+                email: 'test@test.com',
                 date: '2022-12-03T07:06:13.029000Z',
                 feelings: ['none', 'none', 'none']
             },
             {
-                id_mail: 'test@test.com',
+                email: 'test@test.com',
                 date: '2022-12-04T07:06:13.029000Z',
                 feelings: ['none', 'none', 'none']
             }
@@ -415,7 +417,7 @@ let CalendarCreatorService = class CalendarCreatorService {
         // console.log(days);
         return data;
     }
-    getMonth(monthIndex, year) {
+    getMonth(monthIndex = this.currentMonthIndex, year = this.currentYear) {
         const days = [];
         const firstday = this.createDay(year, monthIndex, 1);
         const prevYear = monthIndex === 0 ? year - 1 : year;
@@ -664,7 +666,7 @@ let JournalCreatorService = class JournalCreatorService {
             return '비워둘래';
         }
         for (let i = 0; i < this._imgList.length; i++) {
-            if (this._imgList[i] === img) {
+            if (this._imgList[i] === img.slice(1, img.length)) {
                 return this._feelings[i];
             }
         }
@@ -677,7 +679,7 @@ let JournalCreatorService = class JournalCreatorService {
                 date: this.calService.getDateFormatted(day.date),
                 // date: `${day.year}-${day.monthIndex < 9 ? '0'+String(day.monthIndex+1) : day.monthIndex+1}-${day.dayNumber < 10 ? '0'+String(day.dayNumber) : day.dayNumber}`
             };
-            yield this.http.post(`http://118.67.132.111:8000/DayDiary/`, data, {
+            yield this.http.post(`/api/DayDiary/`, data, {
                 headers: new _angular_common_http__WEBPACK_IMPORTED_MODULE_4__.HttpHeaders()
                     .set('Content-Type', 'application/json')
             })
@@ -716,7 +718,7 @@ let JournalCreatorService = class JournalCreatorService {
                         };
                         console.log(finalData);
                         console.log('finalData feelings', finalData.feelings);
-                        this.http.post(`http://118.67.132.111:8000/DiarySave/`, finalData, {
+                        this.http.post(`/api/DiarySave/`, finalData, {
                             headers: new _angular_common_http__WEBPACK_IMPORTED_MODULE_4__.HttpHeaders()
                                 .set('Content-Type', 'application/json')
                         })
@@ -724,6 +726,7 @@ let JournalCreatorService = class JournalCreatorService {
                             .then((response) => {
                             console.log('createJournal-2', response);
                             this.presentToast('감정 적립', day);
+                            this.calService.getCurrentMonth(this.getToday.monthIndex, this.getToday.year);
                         })
                             .catch(err => {
                             this.presentToast('감정 적립 실패');
@@ -844,7 +847,8 @@ let AddKeywordComponent = class AddKeywordComponent {
     }
     onAdd() {
         if (this.chkDuplication()) {
-            this.popoverCtrl.dismiss(this.keywordVal, 'confirm');
+            this.inputEl.value = '';
+            this.keywords.push(this.keywordVal);
         }
     }
 };
@@ -902,12 +906,13 @@ __webpack_require__.r(__webpack_exports__);
 
 
 let CreateJournalComponent = class CreateJournalComponent {
-    constructor(journalCreator, modalCtrl, calendarService, popoverCtrl, actionSheetCtrl) {
+    constructor(journalCreator, modalCtrl, calendarService, popoverCtrl, actionSheetCtrl, alertController) {
         this.journalCreator = journalCreator;
         this.modalCtrl = modalCtrl;
         this.calendarService = calendarService;
         this.popoverCtrl = popoverCtrl;
         this.actionSheetCtrl = actionSheetCtrl;
+        this.alertController = alertController;
         this.year = 0;
         this.month = '';
         this.dayNumber = 1;
@@ -916,7 +921,6 @@ let CreateJournalComponent = class CreateJournalComponent {
         this.summary = '';
         this.diary = [];
         this.keywords = [];
-        this.isShare = false;
         this.feelingList = this.journalCreator.getFeelings;
     }
     ngOnInit() {
@@ -931,22 +935,53 @@ let CreateJournalComponent = class CreateJournalComponent {
     }
     ngAfterViewInit() {
     }
+    alertDismiss(msg) {
+        return (0,tslib__WEBPACK_IMPORTED_MODULE_8__.__awaiter)(this, void 0, void 0, function* () {
+            const alert = yield this.alertController.create({
+                header: msg,
+                buttons: [
+                    {
+                        text: '취소',
+                        role: 'cancel',
+                    },
+                    {
+                        text: '확인',
+                        role: 'confirm',
+                    },
+                ],
+            });
+            yield alert.present();
+            const { role } = yield alert.onDidDismiss();
+            return role;
+        });
+    }
     onCancel() {
-        this.modalCtrl.dismiss(null, 'cancel');
+        return (0,tslib__WEBPACK_IMPORTED_MODULE_8__.__awaiter)(this, void 0, void 0, function* () {
+            const confirm = yield this.alertDismiss('저장하지 않고 나가시겠습니까?');
+            if (confirm === 'confirm') {
+                this.modalCtrl.dismiss(null, 'cancel');
+            }
+            else {
+                console.log('canceled');
+            }
+        });
     }
     onJournalConfirm() {
-        this.modalCtrl.dismiss({
-            date: this.day.date,
-            dayNumber: this.day.dayNumber,
-            year: this.day.year,
-            monthIndex: this.day.monthIndex,
-            weekDayNumber: this.day.weekDayNumber,
-            feelings: this.feelings,
-            summary: this.summary,
-            diary: this.diary,
-            keywords: this.keywords,
-            recording: this.day.recording
-        }, 'confirm');
+        return (0,tslib__WEBPACK_IMPORTED_MODULE_8__.__awaiter)(this, void 0, void 0, function* () {
+            this.modalCtrl.dismiss({
+                date: this.day.date,
+                dayNumber: this.day.dayNumber,
+                year: this.day.year,
+                monthIndex: this.day.monthIndex,
+                weekDayNumber: this.day.weekDayNumber,
+                feelings: this.feelings,
+                summary: this.summary,
+                diary: this.diary,
+                keywords: this.keywords,
+                recording: this.day.recording,
+                isShare: this.checked,
+            }, 'confirm');
+        });
     }
     onRecording() {
         this.modalCtrl.create({
@@ -1020,6 +1055,7 @@ let CreateJournalComponent = class CreateJournalComponent {
             return popoverEl.onDidDismiss();
         }).then(result => {
             if (result.role === 'confirm') {
+                console.log(result.data);
                 this.feelings[result.data.time] = result.data.feeling;
                 this.feelNames[result.data.time] = result.data.name;
             }
@@ -1038,14 +1074,13 @@ let CreateJournalComponent = class CreateJournalComponent {
             cssClass: 'add-keyword-popover',
             event: e,
             translucent: true,
+            alignment: 'center',
             mode: 'md',
         }).then(popoverEl => {
             popoverEl.present();
             return popoverEl.onDidDismiss();
         }).then(result => {
             if (result.role === 'confirm') {
-                console.log(this.keywords);
-                this.keywords.push(result.data);
                 console.log(this.keywords);
             }
             console.log(result);
@@ -1054,9 +1089,10 @@ let CreateJournalComponent = class CreateJournalComponent {
     onBadgeClicked(keyword) {
         this.keywords = this.keywords.filter(x => x !== keyword);
     }
-    onShare(e) {
-        this.isShare = !this.isShare;
-        this.journalCreator.presentToast('오늘의 일기는 공유되지 않습니다');
+    onShare() {
+        if (this.checked) {
+            this.journalCreator.presentToast('오늘의 일기 전체 내용은 제외하고 공유돼요.');
+        }
     }
     presentActionSheet() {
         return (0,tslib__WEBPACK_IMPORTED_MODULE_8__.__awaiter)(this, void 0, void 0, function* () {
@@ -1106,7 +1142,8 @@ CreateJournalComponent.ctorParameters = () => [
     { type: _ionic_angular__WEBPACK_IMPORTED_MODULE_9__.ModalController },
     { type: _calendarCreator_service__WEBPACK_IMPORTED_MODULE_3__.CalendarCreatorService },
     { type: _ionic_angular__WEBPACK_IMPORTED_MODULE_9__.PopoverController },
-    { type: _ionic_angular__WEBPACK_IMPORTED_MODULE_9__.ActionSheetController }
+    { type: _ionic_angular__WEBPACK_IMPORTED_MODULE_9__.ActionSheetController },
+    { type: _ionic_angular__WEBPACK_IMPORTED_MODULE_9__.AlertController }
 ];
 CreateJournalComponent.propDecorators = {
     day: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_10__.Input }]
@@ -1174,14 +1211,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "RecordingComponent": () => (/* binding */ RecordingComponent)
 /* harmony export */ });
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! tslib */ 4929);
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! tslib */ 4929);
 /* harmony import */ var _recording_component_html_ngResource__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./recording.component.html?ngResource */ 9215);
 /* harmony import */ var _recording_component_scss_ngResource__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./recording.component.scss?ngResource */ 9449);
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @angular/core */ 3184);
-/* harmony import */ var _capacitor_filesystem__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @capacitor/filesystem */ 1662);
-/* harmony import */ var capacitor_voice_recorder__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! capacitor-voice-recorder */ 8782);
-/* harmony import */ var _recording_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../recording.service */ 9182);
-/* harmony import */ var _ionic_angular__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @ionic/angular */ 3819);
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @angular/core */ 3184);
+/* harmony import */ var _awesome_cordova_plugins_media_ngx__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @awesome-cordova-plugins/media/ngx */ 1168);
+/* harmony import */ var _capacitor_filesystem__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @capacitor/filesystem */ 1662);
+/* harmony import */ var capacitor_voice_recorder__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! capacitor-voice-recorder */ 8782);
+/* harmony import */ var _recording_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../../recording.service */ 9182);
+/* harmony import */ var _ionic_angular__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @ionic/angular */ 3819);
+
 
 
 
@@ -1191,7 +1230,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 let RecordingComponent = class RecordingComponent {
-    constructor(modalCtrl, recordService) {
+    constructor(media, modalCtrl, recordService) {
+        this.media = media;
         this.modalCtrl = modalCtrl;
         this.recordService = recordService;
         this.imgList = ['happy', 'soso', 'good', 'excite', 'great', 'uneasy', 'sad', 'not_good', 'lonely', 'depressed', 'surprise', 'upset', 'unpleasant'];
@@ -1215,7 +1255,7 @@ let RecordingComponent = class RecordingComponent {
             this.numbers.push(num);
         }
         this.loadFiles();
-        capacitor_voice_recorder__WEBPACK_IMPORTED_MODULE_3__.VoiceRecorder.requestAudioRecordingPermission(); // 거절하면 어떡할 지는 로직을 따로 짜야함
+        capacitor_voice_recorder__WEBPACK_IMPORTED_MODULE_4__.VoiceRecorder.requestAudioRecordingPermission(); // 거절하면 어떡할 지는 로직을 따로 짜야함
     }
     getRandomInt(max) {
         return Math.floor(Math.random() * max);
@@ -1245,10 +1285,10 @@ let RecordingComponent = class RecordingComponent {
             this.isRecording = true;
             this.isPaused = false;
             this.timeCalc();
-            return capacitor_voice_recorder__WEBPACK_IMPORTED_MODULE_3__.VoiceRecorder.resumeRecording();
+            return capacitor_voice_recorder__WEBPACK_IMPORTED_MODULE_4__.VoiceRecorder.resumeRecording();
         }
         this.isRecording = true;
-        capacitor_voice_recorder__WEBPACK_IMPORTED_MODULE_3__.VoiceRecorder.startRecording();
+        capacitor_voice_recorder__WEBPACK_IMPORTED_MODULE_4__.VoiceRecorder.startRecording();
         this.timeCalc();
     }
     onPauseClicked() {
@@ -1258,7 +1298,7 @@ let RecordingComponent = class RecordingComponent {
         clearInterval(this.interval);
         this.isRecording = false;
         this.isPaused = true;
-        capacitor_voice_recorder__WEBPACK_IMPORTED_MODULE_3__.VoiceRecorder.pauseRecording();
+        capacitor_voice_recorder__WEBPACK_IMPORTED_MODULE_4__.VoiceRecorder.pauseRecording();
     }
     onStopClicked() {
         if (!this.isRecording) {
@@ -1267,17 +1307,17 @@ let RecordingComponent = class RecordingComponent {
         clearInterval(this.interval);
         this.isRecording = false;
         this.timeCalc();
-        capacitor_voice_recorder__WEBPACK_IMPORTED_MODULE_3__.VoiceRecorder.stopRecording()
-            .then((record) => (0,tslib__WEBPACK_IMPORTED_MODULE_5__.__awaiter)(this, void 0, void 0, function* () {
+        capacitor_voice_recorder__WEBPACK_IMPORTED_MODULE_4__.VoiceRecorder.stopRecording()
+            .then((record) => (0,tslib__WEBPACK_IMPORTED_MODULE_6__.__awaiter)(this, void 0, void 0, function* () {
             if (record.value && record.value.recordDataBase64) {
                 const recordData = record.value.recordDataBase64;
                 console.log(record.value.mimeType);
                 this.recordData = recordData;
                 const duration = record.value.msDuration;
                 const fileName = new Date().getTime() + '.wav';
-                yield _capacitor_filesystem__WEBPACK_IMPORTED_MODULE_2__.Filesystem.writeFile({
+                yield _capacitor_filesystem__WEBPACK_IMPORTED_MODULE_3__.Filesystem.writeFile({
                     path: fileName,
-                    directory: _capacitor_filesystem__WEBPACK_IMPORTED_MODULE_2__.Directory.Data,
+                    directory: _capacitor_filesystem__WEBPACK_IMPORTED_MODULE_3__.Directory.Data,
                     data: recordData,
                 });
                 this.loadFiles();
@@ -1286,10 +1326,10 @@ let RecordingComponent = class RecordingComponent {
         }));
     }
     playFile(fileNames) {
-        return (0,tslib__WEBPACK_IMPORTED_MODULE_5__.__awaiter)(this, void 0, void 0, function* () {
-            const audioFile = yield _capacitor_filesystem__WEBPACK_IMPORTED_MODULE_2__.Filesystem.readFile({
+        return (0,tslib__WEBPACK_IMPORTED_MODULE_6__.__awaiter)(this, void 0, void 0, function* () {
+            const audioFile = yield _capacitor_filesystem__WEBPACK_IMPORTED_MODULE_3__.Filesystem.readFile({
                 path: fileNames.name,
-                directory: _capacitor_filesystem__WEBPACK_IMPORTED_MODULE_2__.Directory.Data
+                directory: _capacitor_filesystem__WEBPACK_IMPORTED_MODULE_3__.Directory.Data
             });
             const base64Sound = audioFile.data;
             const audioRef = new Audio(`data:audio/webm;base64,${base64Sound}`);
@@ -1300,10 +1340,10 @@ let RecordingComponent = class RecordingComponent {
         });
     }
     loadFiles() {
-        return (0,tslib__WEBPACK_IMPORTED_MODULE_5__.__awaiter)(this, void 0, void 0, function* () {
-            _capacitor_filesystem__WEBPACK_IMPORTED_MODULE_2__.Filesystem.readdir({
+        return (0,tslib__WEBPACK_IMPORTED_MODULE_6__.__awaiter)(this, void 0, void 0, function* () {
+            _capacitor_filesystem__WEBPACK_IMPORTED_MODULE_3__.Filesystem.readdir({
                 path: '',
-                directory: _capacitor_filesystem__WEBPACK_IMPORTED_MODULE_2__.Directory.Data
+                directory: _capacitor_filesystem__WEBPACK_IMPORTED_MODULE_3__.Directory.Data
             }).then(result => {
                 console.log('load', result.files[0]);
                 this.storedFileNames = result.files;
@@ -1311,7 +1351,7 @@ let RecordingComponent = class RecordingComponent {
         });
     }
     sendRecord() {
-        return (0,tslib__WEBPACK_IMPORTED_MODULE_5__.__awaiter)(this, void 0, void 0, function* () {
+        return (0,tslib__WEBPACK_IMPORTED_MODULE_6__.__awaiter)(this, void 0, void 0, function* () {
             const data = yield this.recordService.addRecording(this.recordData);
             yield this.modalCtrl.dismiss(data, 'confirm');
         });
@@ -1326,11 +1366,12 @@ let RecordingComponent = class RecordingComponent {
     }
 };
 RecordingComponent.ctorParameters = () => [
-    { type: _ionic_angular__WEBPACK_IMPORTED_MODULE_6__.ModalController },
-    { type: _recording_service__WEBPACK_IMPORTED_MODULE_4__.RecordingService }
+    { type: _awesome_cordova_plugins_media_ngx__WEBPACK_IMPORTED_MODULE_2__.Media },
+    { type: _ionic_angular__WEBPACK_IMPORTED_MODULE_7__.ModalController },
+    { type: _recording_service__WEBPACK_IMPORTED_MODULE_5__.RecordingService }
 ];
-RecordingComponent = (0,tslib__WEBPACK_IMPORTED_MODULE_5__.__decorate)([
-    (0,_angular_core__WEBPACK_IMPORTED_MODULE_7__.Component)({
+RecordingComponent = (0,tslib__WEBPACK_IMPORTED_MODULE_6__.__decorate)([
+    (0,_angular_core__WEBPACK_IMPORTED_MODULE_8__.Component)({
         selector: 'app-recording',
         template: _recording_component_html_ngResource__WEBPACK_IMPORTED_MODULE_0__,
         styles: [_recording_component_scss_ngResource__WEBPACK_IMPORTED_MODULE_1__]
@@ -1374,13 +1415,13 @@ let SetFeelingComponent = class SetFeelingComponent {
     }
     ngOnInit() {
         if (this.time === 0) {
-            this.timeStr = '아침';
+            this.timeStr = '첫번째';
         }
         else if (this.time === 1) {
-            this.timeStr = '점심';
+            this.timeStr = '두번째';
         }
         else if (this.time === 2) {
-            this.timeStr = '저녁';
+            this.timeStr = '세번째';
         }
     }
     deleteFeeling() {
@@ -1927,7 +1968,7 @@ module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW
 /***/ ((module) => {
 
 "use strict";
-module.exports = "div {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n}\ndiv .customBtn:nth-child(1):hover {\n  color: var(--red-color);\n}\ndiv .customBtn:nth-child(2):hover {\n  color: var(--active-color);\n}\nion-input {\n  border: 1px solid transparent;\n  border-radius: 15px;\n}\nion-input:focus-within {\n  border-color: var(--middle-purple-color);\n  color: black;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImFkZC1rZXl3b3JkLmNvbXBvbmVudC5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0UsYUFBQTtFQUNBLDhCQUFBO0VBQ0EsbUJBQUE7QUFDRjtBQUFFO0VBQ0UsdUJBQUE7QUFFSjtBQUFFO0VBQ0UsMEJBQUE7QUFFSjtBQUNBO0VBQ0UsNkJBQUE7RUFDQSxtQkFBQTtBQUVGO0FBQUE7RUFDRSx3Q0FBQTtFQUNBLFlBQUE7QUFHRiIsImZpbGUiOiJhZGQta2V5d29yZC5jb21wb25lbnQuc2NzcyIsInNvdXJjZXNDb250ZW50IjpbImRpdiB7XG4gIGRpc3BsYXk6IGZsZXg7XG4gIGp1c3RpZnktY29udGVudDogc3BhY2UtYmV0d2VlbjtcbiAgYWxpZ24taXRlbXM6IGNlbnRlcjtcbiAgLmN1c3RvbUJ0bjpudGgtY2hpbGQoMSk6aG92ZXIge1xuICAgIGNvbG9yOiB2YXIoLS1yZWQtY29sb3IpO1xuICB9XG4gIC5jdXN0b21CdG46bnRoLWNoaWxkKDIpOmhvdmVyIHtcbiAgICBjb2xvcjogdmFyKC0tYWN0aXZlLWNvbG9yKTtcbiAgfVxufVxuaW9uLWlucHV0IHtcbiAgYm9yZGVyOiAxcHggc29saWQgdHJhbnNwYXJlbnQ7XG4gIGJvcmRlci1yYWRpdXM6IDE1cHg7XG59XG5pb24taW5wdXQ6Zm9jdXMtd2l0aGluIHtcbiAgYm9yZGVyLWNvbG9yOiB2YXIoLS1taWRkbGUtcHVycGxlLWNvbG9yKTtcbiAgY29sb3I6IGJsYWNrO1xufVxuIl19 */";
+module.exports = "span.w100 {\n  display: block;\n  text-align: right;\n}\n\n.closeBtn {\n  margin-top: -5px;\n  padding: 0;\n}\n\n.closeBtn:hover {\n  color: var(--red-color);\n}\n\n.mainDiv {\n  display: flex;\n  justify-content: space-between;\n}\n\n.mainDiv .inputDiv {\n  width: 100%;\n}\n\n.mainDiv .inputDiv p {\n  margin: 0;\n  padding-left: 8px;\n  font-size: 14px;\n  color: var(--dark-gray-color);\n}\n\n.mainDiv .customBtn {\n  width: 60px;\n  padding: 10px 5px;\n  margin: 0;\n}\n\n.mainDiv .customBtn:hover {\n  color: var(--active-color);\n}\n\nion-input {\n  border: 1px solid transparent;\n  border-radius: 15px;\n}\n\nion-input:focus-within {\n  border-color: var(--middle-purple-color);\n  color: black;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImFkZC1rZXl3b3JkLmNvbXBvbmVudC5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0UsY0FBQTtFQUNBLGlCQUFBO0FBQ0Y7O0FBQ0E7RUFDRSxnQkFBQTtFQUNBLFVBQUE7QUFFRjs7QUFERTtFQUNFLHVCQUFBO0FBR0o7O0FBQUE7RUFDRSxhQUFBO0VBQ0EsOEJBQUE7QUFHRjs7QUFERTtFQUNFLFdBQUE7QUFHSjs7QUFGSTtFQUNFLFNBQUE7RUFDQSxpQkFBQTtFQUNBLGVBQUE7RUFDQSw2QkFBQTtBQUlOOztBQURFO0VBQ0UsV0FBQTtFQUNBLGlCQUFBO0VBQ0EsU0FBQTtBQUdKOztBQUZJO0VBQ0UsMEJBQUE7QUFJTjs7QUFBQTtFQUNFLDZCQUFBO0VBQ0EsbUJBQUE7QUFHRjs7QUFEQTtFQUNFLHdDQUFBO0VBQ0EsWUFBQTtBQUlGIiwiZmlsZSI6ImFkZC1rZXl3b3JkLmNvbXBvbmVudC5zY3NzIiwic291cmNlc0NvbnRlbnQiOlsic3Bhbi53MTAwIHtcbiAgZGlzcGxheTogYmxvY2s7XG4gIHRleHQtYWxpZ246IHJpZ2h0O1xufVxuLmNsb3NlQnRuIHtcbiAgbWFyZ2luLXRvcDogLTVweDtcbiAgcGFkZGluZzogMDtcbiAgJjpob3ZlciB7XG4gICAgY29sb3I6IHZhcigtLXJlZC1jb2xvcik7XG4gIH1cbn1cbi5tYWluRGl2IHtcbiAgZGlzcGxheTogZmxleDtcbiAganVzdGlmeS1jb250ZW50OiBzcGFjZS1iZXR3ZWVuO1xuICAvLyBhbGlnbi1pdGVtczogY2VudGVyO1xuICAuaW5wdXREaXYge1xuICAgIHdpZHRoOiAxMDAlO1xuICAgIHAge1xuICAgICAgbWFyZ2luOiAwO1xuICAgICAgcGFkZGluZy1sZWZ0OiA4cHg7XG4gICAgICBmb250LXNpemU6IDE0cHg7XG4gICAgICBjb2xvcjogdmFyKC0tZGFyay1ncmF5LWNvbG9yKTtcbiAgICB9XG4gIH1cbiAgLmN1c3RvbUJ0biB7XG4gICAgd2lkdGg6IDYwcHg7XG4gICAgcGFkZGluZzogMTBweCA1cHg7XG4gICAgbWFyZ2luOiAwO1xuICAgICY6aG92ZXIge1xuICAgICAgY29sb3I6IHZhcigtLWFjdGl2ZS1jb2xvcik7XG4gICAgfVxuICB9XG59XG5pb24taW5wdXQge1xuICBib3JkZXI6IDFweCBzb2xpZCB0cmFuc3BhcmVudDtcbiAgYm9yZGVyLXJhZGl1czogMTVweDtcbn1cbmlvbi1pbnB1dDpmb2N1cy13aXRoaW4ge1xuICBib3JkZXItY29sb3I6IHZhcigtLW1pZGRsZS1wdXJwbGUtY29sb3IpO1xuICBjb2xvcjogYmxhY2s7XG59XG5cbiJdfQ== */";
 
 /***/ }),
 
@@ -1938,7 +1979,7 @@ module.exports = "div {\n  display: flex;\n  justify-content: space-between;\n  
 /***/ ((module) => {
 
 "use strict";
-module.exports = ".container {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  height: 100%;\n}\n.container ion-button {\n  width: 32px;\n  height: 32px;\n  border-radius: 50%;\n}\n.container ion-button:hover {\n  color: var(--active-color);\n}\n.container ion-button.activateBtn {\n  background-color: var(--middle-purple-color);\n  color: var(--active-color);\n}\n.container ion-button.trashBtn:hover {\n  color: var(--red-color);\n}\n.timeCard:hover {\n  cursor: pointer;\n}\nion-card p {\n  margin-top: 0;\n}\n.marginVertical {\n  margin: 16px 0;\n}\n.imgContainer {\n  width: 60px;\n  height: 60px;\n  margin: auto;\n}\n.imgContainer ion-img {\n  width: 100%;\n  height: 100%;\n}\n.iconBack {\n  background-image: url(\"/assets/feeling/empty.svg\");\n  background-color: transparent;\n  background-position: center center;\n  background-repeat: no-repeat;\n  background-size: 100% 100%;\n}\n.feelingDiv:hover {\n  cursor: pointer;\n  transition: background-color 0.3s;\n  background-color: #f9f9f9;\n  border-radius: 50%;\n}\nion-input#summary {\n  border: 1px solid transparent;\n  border-radius: 15px;\n}\nion-input#summary:focus-within {\n  border-color: var(--middle-purple-color);\n  color: black;\n}\n.diaryTime {\n  display: block;\n  color: var(--gray-color);\n  margin-bottom: -10px;\n}\n.diaryBtns .diaryBtn {\n  margin: 8px;\n}\n.diaryBtns ion-img {\n  margin-right: 5px;\n}\n.customBtn {\n  color: var(--red-color);\n}\n.customBtn:hover {\n  background-color: var(--middle-red-color);\n}\n.keywordBadge {\n  margin: 8px 4px;\n  background-color: var(--keyword-color);\n  border-radius: 30px;\n  color: black;\n}\n.keywordBadge:nth-child(1) {\n  background-color: var(--keyword-first-color);\n}\n.keywordBadge:hover,\n.keywordIcon:hover {\n  cursor: pointer;\n}\n.keywordIcon {\n  margin: 8px 0 8px 16px;\n}\nion-footer ion-button {\n  margin: 0px 0px 10px 0px;\n  height: 50px;\n  width: 90%;\n}\n.footer-md::before {\n  width: 0;\n  height: 0;\n}\n@media only screen and (min-width: 319.98px) {\n  .imgContainer {\n    width: 50px;\n    height: 50px;\n    margin: auto;\n  }\n  .imgContainer ion-img {\n    width: 100%;\n    height: 100%;\n  }\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImNyZWF0ZS1qb3VybmFsLmNvbXBvbmVudC5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0UsYUFBQTtFQUNBLG1CQUFBO0VBQ0EsdUJBQUE7RUFDQSxZQUFBO0FBQ0Y7QUFBRTtFQUNFLFdBQUE7RUFDQSxZQUFBO0VBQ0Esa0JBQUE7QUFFSjtBQURJO0VBQ0UsMEJBQUE7QUFHTjtBQURJO0VBQ0UsNENBQUE7RUFDQSwwQkFBQTtBQUdOO0FBREk7RUFDRSx1QkFBQTtBQUdOO0FBRUE7RUFDRSxlQUFBO0FBQ0Y7QUFFQTtFQUNFLGFBQUE7QUFDRjtBQUNBO0VBQ0UsY0FBQTtBQUVGO0FBQUE7RUFDRSxXQUFBO0VBQ0EsWUFBQTtFQUNBLFlBQUE7QUFHRjtBQUZFO0VBQ0UsV0FBQTtFQUNBLFlBQUE7QUFJSjtBQURBO0VBQ0Usa0RBQUE7RUFDQSw2QkFBQTtFQUNBLGtDQUFBO0VBQ0EsNEJBQUE7RUFDQSwwQkFBQTtBQUlGO0FBSUE7RUFDRSxlQUFBO0VBQ0EsaUNBQUE7RUFDQSx5QkFBQTtFQUNBLGtCQUFBO0FBREY7QUFJQTtFQUNFLDZCQUFBO0VBQ0EsbUJBQUE7QUFERjtBQUdBO0VBQ0Usd0NBQUE7RUFDQSxZQUFBO0FBQUY7QUFFQTtFQUNFLGNBQUE7RUFDQSx3QkFBQTtFQUNBLG9CQUFBO0FBQ0Y7QUFFRTtFQUNFLFdBQUE7QUFDSjtBQUNFO0VBQ0UsaUJBQUE7QUFDSjtBQUdBO0VBQ0UsdUJBQUE7QUFBRjtBQUVBO0VBQ0kseUNBQUE7QUFDSjtBQUNBO0VBQ0UsZUFBQTtFQUNBLHNDQUFBO0VBQ0EsbUJBQUE7RUFDQSxZQUFBO0FBRUY7QUFERTtFQUNFLDRDQUFBO0FBR0o7QUFBQTs7RUFFRSxlQUFBO0FBR0Y7QUFEQTtFQUNFLHNCQUFBO0FBSUY7QUFGQTtFQUNFLHdCQUFBO0VBQ0EsWUFBQTtFQUNBLFVBQUE7QUFLRjtBQUhBO0VBQ0UsUUFBQTtFQUNBLFNBQUE7QUFNRjtBQUhBO0VBRUU7SUFDRSxXQUFBO0lBQ0EsWUFBQTtJQUNBLFlBQUE7RUFLRjtFQUpFO0lBQ0UsV0FBQTtJQUNBLFlBQUE7RUFNSjtBQUNGIiwiZmlsZSI6ImNyZWF0ZS1qb3VybmFsLmNvbXBvbmVudC5zY3NzIiwic291cmNlc0NvbnRlbnQiOlsiLmNvbnRhaW5lciB7XG4gIGRpc3BsYXk6IGZsZXg7XG4gIGFsaWduLWl0ZW1zOiBjZW50ZXI7XG4gIGp1c3RpZnktY29udGVudDogY2VudGVyO1xuICBoZWlnaHQ6IDEwMCU7XG4gIGlvbi1idXR0b24ge1xuICAgIHdpZHRoOiAzMnB4O1xuICAgIGhlaWdodDogMzJweDtcbiAgICBib3JkZXItcmFkaXVzOiA1MCU7XG4gICAgJjpob3ZlciB7XG4gICAgICBjb2xvcjogdmFyKC0tYWN0aXZlLWNvbG9yKTtcbiAgICB9XG4gICAgJi5hY3RpdmF0ZUJ0biB7XG4gICAgICBiYWNrZ3JvdW5kLWNvbG9yOiB2YXIoLS1taWRkbGUtcHVycGxlLWNvbG9yKTtcbiAgICAgIGNvbG9yOiB2YXIoLS1hY3RpdmUtY29sb3IpO1xuICAgIH1cbiAgICAmLnRyYXNoQnRuOmhvdmVyIHtcbiAgICAgIGNvbG9yOiB2YXIoLS1yZWQtY29sb3IpO1xuICAgIH1cbiAgfVxufVxuXG4udGltZUNhcmQ6aG92ZXIge1xuICBjdXJzb3I6IHBvaW50ZXI7XG59XG5cbmlvbi1jYXJkIHAge1xuICBtYXJnaW4tdG9wOiAwO1xufVxuLm1hcmdpblZlcnRpY2FsIHtcbiAgbWFyZ2luOiAxNnB4IDA7XG59XG4uaW1nQ29udGFpbmVyIHtcbiAgd2lkdGg6IDYwcHg7XG4gIGhlaWdodDogNjBweDtcbiAgbWFyZ2luOiBhdXRvO1xuICBpb24taW1nIHtcbiAgICB3aWR0aDogMTAwJTtcbiAgICBoZWlnaHQ6IDEwMCU7XG4gIH1cbn1cbi5pY29uQmFjayB7XG4gIGJhY2tncm91bmQtaW1hZ2U6IHVybCgnL2Fzc2V0cy9mZWVsaW5nL2VtcHR5LnN2ZycpO1xuICBiYWNrZ3JvdW5kLWNvbG9yOiB0cmFuc3BhcmVudDtcbiAgYmFja2dyb3VuZC1wb3NpdGlvbjpjZW50ZXIgY2VudGVyO1xuICBiYWNrZ3JvdW5kLXJlcGVhdDpuby1yZXBlYXQ7XG4gIGJhY2tncm91bmQtc2l6ZTogMTAwJSAxMDAlO1xuICAvLyBpb24taWNvbiB7XG4gIC8vICAgZGlzcGxheTogbm9uZTtcbiAgLy8gfVxuICAvLyAmOmhvdmVyIGlvbi1pY29uIHtcbiAgLy8gICBkaXNwbGF5OiBibG9jaztcbiAgLy8gfVxufVxuLmZlZWxpbmdEaXY6aG92ZXIge1xuICBjdXJzb3I6IHBvaW50ZXI7XG4gIHRyYW5zaXRpb246IGJhY2tncm91bmQtY29sb3IgMC4zcztcbiAgYmFja2dyb3VuZC1jb2xvcjogI2Y5ZjlmOTtcbiAgYm9yZGVyLXJhZGl1czogNTAlO1xufVxuXG5pb24taW5wdXQjc3VtbWFyeSB7XG4gIGJvcmRlcjogMXB4IHNvbGlkIHRyYW5zcGFyZW50O1xuICBib3JkZXItcmFkaXVzOiAxNXB4O1xufVxuaW9uLWlucHV0I3N1bW1hcnk6Zm9jdXMtd2l0aGluIHtcbiAgYm9yZGVyLWNvbG9yOiB2YXIoLS1taWRkbGUtcHVycGxlLWNvbG9yKTtcbiAgY29sb3I6IGJsYWNrO1xufVxuLmRpYXJ5VGltZSB7XG4gIGRpc3BsYXk6IGJsb2NrO1xuICBjb2xvcjogdmFyKC0tZ3JheS1jb2xvcik7XG4gIG1hcmdpbi1ib3R0b206IC0xMHB4O1xufVxuLmRpYXJ5QnRucyB7XG4gIC5kaWFyeUJ0biB7XG4gICAgbWFyZ2luOiA4cHg7XG4gIH1cbiAgaW9uLWltZyB7XG4gICAgbWFyZ2luLXJpZ2h0OiA1cHg7XG4gIH1cbn1cblxuLmN1c3RvbUJ0biB7XG4gIGNvbG9yOiB2YXIoLS1yZWQtY29sb3IpO1xufVxuLmN1c3RvbUJ0bjpob3ZlciB7XG4gICAgYmFja2dyb3VuZC1jb2xvcjogdmFyKC0tbWlkZGxlLXJlZC1jb2xvcik7XG59XG4ua2V5d29yZEJhZGdlIHtcbiAgbWFyZ2luOiA4cHggNHB4O1xuICBiYWNrZ3JvdW5kLWNvbG9yOiB2YXIoLS1rZXl3b3JkLWNvbG9yKTtcbiAgYm9yZGVyLXJhZGl1czogMzBweDtcbiAgY29sb3I6IGJsYWNrO1xuICAmOm50aC1jaGlsZCgxKSB7XG4gICAgYmFja2dyb3VuZC1jb2xvcjogdmFyKC0ta2V5d29yZC1maXJzdC1jb2xvcik7XG4gIH1cbn1cbi5rZXl3b3JkQmFkZ2U6aG92ZXIsXG4ua2V5d29yZEljb246aG92ZXIge1xuICBjdXJzb3I6IHBvaW50ZXI7XG59XG4ua2V5d29yZEljb24ge1xuICBtYXJnaW46IDhweCAwIDhweCAxNnB4O1xufVxuaW9uLWZvb3RlciBpb24tYnV0dG9uIHtcbiAgbWFyZ2luOiAwcHggMHB4IDEwcHggMHB4O1xuICBoZWlnaHQ6IDUwcHg7XG4gIHdpZHRoOiA5MCU7XG59XG4uZm9vdGVyLW1kOjpiZWZvcmUge1xuICB3aWR0aDogMDtcbiAgaGVpZ2h0OiAwO1xufVxuXG5AbWVkaWEgb25seSBzY3JlZW4gYW5kIChtaW4td2lkdGg6IDMxOS45OHB4KSB7XG5cbiAgLmltZ0NvbnRhaW5lciB7XG4gICAgd2lkdGg6IDUwcHg7XG4gICAgaGVpZ2h0OiA1MHB4O1xuICAgIG1hcmdpbjogYXV0bztcbiAgICBpb24taW1nIHtcbiAgICAgIHdpZHRoOiAxMDAlO1xuICAgICAgaGVpZ2h0OiAxMDAlO1xuICAgIH1cbiAgfVxufVxuIl19 */";
+module.exports = ".container {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  height: 100%;\n}\n.container ion-button {\n  width: 32px;\n  height: 32px;\n  border-radius: 50%;\n}\n.container ion-button:hover {\n  color: var(--active-color);\n}\n.container ion-button.activateBtn {\n  background-color: var(--middle-purple-color);\n  color: var(--active-color);\n}\n.container ion-button.trashBtn:hover {\n  color: var(--red-color);\n}\n.timeCard:hover {\n  cursor: pointer;\n}\nion-card p {\n  margin-top: 0;\n}\n.marginVertical {\n  margin: 16px 0;\n}\n.imgContainer {\n  width: 60px;\n  height: 60px;\n  margin: auto;\n}\n.imgContainer ion-img {\n  width: 100%;\n  height: 100%;\n}\n.iconBack {\n  background-image: url(\"/assets/feeling/empty.svg\");\n  background-color: transparent;\n  background-position: center center;\n  background-repeat: no-repeat;\n  background-size: 100% 100%;\n}\n.feelingDiv:hover {\n  cursor: pointer;\n  transition: background-color 0.3s;\n  background-color: #f9f9f9;\n  border-radius: 50%;\n}\nion-input#summary {\n  border: 1px solid transparent;\n  border-radius: 15px;\n}\nion-input#summary:focus-within {\n  border-color: var(--middle-purple-color);\n  color: black;\n}\n.diaryTime {\n  display: block;\n  color: var(--gray-color);\n  margin-bottom: -10px;\n}\n.diaryBtns .diaryBtn {\n  margin: 8px;\n}\n.diaryBtns ion-img {\n  margin-right: 5px;\n}\n.customBtn {\n  color: var(--red-color);\n}\n.customBtn:hover {\n  background-color: var(--middle-red-color);\n}\n.keywordBadge {\n  margin: 8px 4px;\n  background-color: var(--keyword-color);\n  border-radius: 30px;\n  color: black;\n}\n.keywordBadge:nth-child(1) {\n  background-color: var(--keyword-first-color);\n}\n.keywordBadge:hover,\n.keywordIcon:hover {\n  cursor: pointer;\n}\nion-footer ion-button {\n  margin: 0px 0px 10px 0px;\n  height: 50px;\n  width: 90%;\n}\n.footer-md::before {\n  width: 0;\n  height: 0;\n}\n.toggle-switch {\n  display: inline-block;\n  vertical-align: middle;\n}\n.toggle-input {\n  display: none;\n}\n.toggle-label {\n  display: inline-block;\n  cursor: pointer;\n  font-size: 13px;\n  width: 100px;\n  height: 30px;\n  background-color: #ccc;\n  border-radius: 15px;\n  position: relative;\n  transition: background-color 0.2s ease;\n}\n.toggle-label:before {\n  content: \"\";\n  position: absolute;\n  top: 3px;\n  left: 3px;\n  width: 50px;\n  height: 24px;\n  border-radius: 15px;\n  background-color: white;\n  transition: transform 0.2s ease;\n}\n.share {\n  position: absolute;\n  top: 0;\n  left: 0;\n  width: 50%;\n  height: 100%;\n  line-height: 30px;\n  text-align: center;\n  color: white;\n}\n.exclusive {\n  position: absolute;\n  top: 0;\n  right: 0;\n  width: 50%;\n  height: 100%;\n  line-height: 30px;\n  text-align: center;\n  color: #555;\n}\n.toggle-input:checked + .toggle-label {\n  background-color: var(--active-color);\n}\n.toggle-input:checked + .toggle-label:before {\n  transform: translateX(45px);\n}\n@media only screen and (min-width: 319.98px) {\n  .imgContainer {\n    width: 50px;\n    height: 50px;\n    margin: auto;\n  }\n  .imgContainer ion-img {\n    width: 100%;\n    height: 100%;\n  }\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImNyZWF0ZS1qb3VybmFsLmNvbXBvbmVudC5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0UsYUFBQTtFQUNBLG1CQUFBO0VBQ0EsdUJBQUE7RUFDQSxZQUFBO0FBQ0Y7QUFBRTtFQUNFLFdBQUE7RUFDQSxZQUFBO0VBQ0Esa0JBQUE7QUFFSjtBQURJO0VBQ0UsMEJBQUE7QUFHTjtBQURJO0VBQ0UsNENBQUE7RUFDQSwwQkFBQTtBQUdOO0FBREk7RUFDRSx1QkFBQTtBQUdOO0FBRUE7RUFDRSxlQUFBO0FBQ0Y7QUFFQTtFQUNFLGFBQUE7QUFDRjtBQUNBO0VBQ0UsY0FBQTtBQUVGO0FBQUE7RUFDRSxXQUFBO0VBQ0EsWUFBQTtFQUNBLFlBQUE7QUFHRjtBQUZFO0VBQ0UsV0FBQTtFQUNBLFlBQUE7QUFJSjtBQURBO0VBQ0Usa0RBQUE7RUFDQSw2QkFBQTtFQUNBLGtDQUFBO0VBQ0EsNEJBQUE7RUFDQSwwQkFBQTtBQUlGO0FBSUE7RUFDRSxlQUFBO0VBQ0EsaUNBQUE7RUFDQSx5QkFBQTtFQUNBLGtCQUFBO0FBREY7QUFJQTtFQUNFLDZCQUFBO0VBQ0EsbUJBQUE7QUFERjtBQUdBO0VBQ0Usd0NBQUE7RUFDQSxZQUFBO0FBQUY7QUFFQTtFQUNFLGNBQUE7RUFDQSx3QkFBQTtFQUNBLG9CQUFBO0FBQ0Y7QUFFRTtFQUNFLFdBQUE7QUFDSjtBQUNFO0VBQ0UsaUJBQUE7QUFDSjtBQUdBO0VBQ0UsdUJBQUE7QUFBRjtBQUVBO0VBQ0kseUNBQUE7QUFDSjtBQUNBO0VBQ0UsZUFBQTtFQUNBLHNDQUFBO0VBQ0EsbUJBQUE7RUFDQSxZQUFBO0FBRUY7QUFERTtFQUNFLDRDQUFBO0FBR0o7QUFBQTs7RUFFRSxlQUFBO0FBR0Y7QUFFQTtFQUNFLHdCQUFBO0VBQ0EsWUFBQTtFQUNBLFVBQUE7QUFDRjtBQUNBO0VBQ0UsUUFBQTtFQUNBLFNBQUE7QUFFRjtBQUVBO0VBQ0UscUJBQUE7RUFDQSxzQkFBQTtBQUNGO0FBRUE7RUFDRSxhQUFBO0FBQ0Y7QUFFQTtFQUNFLHFCQUFBO0VBQ0EsZUFBQTtFQUNBLGVBQUE7RUFDQSxZQUFBO0VBQ0EsWUFBQTtFQUNBLHNCQUFBO0VBQ0EsbUJBQUE7RUFDQSxrQkFBQTtFQUNBLHNDQUFBO0FBQ0Y7QUFFQTtFQUNFLFdBQUE7RUFDQSxrQkFBQTtFQUNBLFFBQUE7RUFDQSxTQUFBO0VBQ0EsV0FBQTtFQUNBLFlBQUE7RUFDQSxtQkFBQTtFQUNBLHVCQUFBO0VBQ0EsK0JBQUE7QUFDRjtBQUVBO0VBQ0Usa0JBQUE7RUFDQSxNQUFBO0VBQ0EsT0FBQTtFQUNBLFVBQUE7RUFDQSxZQUFBO0VBQ0EsaUJBQUE7RUFDQSxrQkFBQTtFQUNBLFlBQUE7QUFDRjtBQUVBO0VBQ0Usa0JBQUE7RUFDQSxNQUFBO0VBQ0EsUUFBQTtFQUNBLFVBQUE7RUFDQSxZQUFBO0VBQ0EsaUJBQUE7RUFDQSxrQkFBQTtFQUNBLFdBQUE7QUFDRjtBQUVBO0VBQ0UscUNBQUE7QUFDRjtBQUVBO0VBQ0UsMkJBQUE7QUFDRjtBQUVBO0VBRUU7SUFDRSxXQUFBO0lBQ0EsWUFBQTtJQUNBLFlBQUE7RUFBRjtFQUNFO0lBQ0UsV0FBQTtJQUNBLFlBQUE7RUFDSjtBQUNGIiwiZmlsZSI6ImNyZWF0ZS1qb3VybmFsLmNvbXBvbmVudC5zY3NzIiwic291cmNlc0NvbnRlbnQiOlsiLmNvbnRhaW5lciB7XG4gIGRpc3BsYXk6IGZsZXg7XG4gIGFsaWduLWl0ZW1zOiBjZW50ZXI7XG4gIGp1c3RpZnktY29udGVudDogY2VudGVyO1xuICBoZWlnaHQ6IDEwMCU7XG4gIGlvbi1idXR0b24ge1xuICAgIHdpZHRoOiAzMnB4O1xuICAgIGhlaWdodDogMzJweDtcbiAgICBib3JkZXItcmFkaXVzOiA1MCU7XG4gICAgJjpob3ZlciB7XG4gICAgICBjb2xvcjogdmFyKC0tYWN0aXZlLWNvbG9yKTtcbiAgICB9XG4gICAgJi5hY3RpdmF0ZUJ0biB7XG4gICAgICBiYWNrZ3JvdW5kLWNvbG9yOiB2YXIoLS1taWRkbGUtcHVycGxlLWNvbG9yKTtcbiAgICAgIGNvbG9yOiB2YXIoLS1hY3RpdmUtY29sb3IpO1xuICAgIH1cbiAgICAmLnRyYXNoQnRuOmhvdmVyIHtcbiAgICAgIGNvbG9yOiB2YXIoLS1yZWQtY29sb3IpO1xuICAgIH1cbiAgfVxufVxuXG4udGltZUNhcmQ6aG92ZXIge1xuICBjdXJzb3I6IHBvaW50ZXI7XG59XG5cbmlvbi1jYXJkIHAge1xuICBtYXJnaW4tdG9wOiAwO1xufVxuLm1hcmdpblZlcnRpY2FsIHtcbiAgbWFyZ2luOiAxNnB4IDA7XG59XG4uaW1nQ29udGFpbmVyIHtcbiAgd2lkdGg6IDYwcHg7XG4gIGhlaWdodDogNjBweDtcbiAgbWFyZ2luOiBhdXRvO1xuICBpb24taW1nIHtcbiAgICB3aWR0aDogMTAwJTtcbiAgICBoZWlnaHQ6IDEwMCU7XG4gIH1cbn1cbi5pY29uQmFjayB7XG4gIGJhY2tncm91bmQtaW1hZ2U6IHVybCgnL2Fzc2V0cy9mZWVsaW5nL2VtcHR5LnN2ZycpO1xuICBiYWNrZ3JvdW5kLWNvbG9yOiB0cmFuc3BhcmVudDtcbiAgYmFja2dyb3VuZC1wb3NpdGlvbjpjZW50ZXIgY2VudGVyO1xuICBiYWNrZ3JvdW5kLXJlcGVhdDpuby1yZXBlYXQ7XG4gIGJhY2tncm91bmQtc2l6ZTogMTAwJSAxMDAlO1xuICAvLyBpb24taWNvbiB7XG4gIC8vICAgZGlzcGxheTogbm9uZTtcbiAgLy8gfVxuICAvLyAmOmhvdmVyIGlvbi1pY29uIHtcbiAgLy8gICBkaXNwbGF5OiBibG9jaztcbiAgLy8gfVxufVxuLmZlZWxpbmdEaXY6aG92ZXIge1xuICBjdXJzb3I6IHBvaW50ZXI7XG4gIHRyYW5zaXRpb246IGJhY2tncm91bmQtY29sb3IgMC4zcztcbiAgYmFja2dyb3VuZC1jb2xvcjogI2Y5ZjlmOTtcbiAgYm9yZGVyLXJhZGl1czogNTAlO1xufVxuXG5pb24taW5wdXQjc3VtbWFyeSB7XG4gIGJvcmRlcjogMXB4IHNvbGlkIHRyYW5zcGFyZW50O1xuICBib3JkZXItcmFkaXVzOiAxNXB4O1xufVxuaW9uLWlucHV0I3N1bW1hcnk6Zm9jdXMtd2l0aGluIHtcbiAgYm9yZGVyLWNvbG9yOiB2YXIoLS1taWRkbGUtcHVycGxlLWNvbG9yKTtcbiAgY29sb3I6IGJsYWNrO1xufVxuLmRpYXJ5VGltZSB7XG4gIGRpc3BsYXk6IGJsb2NrO1xuICBjb2xvcjogdmFyKC0tZ3JheS1jb2xvcik7XG4gIG1hcmdpbi1ib3R0b206IC0xMHB4O1xufVxuLmRpYXJ5QnRucyB7XG4gIC5kaWFyeUJ0biB7XG4gICAgbWFyZ2luOiA4cHg7XG4gIH1cbiAgaW9uLWltZyB7XG4gICAgbWFyZ2luLXJpZ2h0OiA1cHg7XG4gIH1cbn1cblxuLmN1c3RvbUJ0biB7XG4gIGNvbG9yOiB2YXIoLS1yZWQtY29sb3IpO1xufVxuLmN1c3RvbUJ0bjpob3ZlciB7XG4gICAgYmFja2dyb3VuZC1jb2xvcjogdmFyKC0tbWlkZGxlLXJlZC1jb2xvcik7XG59XG4ua2V5d29yZEJhZGdlIHtcbiAgbWFyZ2luOiA4cHggNHB4O1xuICBiYWNrZ3JvdW5kLWNvbG9yOiB2YXIoLS1rZXl3b3JkLWNvbG9yKTtcbiAgYm9yZGVyLXJhZGl1czogMzBweDtcbiAgY29sb3I6IGJsYWNrO1xuICAmOm50aC1jaGlsZCgxKSB7XG4gICAgYmFja2dyb3VuZC1jb2xvcjogdmFyKC0ta2V5d29yZC1maXJzdC1jb2xvcik7XG4gIH1cbn1cbi5rZXl3b3JkQmFkZ2U6aG92ZXIsXG4ua2V5d29yZEljb246aG92ZXIge1xuICBjdXJzb3I6IHBvaW50ZXI7XG59XG4ua2V5d29yZEljb24ge1xuICAvLyBtYXJnaW46IDhweCAwIDhweCAxNnB4O1xufVxuaW9uLWZvb3RlciBpb24tYnV0dG9uIHtcbiAgbWFyZ2luOiAwcHggMHB4IDEwcHggMHB4O1xuICBoZWlnaHQ6IDUwcHg7XG4gIHdpZHRoOiA5MCU7XG59XG4uZm9vdGVyLW1kOjpiZWZvcmUge1xuICB3aWR0aDogMDtcbiAgaGVpZ2h0OiAwO1xufVxuXG5cbi50b2dnbGUtc3dpdGNoIHtcbiAgZGlzcGxheTogaW5saW5lLWJsb2NrO1xuICB2ZXJ0aWNhbC1hbGlnbjogbWlkZGxlO1xufVxuXG4udG9nZ2xlLWlucHV0IHtcbiAgZGlzcGxheTogbm9uZTtcbn1cblxuLnRvZ2dsZS1sYWJlbCB7XG4gIGRpc3BsYXk6IGlubGluZS1ibG9jaztcbiAgY3Vyc29yOiBwb2ludGVyO1xuICBmb250LXNpemU6MTNweDtcbiAgd2lkdGg6IDEwMHB4O1xuICBoZWlnaHQ6IDMwcHg7XG4gIGJhY2tncm91bmQtY29sb3I6ICNjY2M7XG4gIGJvcmRlci1yYWRpdXM6IDE1cHg7XG4gIHBvc2l0aW9uOiByZWxhdGl2ZTtcbiAgdHJhbnNpdGlvbjogYmFja2dyb3VuZC1jb2xvciAwLjJzIGVhc2U7XG59XG5cbi50b2dnbGUtbGFiZWw6YmVmb3JlIHtcbiAgY29udGVudDogXCJcIjtcbiAgcG9zaXRpb246IGFic29sdXRlO1xuICB0b3A6IDNweDtcbiAgbGVmdDogM3B4O1xuICB3aWR0aDogNTBweDtcbiAgaGVpZ2h0OiAyNHB4O1xuICBib3JkZXItcmFkaXVzOiAxNXB4O1xuICBiYWNrZ3JvdW5kLWNvbG9yOiB3aGl0ZTtcbiAgdHJhbnNpdGlvbjogdHJhbnNmb3JtIDAuMnMgZWFzZTtcbn1cblxuLnNoYXJlIHtcbiAgcG9zaXRpb246IGFic29sdXRlO1xuICB0b3A6IDA7XG4gIGxlZnQ6IDA7XG4gIHdpZHRoOiA1MCU7XG4gIGhlaWdodDogMTAwJTtcbiAgbGluZS1oZWlnaHQ6IDMwcHg7XG4gIHRleHQtYWxpZ246IGNlbnRlcjtcbiAgY29sb3I6IHdoaXRlO1xufVxuXG4uZXhjbHVzaXZlIHtcbiAgcG9zaXRpb246IGFic29sdXRlO1xuICB0b3A6IDA7XG4gIHJpZ2h0OiAwO1xuICB3aWR0aDogNTAlO1xuICBoZWlnaHQ6IDEwMCU7XG4gIGxpbmUtaGVpZ2h0OiAzMHB4O1xuICB0ZXh0LWFsaWduOiBjZW50ZXI7XG4gIGNvbG9yOiAjNTU1O1xufVxuXG4udG9nZ2xlLWlucHV0OmNoZWNrZWQgKyAudG9nZ2xlLWxhYmVsIHtcbiAgYmFja2dyb3VuZC1jb2xvcjogdmFyKC0tYWN0aXZlLWNvbG9yKTtcbn1cblxuLnRvZ2dsZS1pbnB1dDpjaGVja2VkICsgLnRvZ2dsZS1sYWJlbDpiZWZvcmUge1xuICB0cmFuc2Zvcm06IHRyYW5zbGF0ZVgoNDVweCk7XG59XG5cbkBtZWRpYSBvbmx5IHNjcmVlbiBhbmQgKG1pbi13aWR0aDogMzE5Ljk4cHgpIHtcblxuICAuaW1nQ29udGFpbmVyIHtcbiAgICB3aWR0aDogNTBweDtcbiAgICBoZWlnaHQ6IDUwcHg7XG4gICAgbWFyZ2luOiBhdXRvO1xuICAgIGlvbi1pbWcge1xuICAgICAgd2lkdGg6IDEwMCU7XG4gICAgICBoZWlnaHQ6IDEwMCU7XG4gICAgfVxuICB9XG59XG4iXX0= */";
 
 /***/ }),
 
@@ -2004,7 +2045,7 @@ module.exports = "<ion-app>\n  <ion-router-outlet></ion-router-outlet>\n</ion-ap
 /***/ ((module) => {
 
 "use strict";
-module.exports = "<ion-content class=\"ion-padding\">\n  <ion-input #inputEl [(ngModel)]=\"keywordVal\" placeholder=\"키워드를 입력해주세요\" autofocus (keypress)=\"onKeyPress($event)\"></ion-input>\n  <p *ngIf=\"show\">{{show}}</p>\n  <div>\n    <button class=\"customBtn\" (click)=\"onCancel()\">\n      취소\n    </button>\n    <button class=\"customBtn\" (click)=\"onAdd()\">\n      더하기\n    </button>\n  </div>\n</ion-content>\n";
+module.exports = "<ion-content class=\"ion-padding\">\n  <span class=\"w100\">\n    <button class=\"customBtn closeBtn\" (click)=\"onCancel()\">\n      X\n    </button>\n  </span>\n  <div class=\"mainDiv\">\n    <div class=\"inputDiv\">\n      <ion-input #inputEl [(ngModel)]=\"keywordVal\" placeholder=\"키워드를 입력해주세요\" autofocus (keypress)=\"onKeyPress($event)\"></ion-input>\n      <p *ngIf=\"show\">{{show}}</p>\n    </div>\n    <button class=\"customBtn\" (click)=\"onAdd()\">\n      더하기\n    </button>\n  </div>\n</ion-content>\n";
 
 /***/ }),
 
@@ -2015,7 +2056,7 @@ module.exports = "<ion-content class=\"ion-padding\">\n  <ion-input #inputEl [(n
 /***/ ((module) => {
 
 "use strict";
-module.exports = "<ion-header>\n  <ion-toolbar>\n    <ion-buttons slot=\"start\">\n      <ion-back-button defaultHref=\"/tabs/tab2\" (click)=\"onCancel()\" ></ion-back-button>\n    </ion-buttons>\n    <ion-title>{{day.year}}년 {{month}}월 {{day.dayNumber}}일</ion-title>\n    <ion-buttons slot=\"end\" class=\"container\">\n      <ion-button (click)=\"onShare($event)\" shape=\"round\" [class.activateBtn]=\"isShare\">\n        <ion-icon name=\"share-outline\"></ion-icon>\n      </ion-button>\n      <ion-button (click)=\"presentActionSheet()\" shape=\"round\" class=\"trashBtn\">\n        <ion-icon name=\"trash-bin-outline\"></ion-icon>\n      </ion-button>\n    </ion-buttons>\n  </ion-toolbar>\n</ion-header>\n<ion-content>\n  <ion-grid>\n    <ion-row class=\"ion-margin\">\n      <ion-col class=\"w100 ion-no-margin\" *ngFor=\"let item of feelings; let i = index\">\n        <ion-card class=\"ion-padding ion-no-margin timeCard\" [id]=\"'timeCard'+i\" (click)=\"onSetFeeling($event, i)\">\n          <p class=\"ion-text-center textBlack\">{{i===0 ?'아침': i===1 ? '점심' : '저녁'}}</p>\n          <div class=\"imgContainer dFlex feelingDiv\" [class.iconBack]=\"item === 'none'\">\n            <ion-icon *ngIf=\"item === 'none'\" name=\"add-circle\" size=\"large\" color=\"medium\"></ion-icon>\n            <ion-img *ngIf=\"item !== 'none'\" src=\"./assets/feeling/{{item}}.svg\"></ion-img>\n          </div>\n          <p class=\"ion-text-center\" style=\"font-size: 13px;\">{{feelNames[i]}}</p>\n        </ion-card>\n      </ion-col>\n    </ion-row>\n    <ion-row>\n      <ion-card class=\"ion-padding w100\">\n        <p class=\"textBlack\">한 줄 일기</p>\n        <ion-card-content class=\"ion-no-padding\">\n          <ion-input [disabled]=\"!summary\" id=\"summary\" placeholder=\"오늘의 일기를 녹음 후 편집할 수 있어요\" [(ngModel)]=\"summary\" value=\"summary\" (ionFocus)=\"onSummaryFocus($event)\">\n          </ion-input>\n        </ion-card-content>\n      </ion-card>\n    </ion-row>\n    <ion-row>\n      <ion-card class=\"ion-padding w100\">\n        <p class=\"textBlack\">오늘의 일기</p>\n        <ion-card-content class=\"ion-no-padding\">\n          <div *ngIf=\"diary\">\n            <ion-row id=\"diary\" *ngFor=\"let sent of diary; let i=index;\">\n              <div class=\"ion-padding-horizontal ion-margin-end w100 diaryTime\">\n                {{sent.time}}\n              </div>\n              <ion-col size=\"10\">\n\n                <ion-input [(ngModel)]=\"diary[i].sentence\" value=\"sent.diary\"></ion-input>\n              </ion-col>\n              <ion-col size=\"2\">\n                <button class=\"customBtn\" (click)=\"onSentDelete(sent)\">X</button>\n              </ion-col>\n            </ion-row>\n          </div>\n          <!-- <ion-list *ngIf=\"diary\">\n            <ion-item id=\"diary\" *ngFor=\"let sent of diary; let i=index;\">\n              <div class=\"ion-padding-horizontal ion-margin-end diaryTime\">\n                {{sent.time}}\n              </div>\n              <br>\n              <ion-input [(ngModel)]=\"diary[i].sentence\" value=\"sent.diary\"></ion-input>\n              <button class=\"customBtn\" (click)=\"onSentDelete(sent)\">X</button>\n            </ion-item>\n          </ion-list> -->\n          <ion-buttons class=\"ion-justify-content-center diaryBtns\">\n            <ion-button class=\"diaryBtn\" (click)=\"writeDiary()\" shape=\"round\" fill=\"solid\" color=\"medium\">\n              <ion-img src=\"./assets/write_w.svg\"></ion-img>\n              바로 작성하기\n            </ion-button>\n            <ion-button class=\"diaryBtn\" (click)=\"onRecording()\" shape=\"round\" fill=\"solid\" color=\"medium\">\n              <ion-img src=\"./assets/recording_w.svg\"></ion-img>\n              녹음하기\n            </ion-button>\n          </ion-buttons>\n\n\n        </ion-card-content>\n      </ion-card>\n    </ion-row>\n    <ion-row>\n      <ion-card class=\"ion-padding w100\">\n        <p class=\"textBlack\">키워드</p>\n        <span class=\"dFlex ion-wrap keywordBadges\">\n          <span *ngIf=\"keywords\" >\n            <ion-badge\n              *ngFor=\"let word of keywords\"\n              (click)=\"onBadgeClicked(word)\"\n              size=\"large\" class=\"keywordBadge\"\n              >\n              {{word}}\n            </ion-badge>\n          </span>\n          <ion-icon (click)=\"onKeywordCreate($event)\" class=\"keywordIcon\" name=\"add-circle\" size=\"large\" color=\"medium\"></ion-icon>\n        </span>\n      </ion-card>\n    </ion-row>\n  </ion-grid>\n</ion-content>\n<ion-footer class=\"dFlex\">\n  <ion-button (click)=\"onJournalConfirm()\" shape=\"round\" color=\"custom\">\n    저장하기\n  </ion-button>\n</ion-footer>\n";
+module.exports = "<ion-header>\n  <ion-toolbar>\n    <ion-buttons slot=\"start\">\n      <ion-back-button defaultHref=\"/tabs/tab2\" (click)=\"onCancel()\" ></ion-back-button>\n    </ion-buttons>\n    <ion-title>{{day.year}}년 {{month}}월 {{day.dayNumber}}일</ion-title>\n    <ion-buttons slot=\"end\" class=\"container\">\n      <!-- <ion-button (click)=\"onShare($event)\" shape=\"round\" [class.activateBtn]=\"isShare\">\n        <ion-icon name=\"share-outline\"></ion-icon>\n      </ion-button> -->\n      <!-- <ion-toggle color=\"custom\" class=\"px-0\" id=\"hover-trigger\" [checked]=\"false\" (ionChange)=\"onShare($event)\"></ion-toggle>\n      <ion-popover trigger=\"hover-trigger\" triggerAction=\"hover\">\n        <ng-template>\n          <ion-content class=\"ion-padding\">공유하기(오늘의 일기 전체 내용은 제외하고 공유돼요!)</ion-content>\n        </ng-template>\n      </ion-popover> -->\n      <!-- <div class=\"toggle-switch\">\n        <input type=\"checkbox\" id=\"toggle\" name=\"toggle\" class=\"toggle-input\">\n        <label for=\"toggle\" class=\"toggle-label\">\n          <span class=\"share\">나만</span>\n          <span class=\"exclusive\"><ion-icon name=\"share-outline\"></ion-icon></span>\n        </label>\n      </div> -->\n      공유\n      <ion-toggle color=\"custom\" class=\"px-0\" [(ngModel)]=\"checked\" (ionChange)=\"onShare()\" enable-on-off-labels=\"공유\"></ion-toggle>\n      <ion-button (click)=\"presentActionSheet()\" shape=\"round\" class=\"trashBtn\">\n        <ion-icon name=\"trash-bin-outline\"></ion-icon>\n      </ion-button>\n    </ion-buttons>\n  </ion-toolbar>\n</ion-header>\n<ion-content>\n  <ion-grid>\n    <ion-row class=\"ion-margin\">\n      <ion-col class=\"w100 ion-no-margin\" *ngFor=\"let item of feelings; let i = index\">\n        <ion-card class=\"ion-padding ion-no-margin timeCard\" [id]=\"'timeCard'+i\" (click)=\"onSetFeeling($event, i)\">\n          <p class=\"ion-text-center textBlack\">{{i===0 ?'첫번째': i===1 ? '두번째' : '세번째'}}</p>\n          <div class=\"imgContainer dFlex feelingDiv\" [class.iconBack]=\"item === 'none'\">\n            <ion-icon *ngIf=\"item === 'none'\" name=\"add-circle\" size=\"large\" color=\"medium\"></ion-icon>\n            <ion-img *ngIf=\"item !== 'none'\" src=\"./assets/feeling/{{item}}.svg\"></ion-img>\n          </div>\n          <p class=\"ion-text-center\" style=\"font-size: 13px;\">{{feelNames[i]}}</p>\n        </ion-card>\n      </ion-col>\n    </ion-row>\n    <ion-row>\n      <ion-card class=\"ion-padding w100\">\n        <p class=\"textBlack\">한 줄 일기</p>\n        <ion-card-content class=\"ion-no-padding\">\n          <ion-input [disabled]=\"!summary\" id=\"summary\" placeholder=\"오늘의 일기를 녹음 후 편집할 수 있어요\" [(ngModel)]=\"summary\" value=\"summary\" (ionFocus)=\"onSummaryFocus($event)\">\n          </ion-input>\n        </ion-card-content>\n      </ion-card>\n    </ion-row>\n    <ion-row>\n      <ion-card class=\"ion-padding w100\">\n        <p class=\"textBlack\">오늘의 일기</p>\n        <ion-card-content class=\"ion-no-padding\">\n          <div *ngIf=\"diary\">\n            <ion-row id=\"diary\" *ngFor=\"let sent of diary; let i=index;\">\n              <div class=\"ion-padding-horizontal ion-margin-end w100 diaryTime\">\n                {{sent.time}}\n              </div>\n              <ion-col size=\"10\">\n\n                <ion-input [(ngModel)]=\"diary[i].sentence\" value=\"sent.diary\"></ion-input>\n              </ion-col>\n              <ion-col size=\"2\">\n                <button class=\"customBtn\" (click)=\"onSentDelete(sent)\">X</button>\n              </ion-col>\n            </ion-row>\n          </div>\n          <!-- <ion-list *ngIf=\"diary\">\n            <ion-item id=\"diary\" *ngFor=\"let sent of diary; let i=index;\">\n              <div class=\"ion-padding-horizontal ion-margin-end diaryTime\">\n                {{sent.time}}\n              </div>\n              <br>\n              <ion-input [(ngModel)]=\"diary[i].sentence\" value=\"sent.diary\"></ion-input>\n              <button class=\"customBtn\" (click)=\"onSentDelete(sent)\">X</button>\n            </ion-item>\n          </ion-list> -->\n          <ion-buttons class=\"ion-justify-content-center diaryBtns\">\n            <ion-button class=\"diaryBtn\" (click)=\"writeDiary()\" shape=\"round\" fill=\"solid\" color=\"medium\">\n              <ion-img src=\"./assets/write_w.svg\"></ion-img>\n              바로 작성하기\n            </ion-button>\n            <ion-button class=\"diaryBtn\" (click)=\"onRecording()\" shape=\"round\" fill=\"solid\" color=\"medium\">\n              <ion-img src=\"./assets/recording_w.svg\"></ion-img>\n              녹음하기\n            </ion-button>\n          </ion-buttons>\n\n\n        </ion-card-content>\n      </ion-card>\n    </ion-row>\n    <ion-row>\n      <ion-card class=\"ion-padding w100\">\n        <p class=\"textBlack\">키워드</p>\n        <span class=\"dFlex ion-wrap keywordBadges\">\n          <span *ngIf=\"keywords\" >\n            <ion-badge\n              *ngFor=\"let word of keywords\"\n              (click)=\"onBadgeClicked(word)\"\n              size=\"large\" class=\"keywordBadge\"\n              >\n              {{word}}\n            </ion-badge>\n          </span>\n          <ion-icon (click)=\"onKeywordCreate($event)\" class=\"keywordIcon\" name=\"add-circle\" size=\"large\" color=\"medium\"></ion-icon>\n        </span>\n      </ion-card>\n    </ion-row>\n  </ion-grid>\n</ion-content>\n<ion-footer class=\"dFlex\">\n  <ion-button (click)=\"onJournalConfirm()\" shape=\"round\" color=\"custom\">\n    저장하기\n  </ion-button>\n</ion-footer>\n";
 
 /***/ }),
 

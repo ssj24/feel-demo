@@ -1621,13 +1621,14 @@ sub {
   --ion-color-custompale-shade: #E2DEFF;
   --ion-color-custompale-tint: #E2DEFF;
   --base-color: #E8E8E8;
-  --middle-purple-color: #E2DEFF;
-  --middle-red-color: #FFD9DF;
-  --middle-yellow-color: #FFF1C4;
+  --middle-purple-color: #C9BFFF;
+  --middle-red-color: #FFC9D1;
+  --middle-yellow-color: #FFF0BE;
   --high-color: #211A49;
   --active-color: #7623ff;
   --active-light-color: #7600FF;
   --red-color: rgb(237, 41, 41);
+  --dark-gray-color: #8A94A0;
   --gray-color: #cccbcb;
   --gray-pale-color: #eeeeee;
   --keyword-color: #B5C7FF;
@@ -1737,6 +1738,11 @@ ion-item#diary::part(native) {
 
 .w100 {
   width: 100%;
+}
+
+.px-0 {
+  padding-left: 0px;
+  padding-right: 0px;
 }
 
 .customBtn {

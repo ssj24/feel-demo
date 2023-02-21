@@ -492,11 +492,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "MineComponent": () => (/* binding */ MineComponent)
 /* harmony export */ });
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! tslib */ 4929);
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! tslib */ 4929);
 /* harmony import */ var _mine_component_html_ngResource__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./mine.component.html?ngResource */ 6309);
 /* harmony import */ var _mine_component_scss_ngResource__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./mine.component.scss?ngResource */ 6949);
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/core */ 3184);
-/* harmony import */ var _ionic_angular__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @ionic/angular */ 3819);
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @angular/core */ 3184);
+/* harmony import */ var _ionic_angular__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @ionic/angular */ 3819);
 /* harmony import */ var _calendarCreator_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../calendarCreator.service */ 821);
 /* harmony import */ var _feeling_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../feeling.service */ 5696);
 /* harmony import */ var _journal_creator_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../journal-creator.service */ 1697);
@@ -541,7 +541,7 @@ let MineComponent = class MineComponent {
     }
     ngOnInit() {
         console.log('oninit');
-        this.setMonthDays(this.calendarCreator.getCurrentMonth());
+        this.setMonthDays(this.calendarCreator.getMonth());
         this.monthData = this.calendarCreator.getData();
     }
     ionViewDidEnter() {
@@ -558,9 +558,9 @@ let MineComponent = class MineComponent {
                 this.eachDaysSet();
             }
         }, 100);
-        this.eachDays.changes.subscribe((r) => {
+        this.eachDays.changes.subscribe((r) => (0,tslib__WEBPACK_IMPORTED_MODULE_5__.__awaiter)(this, void 0, void 0, function* () {
             console.log('afterviewinit, subscribe');
-            this.monthData = this.calendarCreator.getData(this.monthNumber, this.year);
+            this.monthData = yield this.calendarCreator.getData(this.monthNumber, this.year);
             setTimeout(() => {
                 this.dataToDays();
                 if (this.isCal) {
@@ -568,7 +568,7 @@ let MineComponent = class MineComponent {
                     this.eachDaysSet();
                 }
             }, 50);
-        });
+        }));
         const swipeGesture = this.gestureCtrl.create({
             el: document.querySelector('.mainCalendar'),
             threshold: 15,
@@ -637,7 +637,7 @@ let MineComponent = class MineComponent {
             this.monthNumber = 0;
             this.year++;
         }
-        this.setMonthDays(this.calendarCreator.getCurrentMonth(this.monthNumber, this.year));
+        this.setMonthDays(this.calendarCreator.getMonth(this.monthNumber, this.year));
     }
     onPreviousMonth() {
         this.monthNumber--;
@@ -645,12 +645,12 @@ let MineComponent = class MineComponent {
             this.monthNumber = 11;
             this.year--;
         }
-        this.setMonthDays(this.calendarCreator.getCurrentMonth(this.monthNumber, this.year));
+        this.setMonthDays(this.calendarCreator.getMonth(this.monthNumber, this.year));
     }
     monthChanged(e) {
         const ev = e;
         const newDate = new Date(ev.detail.value);
-        this.setMonthDays(this.calendarCreator.getCurrentMonth(newDate.getMonth(), newDate.getFullYear()));
+        this.setMonthDays(this.calendarCreator.getMonth(newDate.getMonth(), newDate.getFullYear()));
     }
     dayClicked(e, clickedDay) {
         console.log(e, clickedDay);
@@ -749,6 +749,7 @@ let MineComponent = class MineComponent {
     toList() {
         this.isCal = false;
     }
+    // 빈 달력을 만든다
     setMonthDays(days) {
         this.monthDays = days;
         this.monthNumber = days[10].monthIndex;
@@ -759,18 +760,18 @@ let MineComponent = class MineComponent {
 MineComponent.ctorParameters = () => [
     { type: _calendarCreator_service__WEBPACK_IMPORTED_MODULE_2__.CalendarCreatorService },
     { type: _feeling_service__WEBPACK_IMPORTED_MODULE_3__.FeelingService },
-    { type: _angular_core__WEBPACK_IMPORTED_MODULE_5__.Renderer2 },
-    { type: _ionic_angular__WEBPACK_IMPORTED_MODULE_6__.GestureController },
-    { type: _ionic_angular__WEBPACK_IMPORTED_MODULE_6__.DomController },
+    { type: _angular_core__WEBPACK_IMPORTED_MODULE_6__.Renderer2 },
+    { type: _ionic_angular__WEBPACK_IMPORTED_MODULE_7__.GestureController },
+    { type: _ionic_angular__WEBPACK_IMPORTED_MODULE_7__.DomController },
     { type: _journal_creator_service__WEBPACK_IMPORTED_MODULE_4__.JournalCreatorService }
 ];
 MineComponent.propDecorators = {
-    mainCalendar: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_5__.ViewChild, args: ['mainCalendar',] }],
-    eachDays: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_5__.ViewChildren, args: ['eachDays',] }],
-    monthNumber: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_5__.Input }]
+    mainCalendar: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_6__.ViewChild, args: ['mainCalendar',] }],
+    eachDays: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_6__.ViewChildren, args: ['eachDays',] }],
+    monthNumber: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_6__.Input }]
 };
-MineComponent = (0,tslib__WEBPACK_IMPORTED_MODULE_7__.__decorate)([
-    (0,_angular_core__WEBPACK_IMPORTED_MODULE_5__.Component)({
+MineComponent = (0,tslib__WEBPACK_IMPORTED_MODULE_5__.__decorate)([
+    (0,_angular_core__WEBPACK_IMPORTED_MODULE_6__.Component)({
         selector: 'app-mine',
         template: _mine_component_html_ngResource__WEBPACK_IMPORTED_MODULE_0__,
         styles: [_mine_component_scss_ngResource__WEBPACK_IMPORTED_MODULE_1__]

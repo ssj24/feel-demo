@@ -90,18 +90,94 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "Tab3Page": () => (/* binding */ Tab3Page)
 /* harmony export */ });
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! tslib */ 4929);
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! tslib */ 4929);
 /* harmony import */ var _tab3_page_html_ngResource__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./tab3.page.html?ngResource */ 9769);
 /* harmony import */ var _tab3_page_scss_ngResource__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./tab3.page.scss?ngResource */ 7087);
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/core */ 3184);
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/core */ 3184);
+/* harmony import */ var _awesome_cordova_plugins_media_ngx__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @awesome-cordova-plugins/media/ngx */ 1168);
+
 
 
 
 
 let Tab3Page = class Tab3Page {
+    constructor(media) {
+        this.media = media;
+        this.video = document.querySelector('video');
+        this.constraints = {
+            audio: true,
+            video: false
+        };
+    }
+    ngOnInit() {
+        this.record = this.media.create('file.mp3');
+        this.record.onStatusUpdate.subscribe(status => console.log(status)); // fires when file status changes
+        this.record.onSuccess.subscribe(() => console.log('Action is successful'));
+        this.record.onError.subscribe(error => console.log('Error!', error));
+    }
+    onStartRecord() {
+        // play the file
+        // record.play();
+        // pause the file
+        // record.pause();
+        // get current playback position
+        // record.getCurrentPosition().then((position) => {
+        //   console.log(position);
+        // });
+        // get file duration
+        // const duration = record.getDuration();
+        // console.log(duration);
+        // skip to 10 seconds (expects int value in ms)
+        // record.seekTo(10000);
+        // stop playing the file
+        // record.stop();
+        // release the native audio resource
+        // Platform Quirks:
+        // iOS simply create a new instance and the old one will be overwritten
+        // Android you must call release() to destroy instances of media when you are done
+        // record.release();
+        // Recording to a file
+        // this.record.startRecord();
+        // record.stopRecord();
+        navigator.mediaDevices.getUserMedia(this.constraints)
+            .then((stream) => {
+            console.log('getusermedia', stream);
+            const audioTracks = stream.getAudioTracks();
+            console.log('Got stream with constraints:', this.constraints);
+            console.log(audioTracks);
+            stream.onremovetrack = () => {
+                console.log('Stream ended');
+                console.log(stream);
+            };
+            // video.srcObject = stream;
+        })
+            .catch((error) => {
+            if (error.name === 'ConstraintNotSatisfiedError') {
+                console.error(`The resolution is not supported by your device.`);
+            }
+            else if (error.name === 'PermissionDeniedError') {
+                console.error('Permissions have not been granted to use your camera and ' +
+                    'microphone, you need to allow the page access to your devices in ' +
+                    'order for the demo to work.');
+            }
+            else {
+                console.error(`getUserMedia error: ${error.name}`, error);
+            }
+        });
+    }
+    onStopRecord() {
+        // this.record.stopRecord();
+        // console.log(this.record);
+    }
+    onPlayRecord() {
+        // this.record.play();
+    }
 };
-Tab3Page = (0,tslib__WEBPACK_IMPORTED_MODULE_2__.__decorate)([
-    (0,_angular_core__WEBPACK_IMPORTED_MODULE_3__.Component)({
+Tab3Page.ctorParameters = () => [
+    { type: _awesome_cordova_plugins_media_ngx__WEBPACK_IMPORTED_MODULE_2__.Media }
+];
+Tab3Page = (0,tslib__WEBPACK_IMPORTED_MODULE_3__.__decorate)([
+    (0,_angular_core__WEBPACK_IMPORTED_MODULE_4__.Component)({
         selector: 'app-tab3',
         template: _tab3_page_html_ngResource__WEBPACK_IMPORTED_MODULE_0__,
         styles: [_tab3_page_scss_ngResource__WEBPACK_IMPORTED_MODULE_1__]
@@ -128,7 +204,7 @@ module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW
   \************************************************/
 /***/ ((module) => {
 
-module.exports = "<ion-header [translucent]=\"true\">\n  <ion-toolbar>\n    <ion-title>\n      Tab 3\n    </ion-title>\n  </ion-toolbar>\n</ion-header>\n\n<ion-content [fullscreen]=\"true\">\n  <ion-header collapse=\"condense\">\n    <ion-toolbar>\n      <ion-title size=\"large\">Tab 3</ion-title>\n    </ion-toolbar>\n  </ion-header>\n  <ion-card>\n  </ion-card>\n\n</ion-content>\n";
+module.exports = "<ion-header [translucent]=\"true\">\n  <ion-toolbar>\n    <ion-title>\n      Tab 3\n    </ion-title>\n  </ion-toolbar>\n</ion-header>\n\n<ion-content [fullscreen]=\"true\">\n  <ion-header collapse=\"condense\">\n    <ion-toolbar>\n      <ion-title size=\"large\">Tab 3</ion-title>\n    </ion-toolbar>\n  </ion-header>\n  <ion-card>\n    <button (click)=\"onStartRecord()\">record</button>\n    <button (click)=\"onStopRecord()\">stop</button>\n    <button (click)=\"onPlayRecord()\">play</button>\n  </ion-card>\n\n\n</ion-content>\n";
 
 /***/ })
 

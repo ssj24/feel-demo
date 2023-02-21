@@ -90,11 +90,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "Tab1Page": () => (/* binding */ Tab1Page)
 /* harmony export */ });
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! tslib */ 4929);
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! tslib */ 4929);
 /* harmony import */ var _tab1_page_html_ngResource__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./tab1.page.html?ngResource */ 3852);
 /* harmony import */ var _tab1_page_scss_ngResource__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./tab1.page.scss?ngResource */ 8165);
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/core */ 3184);
-/* harmony import */ var _ionic_angular__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @ionic/angular */ 3819);
+/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/common/http */ 8784);
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/core */ 3184);
 
 
 
@@ -102,50 +102,123 @@ __webpack_require__.r(__webpack_exports__);
 
 
 let Tab1Page = class Tab1Page {
-    constructor() {
-        this.message = 'modal example';
-        this.selectedDate = '';
+    constructor(http) {
+        this.http = http;
+        this.constraints = { audio: true, video: false };
+        this.chunks = [];
     }
-    changeDateImg() {
-        const activeDate = this.shadowDom.querySelector('.calendar-day-active');
-        activeDate.style.backgroundImage = `url('/assets/feeling/soso.svg'), url('/assets/feeling/surprise.svg'), url('/assets/feeling/sad.svg')`;
-        activeDate.style.backgroundPosition = `center top, left bottom, right bottom`;
-        activeDate.style.backgroundRepeat = `no-repeat, no-repeat, no-repeat`;
-        activeDate.style.backgroundSize = `55% 55%, 55% 55%, 55% 55%`;
-        activeDate.style.backgroundColor = 'red';
-        activeDate.style.color = `transparent`;
+    ngAfterViewInit() {
+        this.startRecordButton = document.getElementById('startRecordButton');
+        this.stopRecordButton = document.getElementById('stopRecordButton');
+        this.soundClips = document.getElementById('soundClipContainer');
+        this.startRecordButton.addEventListener('click', () => (0,tslib__WEBPACK_IMPORTED_MODULE_2__.__awaiter)(this, void 0, void 0, function* () {
+            if (navigator.mediaDevices) {
+                this.stream = yield navigator.mediaDevices.getUserMedia(this.constraints);
+                const mediaOptions = {
+                    mimeType: 'audio/mpeg'
+                };
+                this.mRec = new MediaRecorder(this.stream);
+                // visualize(stream);
+                this.onStartRecord();
+            }
+        }));
+        this.stopRecordButton.addEventListener('click', () => {
+            this.mRec.stop();
+            console.log(this.mRec.state);
+            console.log('recorder stopped');
+            this.stopRecordButton.setAttribute('disabled', '');
+            this.startRecordButton.removeAttribute('disabled');
+            const clipContainer = document.createElement('article');
+            const clipLabel = document.createElement('p');
+            const audio = document.createElement('audio');
+            const deleteButton = document.createElement('button');
+            const saveButton = document.createElement('button');
+            clipContainer.classList.add('clip');
+            audio.setAttribute('controls', '');
+            deleteButton.textContent = 'Delete';
+            saveButton.textContent = 'Save';
+            clipLabel.textContent = new Date().toTimeString();
+            clipContainer.appendChild(audio);
+            clipContainer.appendChild(clipLabel);
+            clipContainer.appendChild(deleteButton);
+            clipContainer.appendChild(saveButton);
+            this.soundClips.appendChild(clipContainer);
+            audio.controls = true;
+            this.blob = new Blob(this.chunks, { type: 'audio/ogg; codecs=opus' });
+            this.chunks = [];
+            const audioURL = URL.createObjectURL(this.blob);
+            audio.src = audioURL;
+            console.log('recorder stopped');
+            deleteButton.onclick = (e) => {
+                const evtTgt = e.target;
+                evtTgt.parentNode.parentNode.removeChild(evtTgt.parentNode);
+            };
+            this.mRec.ondataavailable = (e) => {
+                this.chunks.push(e.data);
+            };
+            saveButton.addEventListener('click', () => this.onSave(this.blob));
+        });
     }
-    dateChanged(e) {
-        const ev = e;
-        const detail = ev.detail;
-        console.log(ev);
-        this.selectedDate = detail.value;
-        console.log(e.target);
-        this.shadowDom = document.querySelector('ion-datetime').shadowRoot;
-        this.changeDateImg();
+    onStartRecord() {
+        return (0,tslib__WEBPACK_IMPORTED_MODULE_2__.__awaiter)(this, void 0, void 0, function* () {
+            this.mRec.start();
+            console.log(this.mRec.state);
+            console.log('recorder started');
+            this.startRecordButton.setAttribute('disabled', '');
+            this.stopRecordButton.removeAttribute('disabled');
+        });
     }
-    dateClick(e) {
-        console.log(e);
+    onTest() {
+        const data = {
+            data: 'none'
+        };
+        this.http.post(`https://192.168.31.35/SttAnalysis/`, data, {
+            headers: new _angular_common_http__WEBPACK_IMPORTED_MODULE_3__.HttpHeaders()
+                .set('Content-Type', 'application/json')
+        })
+            .toPromise()
+            .then(res => {
+            console.log(res);
+            return res;
+        })
+            .catch(err => {
+            console.log(err);
+        });
     }
-    cancel() {
-        this.modal.dismiss(null, 'cancel');
-    }
-    confirm() {
-        this.modal.dismiss(this.name, 'confirm');
-    }
-    onWillDismiss(event) {
-        const ev = event;
-        if (ev.detail.role === 'confirm') {
-            this.message = `Hello, ${ev.detail.data}`;
-        }
+    onSave(blob) {
+        return (0,tslib__WEBPACK_IMPORTED_MODULE_2__.__awaiter)(this, void 0, void 0, function* () {
+            const recordedFile = new File([blob], 'audiorecord_cur.ogg');
+            console.log(recordedFile);
+            const form = new FormData();
+            form.append('file', recordedFile);
+            const container = new DataTransfer();
+            container.items.add(recordedFile);
+            console.log(container);
+            const data = {
+                data: 'none'
+            };
+            // multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+            // application/json
+            this.http.post(`https://192.168.31.35/SttAnalysis/`, data, {
+                headers: new _angular_common_http__WEBPACK_IMPORTED_MODULE_3__.HttpHeaders()
+                    .set('Content-Type', 'application/json')
+            })
+                .toPromise()
+                .then(res => {
+                console.log(res);
+                return res;
+            })
+                .catch(err => {
+                console.log(err);
+            });
+        });
     }
 };
-Tab1Page.ctorParameters = () => [];
-Tab1Page.propDecorators = {
-    modal: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_2__.ViewChild, args: [_ionic_angular__WEBPACK_IMPORTED_MODULE_3__.IonModal,] }]
-};
-Tab1Page = (0,tslib__WEBPACK_IMPORTED_MODULE_4__.__decorate)([
-    (0,_angular_core__WEBPACK_IMPORTED_MODULE_2__.Component)({
+Tab1Page.ctorParameters = () => [
+    { type: _angular_common_http__WEBPACK_IMPORTED_MODULE_3__.HttpClient }
+];
+Tab1Page = (0,tslib__WEBPACK_IMPORTED_MODULE_2__.__decorate)([
+    (0,_angular_core__WEBPACK_IMPORTED_MODULE_4__.Component)({
         selector: 'app-tab1',
         template: _tab1_page_html_ngResource__WEBPACK_IMPORTED_MODULE_0__,
         styles: [_tab1_page_scss_ngResource__WEBPACK_IMPORTED_MODULE_1__]
@@ -172,7 +245,7 @@ module.exports = ":root {\n  --ion-color-custom: #ffb800;\n  --ion-color-custom-
   \************************************************/
 /***/ ((module) => {
 
-module.exports = "<ion-header [translucent]=\"true\">\n  <ion-toolbar>\n    <ion-title class=\"thisismine\">\n      감정일기\n    </ion-title>\n  </ion-toolbar>\n</ion-header>\n\n<ion-content [fullscreen]=\"true\">\n  <ion-header collapse=\"condense\">\n\n    <ion-toolbar>\n      <ion-title size=\"large\">감정일기</ion-title>\n    </ion-toolbar>\n  </ion-header>\n  <ion-row class=\"ion-justify-content-center\">\n    <ion-col size=\"lg-3\">\n\n      <ion-datetime color=\"custom\" (ionChange)=\"dateChanged($event)\" presentation=\"date\" expand=\"block\"></ion-datetime>\n    </ion-col>\n  </ion-row>\n  <ion-row class=\"ion-justify-content-center\">\n    <ion-col size=\"lg-3\">\n      <ion-card class=\"doubleContainer\">\n        <ion-img></ion-img>\n      </ion-card>\n    </ion-col>\n  </ion-row>\n  <ion-modal trigger=\"open-modal\" (willDismiss)=\"onWillDismiss($event)\">\n    <ng-template>\n      <ion-header>\n        <ion-toolbar>\n          <ion-buttons slot=\"start\">\n            <ion-button (click)=\"cancel()\">Cancel</ion-button>\n          </ion-buttons>\n          <ion-title>Welcome</ion-title>\n          <ion-buttons slot=\"end\">\n            <ion-button (click)=\"confirm()\" [strong]=\"true\">Confirm</ion-button>\n          </ion-buttons>\n        </ion-toolbar>\n      </ion-header>\n      <ion-content class=\"ion-padding\">\n        <ion-text>{{selectedDate}}</ion-text>\n        <ion-item>\n          <ion-label position=\"stacked\">Enter your name</ion-label>\n          <ion-input type=\"text\" placeholder=\"Your name\" [(ngModel)]=\"name\"></ion-input>\n        </ion-item>\n      </ion-content>\n    </ng-template>\n  </ion-modal>\n</ion-content>\n";
+module.exports = "<ion-header [translucent]=\"true\">\n  <ion-toolbar>\n    <ion-title class=\"thisismine\">\n      감정일기\n    </ion-title>\n  </ion-toolbar>\n</ion-header>\n\n<ion-content [fullscreen]=\"true\">\n  <ion-header collapse=\"condense\">\n\n    <ion-toolbar>\n      <ion-title size=\"large\">감정일기</ion-title>\n    </ion-toolbar>\n  </ion-header>\n  <ion-card>\n    <div>\n      <a href=\"https://web.dev/patterns/media/microphone-record/\">link</a>\n    </div>\n\n    <button id=\"startRecordButton\">Start recording</button>\n    <button id=\"stopRecordButton\" disabled>Stop recording</button>\n    <pre id=\"logs\"></pre>\n    <div id=\"soundClipContainer\"></div>\n    <button id=\"test\" (click)=\"onTest()\">test</button>\n  </ion-card>\n</ion-content>\n";
 
 /***/ })
 
