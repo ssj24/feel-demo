@@ -304,7 +304,24 @@ export class CalendarListComponent implements OnInit, AfterViewInit, OnChanges {
   ngOnChanges(changes: SimpleChanges) {
     if (changes.monthNumber) {
       console.log('onchange');
-      this.monthData = this.calendarCreator.getData(this.monthNumber, this.year);
+      this.calendarCreator.getData(this.monthNumber, this.year).subscribe(res => {
+        this.monthData = [];
+        for (const i of res) {
+          const newDate = new Date(i.date);
+          const newDay: Day = {
+            date: newDate,
+            year: newDate.getFullYear(),
+            monthIndex: newDate.getMonth(),
+            weekDayNumber: newDate.getDay(),
+            dayNumber: newDate.getDate(),
+            feelings: JSON.parse(i.feelings.replace(/'/g, '"')),
+          };
+          this.monthData.push(newDay);
+        }
+        console.log('getDatabottom',this.monthData);
+        // return monthData;
+      });
+      console.log('getData return');
       setTimeout(() => {
         this.monthDaysFiltering(this.monthData);
       }, 100);

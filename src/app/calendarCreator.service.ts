@@ -72,28 +72,9 @@ export class CalendarCreatorService {
       //   console.log(err);
       // });
   }
-  getData(month: number = this.currentMonthIndex, year: number = this.currentYear): Day[] {
+  getData(month: number = this.currentMonthIndex, year: number = this.currentYear) {
     console.log('getdata entered');
-    const monthData: Day[] = [];
-    this.getHttpData(month, year).subscribe(res => {
-      console.log(res);
-      console.log('getdata',month, year,res);
-      for (const i of res) {
-        const newDate = new Date(i.date);
-        const newDay: Day = {
-          date: newDate,
-          year: newDate.getFullYear(),
-          monthIndex: newDate.getMonth(),
-          weekDayNumber: newDate.getDay(),
-          dayNumber: newDate.getDate(),
-          feelings: JSON.parse(i.feelings.replace(/'/g, '"')),
-        };
-        monthData.push(newDay);
-      }
-      console.log('getDatabottom',monthData);
-    });
-    console.log('getData return');
-    return monthData;
+    return this.getHttpData(month, year);
   }
 
   public getCurrentMonth(month: number = this.currentMonthIndex, year: number = this.currentYear): Day[] {

@@ -100,13 +100,24 @@
   width: 55px;
   height: 55px;
 };
-
+// ion-modal.auto-height {
+//   --height: auto;
+// }
+// ion-modal.auto-height .ion-page {
+//   position: relative;
+//   display: block;
+//   contain: content;
+// }
+// ion-modal.auto-height .ion-page .modal-inner {
+//   max-height: 80vh;
+//   overflow: auto;
+// }
 .recordingModal,
 .writingModal {
   --border-radius: 30px;
   --width: 90%;
   &::part(backdrop) {
-      background: #000;
+    background: #000;
   }
 
   &::part(handle) {
@@ -204,4 +215,8 @@ ion-item#diary {
 
 .textBlack {
   color: black;
+}
+
+@media only screen and (max-width: 320px) {
+
 }

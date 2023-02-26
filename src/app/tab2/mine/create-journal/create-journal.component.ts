@@ -100,24 +100,27 @@ export class CreateJournalComponent implements OnInit, AfterViewInit {
   onRecording() {
     this.modalCtrl.create({
       component: RecordingComponent,
-      cssClass: 'recordingModal dFlex',
-      breakpoints: [0, 0.5, 0.7],
+      componentProps: {today: `${this.day.year}-${this.month}-${this.day.dayNumber}`},
+      cssClass: 'recordingModal dFlex auto-height',
+      breakpoints: [0, 0.5, 0.7, 1],
       initialBreakpoint: 0.5,
     }).then(modalEl => {
       modalEl.present();
       return modalEl.onDidDismiss();
     }).then(result => {
       console.log(result);
-      const res = result.data;
-      for (const i of res.sentence) {
-        this.diary.push({time: i.start, sentence: i.sentence});
-      };
-      this.keywords.push(res.sentimental[0].senti);
-      this.keywords = [...new Set(this.keywords)];
-      if (this.keywords.length > 10) {
-        this.journalCreator.presentToast('키워드는 최대 10개까지 설정할 수 있습니다.');
-        this.keywords = [...this.keywords].slice(0, 10);
-        console.log(this.keywords);
+      if (result.role === 'confirm') {
+        const res = result.data;
+        for (const i of res.sentence) {
+          this.diary.push({time: i.start, sentence: i.sentence});
+        };
+        this.keywords.push(res.sentimental[0].senti);
+        this.keywords = [...new Set(this.keywords)];
+        if (this.keywords.length > 10) {
+          this.journalCreator.presentToast('키워드는 최대 10개까지 설정할 수 있습니다.');
+          this.keywords = [...this.keywords].slice(0, 10);
+          console.log(this.keywords);
+        }
       }
     });
   }

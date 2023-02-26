@@ -1,5 +1,5 @@
 /* eslint-disable max-len */
-import { Component, OnChanges, OnInit, SimpleChanges, Input, ViewChildren, QueryList, ElementRef, Renderer2, AfterViewInit, ViewChild } from '@angular/core';
+import { Component, OnInit, SimpleChanges, Input, ViewChildren, QueryList, ElementRef, Renderer2, AfterViewInit, ViewChild } from '@angular/core';
 import { DomController, Gesture, GestureController } from '@ionic/angular';
 import { CalendarCreatorService } from '../../calendarCreator.service';
 import { Day } from '../../day.model';
@@ -15,14 +15,14 @@ export class MineComponent implements OnInit, AfterViewInit {
   @ViewChild('mainCalendar') mainCalendar: ElementRef;
   @ViewChildren('eachDays') eachDays: QueryList<ElementRef>;
   @Input() monthNumber: number;
-  public monthDays: Day[];
+  public monthData: Day[] = [];
+  public monthDays: Day[] = [];
   public month: string;
   public year: number;
   public weekDaysName = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
   public today = new Date();
   public date = this.today.getDate();
   public daysArray: ElementRef[];
-  public monthData: Day[] = [];
   public isPickerOpen = false;
   public isCal = true;
   constructor(public calendarCreator: CalendarCreatorService,
@@ -49,7 +49,31 @@ export class MineComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     console.log('oninit');
     this.setMonthDays(this.calendarCreator.getMonth());
-    this.monthData = this.calendarCreator.getData();
+    this.calendarCreator.getData().subscribe(res => {
+      this.monthData = [];
+      for (const i of res) {
+        const newDate = new Date(i.date);
+        const newDay: Day = {
+          date: newDate,
+          year: newDate.getFullYear(),
+          monthIndex: newDate.getMonth(),
+          weekDayNumber: newDate.getDay(),
+          dayNumber: newDate.getDate(),
+          feelings: JSON.parse(i.feelings.replace(/'/g, '"')),
+        };
+        this.monthData.push(newDay);
+      }
+      console.log('getDatabottom',this.monthData);
+      this.dataToDays();
+      if (this.isCal) {
+        this.daysArray = this.eachDays.toArray();
+        this.eachDaysSet();
+      }
+      // return monthData;
+
+    });
+    console.log('getData return');
+    // this.monthData.subscribe(arg => console.log(arg));
 
   }
 
@@ -63,24 +87,44 @@ export class MineComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void { // viewchild data binding
     console.log('ngAfterViewInit');
 
-    setTimeout(() => {
-      console.log('afterviewinit, first');
-      this.dataToDays();
-      if (this.isCal) {
-        this.daysArray = this.eachDays.toArray();
-        this.eachDaysSet();
-      }
-    }, 100);
+    // setTimeout(() => {
+    //   console.log('afterviewinit, first');
+    //   if (this.isCal) {
+    //     this.daysArray = this.eachDays.toArray();
+    //     this.eachDaysSet();
+    //   }
+    // }, 100);
     this.eachDays.changes.subscribe(async (r) => {
       console.log('afterviewinit, subscribe');
-      this.monthData = await this.calendarCreator.getData(this.monthNumber, this.year);
-      setTimeout(() => {
+      this.calendarCreator.getData(this.monthNumber, this.year).subscribe(res => {
+        this.monthData = [];
+        for (const i of res) {
+          const newDate = new Date(i.date);
+          const newDay: Day = {
+            date: newDate,
+            year: newDate.getFullYear(),
+            monthIndex: newDate.getMonth(),
+            weekDayNumber: newDate.getDay(),
+            dayNumber: newDate.getDate(),
+            feelings: JSON.parse(i.feelings.replace(/'/g, '"')),
+          };
+          this.monthData.push(newDay);
+        }
+        console.log('getDatabottom',this.monthData);
         this.dataToDays();
+        // return monthData;
         if (this.isCal) {
           this.daysArray = this.eachDays.toArray();
           this.eachDaysSet();
         }
-      }, 50);
+      });
+      console.log('getData return');
+      // setTimeout(() => {
+      //   if (this.isCal) {
+      //     this.daysArray = this.eachDays.toArray();
+      //     this.eachDaysSet();
+      //   }
+      // }, 50);
     });
     const swipeGesture = this.gestureCtrl.create({
       el: document.querySelector('.mainCalendar'),

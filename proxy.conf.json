@@ -6,7 +6,7 @@
     "pathRewrite": {"^/api" : ""}
   },
   "/recording": {
-    "target": "http://192.168.31.35:8000/",
+    "target": "https://exp.finger.solutions/sttapi/",
     "changeOrigin": true,
     "secure": false,
     "pathRewrite": {"^/recording" : ""}

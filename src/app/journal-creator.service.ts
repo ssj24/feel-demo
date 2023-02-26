@@ -87,7 +87,7 @@ export class JournalCreatorService {
   public async createJournal(day: Day = this.getToday) {
     const data = {
       message: 'DayDiary',
-      id_mail:'test@test.com',
+      email:'test@test.com',
       date: this.calService.getDateFormatted(day.date),
       // date: `${day.year}-${day.monthIndex < 9 ? '0'+String(day.monthIndex+1) : day.monthIndex+1}-${day.dayNumber < 10 ? '0'+String(day.dayNumber) : day.dayNumber}`
     };
@@ -98,7 +98,7 @@ export class JournalCreatorService {
       .toPromise()
       .then((res: any) => {
           console.log('createJournal-1',res);
-          if (res !== 'DataNotExist') {
+          if (res.error !== 'Data not exist') {
             day.feelings = JSON.parse(res.feelings.replace(/'/g, '"'));
             day.summary = res.summary;
             day.diary = JSON.parse(res.diary.replace(/'/g, '"'));
@@ -120,7 +120,7 @@ export class JournalCreatorService {
               this.journalData.next(result.data);
               const finalData = {
                 message: 'DiarySave',
-                id_mail: 'test@test.com',
+                email: 'test@test.com',
                 date: this.calService.getDateFormatted(result.data.date),
                 feelings: result.data.feelings,
                 summary: result.data.summary,

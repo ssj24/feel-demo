@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { Media, MediaObject } from '@awesome-cordova-plugins/media/ngx';
 import { fileURLToPath } from 'url';
 import { Directory, Filesystem } from '@capacitor/filesystem';
@@ -12,6 +12,7 @@ import { ModalController } from '@ionic/angular';
   styleUrls: ['./recording.component.scss'],
 })
 export class RecordingComponent implements OnInit {
+  @Input() today: string;
   public imgList = ['happy','soso','good','excite','great','uneasy','sad','not_good','lonely','depressed','surprise','upset','unpleasant'];
   public feelings: string[] = [];
   public numbers: number[] = [];
@@ -35,7 +36,7 @@ export class RecordingComponent implements OnInit {
       this.feelings.push(this.imgList[num]);
       this.numbers.push(num);
     }
-    this.loadFiles();
+    // this.loadFiles();
     VoiceRecorder.requestAudioRecordingPermission(); // 거절하면 어떡할 지는 로직을 따로 짜야함
   }
   getRandomInt(max) {
@@ -85,8 +86,8 @@ export class RecordingComponent implements OnInit {
       .then(async (record: RecordingData) => {
         if (record.value && record.value.recordDataBase64) {
           const recordData = record.value.recordDataBase64;
-          console.log(record.value.mimeType);
           this.recordData = recordData;
+          console.log(this.recordData);
           const duration = record.value.msDuration;
           const fileName = new Date().getTime() + '.wav';
           await Filesystem.writeFile({
@@ -94,7 +95,7 @@ export class RecordingComponent implements OnInit {
             directory: Directory.Data,
             data: recordData,
           });
-          this.loadFiles();
+          // this.loadFiles();
           this.sendRecord();
         }
       });
@@ -118,20 +119,31 @@ export class RecordingComponent implements OnInit {
       path: '',
       directory: Directory.Data
     }).then(result => {
-      console.log('load', result.files[0]);
       this.storedFileNames = result.files;
     });
   }
-  async sendRecord() {
-    const data = await this.recordService.addRecording(this.recordData);
-    await this.modalCtrl.dismiss(data, 'confirm');
+  async sendRecord(record = this.recordData) {
+    await this.recordService.addRecording(record, this.today).subscribe(
+      res => {
+        // Handle result
+        console.log(res);
+        this.modalCtrl.dismiss(res, 'confirm');
+      },
+      err => {
+        console.error(err);
+      },
+      () => {
+        // 'onCompleted' callback.
+        // No errors, route to new page here
+      }
+    );
   }
   onFileUpload(e: Event) {
     const element = e.currentTarget as HTMLInputElement;
     const fileList: FileList | null = element.files;
     console.log(fileList);
     if (fileList) {
-      this.recordService.addRecording(fileList[0]);
+      this.recordService.addRecording(fileList[0], this.today);
     }
   }
 }

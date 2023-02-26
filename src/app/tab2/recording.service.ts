@@ -15,12 +15,8 @@ import { RecordingData } from 'capacitor-voice-recorder';
 export class RecordingService {
   constructor(public http: HttpClient) {
   }
-
-  async addRecording(recording: any) {
-
-    // return console.log(blobUrl);
-    const blobToFile = new File([recording], 'my-file.webm', { type: 'audio/webm' });
-    // return console.log(blobToFile);
+  addRecording(recording: any, today: string) {
+    const blobToFile = new File([recording], 'my-file.wav', { type: 'audio/x-wav' });
     const fileData = new DataTransfer();
     fileData.items.add(blobToFile);
     console.log(fileData.files[0]);
@@ -32,29 +28,32 @@ export class RecordingService {
     // };
 
     const data = new FormData();
-    data.append('message', 'stt_analysis');
-    data.append('client_id', 'client1@test.com');
-    data.append('couns_id', '1234');
+    data.append('date', today);
+    data.append('email', 'client1@test.com');
     data.append('file', fileData.files[0]);
     // data.append('file', recording);
-    console.log('click');
+    console.log('click', data.get('file'));
 
     const options  = {
       headers: new HttpHeaders({
-        'MIME-Type': 'audio/webm'
+        // 'Content-Type': 'multipart/form-data',
+        'MIME-Type': 'audio/x-wav'
       }),
     };
 
-    this.http.post(`https://192.168.31.35/SttAnalysis/`, data)
-    .toPromise()
-    .then(res => {
-      console.log(res);
-      return res;
-    })
-    .catch(err => {
-      console.log(err);
-    });
+    // const downloadUrl = window.URL.createObjectURL(fileData.files[0]); // 해당 file을 가리키는 url 생성
 
+    // const anchorElement = document.createElement('a');
+    // document.body.appendChild(anchorElement);
+    // anchorElement.download = 'some file'; // a tag에 download 속성을 줘서 클릭할 때 다운로드가 일어날 수 있도록 하기
+    // anchorElement.href = downloadUrl; // href에 url 달아주기
+
+    // anchorElement.click(); // 코드 상으로 클릭을 해줘서 다운로드를 트리거
+
+    // document.body.removeChild(anchorElement); // cleanup - 쓰임을 다한 a 태그 삭제
+    // window.URL.revokeObjectURL(downloadUrl);
+
+    return this.http.post(`/recording/DiaryStt/`, data, options);
   }
 }
 

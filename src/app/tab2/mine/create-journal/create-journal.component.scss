@@ -19,6 +19,17 @@
     }
   }
 }
+ion-title {
+  font-size: 15px;
+  font-weight: 900;
+}
+.shareText {
+  font-size: 13px;
+}
+.shareToggle {
+  padding-left: 2px;
+  padding-right: 5px;
+}
 
 .timeCard:hover {
   cursor: pointer;
@@ -177,7 +188,8 @@ ion-footer ion-button {
   transform: translateX(45px);
 }
 
-@media only screen and (min-width: 319.98px) {
+
+@media only screen and (max-width: 320px) {
 
   .imgContainer {
     width: 50px;
