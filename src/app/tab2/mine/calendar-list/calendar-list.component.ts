@@ -319,12 +319,10 @@ export class CalendarListComponent implements OnInit, AfterViewInit, OnChanges {
           this.monthData.push(newDay);
         }
         console.log('getDatabottom',this.monthData);
+        this.monthDaysFiltering(this.monthData);
         // return monthData;
       });
       console.log('getData return');
-      setTimeout(() => {
-        this.monthDaysFiltering(this.monthData);
-      }, 100);
     }
   }
 

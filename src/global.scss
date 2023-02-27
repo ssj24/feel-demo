@@ -181,6 +181,10 @@ ion-item#diary {
   // --highlight-color-focused: var(--middle-purple-color);
 }
 
+ion-alert.custom-alert .alert-title {
+  font-size: 15px;
+}
+
 .journalToast::part(message) { text-align: center; }
 
 .dFlex {

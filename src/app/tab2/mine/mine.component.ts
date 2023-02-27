@@ -25,6 +25,7 @@ export class MineComponent implements OnInit, AfterViewInit {
   public daysArray: ElementRef[];
   public isPickerOpen = false;
   public isCal = true;
+  public yearMonth: string;
   constructor(public calendarCreator: CalendarCreatorService,
               public feeling: FeelingService,
               private renderer: Renderer2,
@@ -50,31 +51,9 @@ export class MineComponent implements OnInit, AfterViewInit {
     console.log('oninit');
     this.setMonthDays(this.calendarCreator.getMonth());
     this.calendarCreator.getData().subscribe(res => {
-      this.monthData = [];
-      for (const i of res) {
-        const newDate = new Date(i.date);
-        const newDay: Day = {
-          date: newDate,
-          year: newDate.getFullYear(),
-          monthIndex: newDate.getMonth(),
-          weekDayNumber: newDate.getDay(),
-          dayNumber: newDate.getDate(),
-          feelings: JSON.parse(i.feelings.replace(/'/g, '"')),
-        };
-        this.monthData.push(newDay);
-      }
-      console.log('getDatabottom',this.monthData);
-      this.dataToDays();
-      if (this.isCal) {
-        this.daysArray = this.eachDays.toArray();
-        this.eachDaysSet();
-      }
-      // return monthData;
-
+      this.getData(res);
+      this.yearMonth = this.yearMonthFormatter();
     });
-    console.log('getData return');
-    // this.monthData.subscribe(arg => console.log(arg));
-
   }
 
   ionViewDidEnter(){
@@ -85,46 +64,12 @@ export class MineComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void { // viewchild data binding
-    console.log('ngAfterViewInit');
-
-    // setTimeout(() => {
-    //   console.log('afterviewinit, first');
-    //   if (this.isCal) {
-    //     this.daysArray = this.eachDays.toArray();
-    //     this.eachDaysSet();
-    //   }
-    // }, 100);
     this.eachDays.changes.subscribe(async (r) => {
       console.log('afterviewinit, subscribe');
       this.calendarCreator.getData(this.monthNumber, this.year).subscribe(res => {
-        this.monthData = [];
-        for (const i of res) {
-          const newDate = new Date(i.date);
-          const newDay: Day = {
-            date: newDate,
-            year: newDate.getFullYear(),
-            monthIndex: newDate.getMonth(),
-            weekDayNumber: newDate.getDay(),
-            dayNumber: newDate.getDate(),
-            feelings: JSON.parse(i.feelings.replace(/'/g, '"')),
-          };
-          this.monthData.push(newDay);
-        }
-        console.log('getDatabottom',this.monthData);
-        this.dataToDays();
-        // return monthData;
-        if (this.isCal) {
-          this.daysArray = this.eachDays.toArray();
-          this.eachDaysSet();
-        }
+        this.getData(res);
+        this.yearMonth = this.yearMonthFormatter();
       });
-      console.log('getData return');
-      // setTimeout(() => {
-      //   if (this.isCal) {
-      //     this.daysArray = this.eachDays.toArray();
-      //     this.eachDaysSet();
-      //   }
-      // }, 50);
     });
     const swipeGesture = this.gestureCtrl.create({
       el: document.querySelector('.mainCalendar'),
@@ -190,6 +135,31 @@ export class MineComponent implements OnInit, AfterViewInit {
       }
     }
     console.log('datatodays', this.monthDays);
+  }
+
+  getData(data: {
+    date: string;
+    feelings: string;
+    email: string;
+  }[]) {
+    this.monthData = [];
+      for (const i of data) {
+        const newDate = new Date(i.date);
+        const newDay: Day = {
+          date: newDate,
+          year: newDate.getFullYear(),
+          monthIndex: newDate.getMonth(),
+          weekDayNumber: newDate.getDay(),
+          dayNumber: newDate.getDate(),
+          feelings: JSON.parse(i.feelings.replace(/'/g, '"')),
+        };
+        this.monthData.push(newDay);
+      }
+      this.dataToDays();
+      if (this.isCal) {
+        this.daysArray = this.eachDays.toArray();
+        this.eachDaysSet();
+      }
   }
 
   onNextMonth(): void {
@@ -295,6 +265,16 @@ export class MineComponent implements OnInit, AfterViewInit {
   }
   toList() {
     this.isCal = false;
+  }
+  resetYearMonth() {
+    this.year = this.today.getFullYear();
+    this.monthNumber = this.today.getMonth();
+    return this.yearMonthFormatter();
+  }
+  yearMonthFormatter() {
+    let monthFormat = this.calendarCreator.getMonthName(this.monthNumber);
+    monthFormat = Number(monthFormat) < 10 ? '0' + monthFormat : monthFormat;
+    return this.year + '-' + monthFormat;
   }
   // 빈 달력을 만든다
   private setMonthDays(days: Day[]): void {

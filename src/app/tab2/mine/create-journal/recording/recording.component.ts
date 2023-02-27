@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Media, MediaObject } from '@awesome-cordova-plugins/media/ngx';
 import { fileURLToPath } from 'url';
 import { Directory, Filesystem } from '@capacitor/filesystem';
@@ -13,6 +13,8 @@ import { ModalController } from '@ionic/angular';
 })
 export class RecordingComponent implements OnInit {
   @Input() today: string;
+  @Output() recordingData = new EventEmitter<object>();
+  @Output() isProcessing = new EventEmitter<boolean>();
   public imgList = ['happy','soso','good','excite','great','uneasy','sad','not_good','lonely','depressed','surprise','upset','unpleasant'];
   public feelings: string[] = [];
   public numbers: number[] = [];
@@ -123,20 +125,25 @@ export class RecordingComponent implements OnInit {
     });
   }
   async sendRecord(record = this.recordData) {
+    this.isProcessing.emit(true);
     await this.recordService.addRecording(record, this.today).subscribe(
       res => {
-        // Handle result
         console.log(res);
-        this.modalCtrl.dismiss(res, 'confirm');
+        const data = {msg: 'success', res};
+        this.recordingData.emit(data);
+        // this.modalCtrl.dismiss(res, 'confirm');
       },
       err => {
         console.error(err);
+        const data = {msg: 'fail', err};
+        this.recordingData.emit(data);
       },
       () => {
         // 'onCompleted' callback.
         // No errors, route to new page here
       }
     );
+    this.modalCtrl.dismiss('', 'pending');
   }
   onFileUpload(e: Event) {
     const element = e.currentTarget as HTMLInputElement;

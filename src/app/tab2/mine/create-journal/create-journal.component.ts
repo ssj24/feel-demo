@@ -1,6 +1,7 @@
+/* eslint-disable max-len */
 import { JournalCreatorService } from './../../../journal-creator.service';
 /* eslint-disable @typescript-eslint/naming-convention */
-import { Component, Input, OnInit, AfterViewInit, TemplateRef, ViewChild, ElementRef } from '@angular/core';
+import { Component, Input, OnInit, AfterViewInit, TemplateRef, ViewChild, ElementRef, EventEmitter } from '@angular/core';
 import { ActionSheetController, ModalController, PopoverController, AlertController } from '@ionic/angular';
 import { CalendarCreatorService } from '../../../calendarCreator.service';
 import { SetFeelingComponent } from './setFeeling/set-feeling.component';
@@ -29,6 +30,9 @@ export class CreateJournalComponent implements OnInit, AfterViewInit {
   public keywords: string[] = [];
   public result: string;
   public checked: false;
+  public isProcessing = false;
+  public processMsg = '';
+  public temp = true;
 
   constructor(private journalCreator: JournalCreatorService,
               private modalCtrl: ModalController,
@@ -55,6 +59,7 @@ export class CreateJournalComponent implements OnInit, AfterViewInit {
   async alertDismiss(msg: string): Promise<string> {
     const alert = await this.alertController.create({
       header: msg,
+      cssClass: 'custom-alert',
       buttons: [
         {
           text: '취소',
@@ -97,10 +102,40 @@ export class CreateJournalComponent implements OnInit, AfterViewInit {
       }, 'confirm');
   }
 
-  onRecording() {
-    this.modalCtrl.create({
+  async onRecording() {
+    this.processMsg = '';
+    const recordEmitter= new EventEmitter();
+      recordEmitter.subscribe(result=>{
+        console.log(result);
+        if (result.msg === 'success') {
+          const res = result.res[0];
+          for (const i of res.sentence) {
+            console.log(i);
+            this.diary.push({time: i.start, sentence: i.sentence});
+          };
+          this.summary = res.summary[0];
+          this.keywords.push(...res.keyword);
+          this.keywords = [...new Set(this.keywords)];
+          if (this.keywords.length > 10) {
+            this.journalCreator.presentToast('키워드는 최대 10개까지 설정할 수 있습니다.');
+            this.keywords = [...this.keywords].slice(0, 10);
+            console.log(this.keywords);
+          }
+          this.processMsg = '';
+        } else if (result.msg === 'fail') {
+          this.processMsg = '변환에 실패했습니다.';
+        }
+        this.isProcessing = false;
+
+      });
+    const eventEmitter= new EventEmitter();
+      eventEmitter.subscribe(res=>{
+        this.isProcessing = res;
+        this.processMsg = '변환 중...';
+      });
+    const modal = await this.modalCtrl.create({
       component: RecordingComponent,
-      componentProps: {today: `${this.day.year}-${this.month}-${this.day.dayNumber}`},
+      componentProps: {today: `${this.day.year}-${this.month}-${this.day.dayNumber}`, recordingData: recordEmitter, isProcessing: eventEmitter},
       cssClass: 'recordingModal dFlex auto-height',
       breakpoints: [0, 0.5, 0.7, 1],
       initialBreakpoint: 0.5,
@@ -121,6 +156,7 @@ export class CreateJournalComponent implements OnInit, AfterViewInit {
           this.keywords = [...this.keywords].slice(0, 10);
           console.log(this.keywords);
         }
+        this.isProcessing = false;
       }
     });
   }

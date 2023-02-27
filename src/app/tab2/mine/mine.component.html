@@ -25,7 +25,12 @@
           <ion-popover class="marginAuto" #popover [isOpen]="isPickerOpen" (didDismiss)="isPickerOpen = false">
             <ion-grid *ngIf="isPickerOpen">
               <ion-row class="ion-justify-content-center">
-                <ion-datetime  presentation="month-year" (ionChange)="monthChanged($event)"></ion-datetime>
+                <ion-datetime #datetime presentation="month-year" [value]="yearMonth" (ionChange)="monthChanged($event)">
+                  <!-- <ion-buttons slot="buttons">
+                    <ion-button color="danger" (click)="datetime.value=resetYearMonth()">Reset</ion-button>
+                    <ion-button color="primary" (click)="datetime.confirm()">All Set</ion-button>
+                  </ion-buttons> -->
+                </ion-datetime>
               </ion-row>
             </ion-grid>
           </ion-popover>

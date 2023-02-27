@@ -187,6 +187,16 @@ ion-footer ion-button {
 .toggle-input:checked + .toggle-label:before {
   transform: translateX(45px);
 }
+.processMsgRow {
+  .processMsgContent {
+    ion-img {
+      width: 20px;
+    }
+    .processMsg {
+      text-align: center;
+    }
+  }
+}
 
 
 @media only screen and (max-width: 320px) {

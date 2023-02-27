@@ -39,81 +39,91 @@
           <p class="ion-text-center textBlack">{{i===0 ?'첫번째': i===1 ? '두번째' : '세번째'}}</p>
           <div class="imgContainer dFlex feelingDiv" [class.iconBack]="item === 'none'">
             <ion-icon *ngIf="item === 'none'" name="add-circle" size="large" color="medium"></ion-icon>
-            <ion-img *ngIf="item !== 'none'" src="./assets/feeling/{{item}}.svg"></ion-img>
+            <ion-img *ngIf="item !== 'none'" src="./assets/feeling/{{item}}.svg" [alt]="feelNames[i]"></ion-img>
           </div>
           <p class="ion-text-center" style="font-size: 13px;">{{feelNames[i]}}</p>
         </ion-card>
       </ion-col>
     </ion-row>
-    <ion-row>
+    <ion-row *ngIf="processMsg" class="processMsgRow">
       <ion-card class="ion-padding w100">
-        <p class="textBlack">한 줄 일기</p>
-        <ion-card-content class="ion-no-padding">
-          <ion-input [disabled]="!summary" id="summary" placeholder="오늘의 일기를 녹음 후 편집할 수 있어요" [(ngModel)]="summary" value="summary" (ionFocus)="onSummaryFocus($event)">
-          </ion-input>
+        <ion-card-content class="ion-no-padding processMsgContent">
+          <p class="processMsg">{{processMsg}}</p>
+          <!-- <ion-img src="./assets/logo.svg"></ion-img> -->
         </ion-card-content>
       </ion-card>
     </ion-row>
-    <ion-row>
-      <ion-card class="ion-padding w100">
-        <p class="textBlack">오늘의 일기</p>
-        <ion-card-content class="ion-no-padding">
-          <div *ngIf="diary">
-            <ion-row id="diary" *ngFor="let sent of diary; let i=index;">
-              <div class="ion-padding-horizontal ion-margin-end w100 diaryTime">
-                {{sent.time}}
-              </div>
-              <ion-col size="10">
+    <span *ngIf="!isProcessing">
+      <ion-row>
+        <ion-card class="ion-padding w100">
+          <p class="textBlack">한 줄 일기</p>
+          <ion-card-content class="ion-no-padding">
+            <ion-input [disabled]="!summary" id="summary" placeholder="오늘의 일기를 녹음 후 편집할 수 있어요" [(ngModel)]="summary" value="summary" (ionFocus)="onSummaryFocus($event)">
+            </ion-input>
+          </ion-card-content>
+        </ion-card>
+      </ion-row>
+      <ion-row>
+        <ion-card class="ion-padding w100">
+          <p class="textBlack">오늘의 일기</p>
+          <ion-card-content class="ion-no-padding">
+            <div *ngIf="diary">
+              <ion-row id="diary" *ngFor="let sent of diary; let i=index;">
+                <div class="ion-padding-horizontal ion-margin-end w100 diaryTime">
+                  {{sent.time}}
+                </div>
+                <ion-col size="10">
 
+                  <ion-input [(ngModel)]="diary[i].sentence" value="sent.diary"></ion-input>
+                </ion-col>
+                <ion-col size="2">
+                  <button class="customBtn" (click)="onSentDelete(sent)">X</button>
+                </ion-col>
+              </ion-row>
+            </div>
+            <!-- <ion-list *ngIf="diary">
+              <ion-item id="diary" *ngFor="let sent of diary; let i=index;">
+                <div class="ion-padding-horizontal ion-margin-end diaryTime">
+                  {{sent.time}}
+                </div>
+                <br>
                 <ion-input [(ngModel)]="diary[i].sentence" value="sent.diary"></ion-input>
-              </ion-col>
-              <ion-col size="2">
                 <button class="customBtn" (click)="onSentDelete(sent)">X</button>
-              </ion-col>
-            </ion-row>
-          </div>
-          <!-- <ion-list *ngIf="diary">
-            <ion-item id="diary" *ngFor="let sent of diary; let i=index;">
-              <div class="ion-padding-horizontal ion-margin-end diaryTime">
-                {{sent.time}}
-              </div>
-              <br>
-              <ion-input [(ngModel)]="diary[i].sentence" value="sent.diary"></ion-input>
-              <button class="customBtn" (click)="onSentDelete(sent)">X</button>
-            </ion-item>
-          </ion-list> -->
-          <ion-buttons class="ion-justify-content-center diaryBtns">
-            <ion-button class="diaryBtn" (click)="writeDiary()" shape="round" fill="solid" color="medium">
-              <ion-img src="./assets/write_w.svg"></ion-img>
-              바로 작성하기
-            </ion-button>
-            <ion-button class="diaryBtn" (click)="onRecording()" shape="round" fill="solid" color="medium">
-              <ion-img src="./assets/recording_w.svg"></ion-img>
-              녹음하기
-            </ion-button>
-          </ion-buttons>
+              </ion-item>
+            </ion-list> -->
+            <ion-buttons class="ion-justify-content-center diaryBtns">
+              <ion-button class="diaryBtn" (click)="writeDiary()" shape="round" fill="solid" color="medium">
+                <ion-img src="./assets/write_w.svg"></ion-img>
+                바로 작성하기
+              </ion-button>
+              <ion-button class="diaryBtn" (click)="onRecording()" shape="round" fill="solid" color="medium">
+                <ion-img src="./assets/recording_w.svg"></ion-img>
+                녹음하기
+              </ion-button>
+            </ion-buttons>
 
 
-        </ion-card-content>
-      </ion-card>
-    </ion-row>
-    <ion-row>
-      <ion-card class="ion-padding w100">
-        <p class="textBlack">키워드</p>
-        <span class="dFlex ion-wrap keywordBadges">
-          <span *ngIf="keywords" >
-            <ion-badge
-              *ngFor="let word of keywords"
-              (click)="onBadgeClicked(word)"
-              size="large" class="keywordBadge"
-              >
-              {{word}}
-            </ion-badge>
+          </ion-card-content>
+        </ion-card>
+      </ion-row>
+      <ion-row>
+        <ion-card class="ion-padding w100">
+          <p class="textBlack">키워드</p>
+          <span class="dFlex ion-wrap keywordBadges">
+            <span *ngIf="keywords" >
+              <ion-badge
+                *ngFor="let word of keywords"
+                (click)="onBadgeClicked(word)"
+                size="large" class="keywordBadge"
+                >
+                {{word}}
+              </ion-badge>
+            </span>
+            <ion-icon (click)="onKeywordCreate($event)" class="keywordIcon" name="add-circle" size="large" color="medium"></ion-icon>
           </span>
-          <ion-icon (click)="onKeywordCreate($event)" class="keywordIcon" name="add-circle" size="large" color="medium"></ion-icon>
-        </span>
-      </ion-card>
-    </ion-row>
+        </ion-card>
+      </ion-row>
+    </span>
   </ion-grid>
 </ion-content>
 <ion-footer class="dFlex">
