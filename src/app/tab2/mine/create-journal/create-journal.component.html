@@ -39,7 +39,7 @@
           <p class="ion-text-center textBlack">{{i===0 ?'첫번째': i===1 ? '두번째' : '세번째'}}</p>
           <div class="imgContainer dFlex feelingDiv" [class.iconBack]="item === 'none'">
             <ion-icon *ngIf="item === 'none'" name="add-circle" size="large" color="medium"></ion-icon>
-            <ion-img *ngIf="item !== 'none'" src="./assets/feeling/{{item}}.svg" [alt]="feelNames[i]"></ion-img>
+            <ion-img *ngIf="item !== 'none'" src="./assets/feeling{{item}}.svg" [alt]="feelNames[i]"></ion-img>
           </div>
           <p class="ion-text-center" style="font-size: 13px;">{{feelNames[i]}}</p>
         </ion-card>
